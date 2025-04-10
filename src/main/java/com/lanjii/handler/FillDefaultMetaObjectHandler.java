@@ -18,15 +18,27 @@ public class FillDefaultMetaObjectHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
         Date now = new Date();
-        this.setFieldValByName("createdTime", now, metaObject);
-        this.setFieldValByName("createdBy", AuthUtils.getCurrentUser().getUsername(), metaObject);
-        this.setFieldValByName("updatedTime", now, metaObject);
-        this.setFieldValByName("updatedBy", AuthUtils.getCurrentUser().getUsername(), metaObject);
+        if (metaObject.hasSetter("createdTime")) {
+            this.setFieldValByName("createdTime", now, metaObject);
+        }
+        if (metaObject.hasSetter("createdBy")) {
+            this.setFieldValByName("createdBy", AuthUtils.getCurrentUser().getUsername(), metaObject);
+        }
+        if (metaObject.hasSetter("updatedTime")) {
+            this.setFieldValByName("updatedTime", now, metaObject);
+        }
+        if (metaObject.hasSetter("updatedBy")) {
+            this.setFieldValByName("updatedBy", AuthUtils.getCurrentUser().getUsername(), metaObject);
+        }
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        this.setFieldValByName("updatedTime", new Date(), metaObject);
-        this.setFieldValByName("updatedBy", AuthUtils.getCurrentUser().getUsername(), metaObject);
+        if (metaObject.hasSetter("updatedTime")) {
+            this.setFieldValByName("updatedTime", new Date(), metaObject);
+        }
+        if (metaObject.hasSetter("updatedBy")) {
+            this.setFieldValByName("updatedBy", AuthUtils.getCurrentUser().getUsername(), metaObject);
+        }
     }
 }

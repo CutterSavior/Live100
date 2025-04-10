@@ -1,7 +1,9 @@
 package com.lanjii.controller;
 
 import com.google.code.kaptcha.Producer;
+import com.lanjii.core.annotation.Log;
 import com.lanjii.core.annotation.MultiRequestBody;
+import com.lanjii.core.enums.OperationType;
 import com.lanjii.core.enums.ResultCode;
 import com.lanjii.core.exception.BusinessException;
 import com.lanjii.core.obj.R;
@@ -61,6 +63,7 @@ public class AuthController {
     /**
      * 登录
      */
+    @Log(type = OperationType.LOGIN)
     @PostMapping("/login")
     public R<Map<String, Object>> login(@MultiRequestBody LoginBody loginBody) {
         String captchaKey = loginBody.getCaptchaKey();
@@ -75,6 +78,7 @@ public class AuthController {
     /**
      * 登出
      */
+    @Log(type = OperationType.LOGOUT)
     @PostMapping("/logout")
     public R<Map<String, Object>> logout() {
         LocalCacheUtils.invalidate(LocalCacheUtils.CacheType.OTHER, "auth:" + AuthUtils.getCurrentUsername());
