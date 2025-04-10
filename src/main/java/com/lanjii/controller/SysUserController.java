@@ -57,7 +57,7 @@ public class SysUserController {
         SysUser user = sysUserService.getById(userId);
         user.setPassword(passwordEncoder.encode(PWD));
         sysUserService.updateById(user);
-        LocalCacheUtils.validate(LocalCacheUtils.CacheType.OTHER, "auth:" + user.getUserName());
+        LocalCacheUtils.invalidate(LocalCacheUtils.CacheType.OTHER, "auth:" + user.getUserName());
         return R.success();
     }
 
@@ -74,7 +74,7 @@ public class SysUserController {
         }
         user.setPassword(passwordEncoder.encode(changePwdDto.getNewPwd()));
         sysUserService.updateById(user);
-        LocalCacheUtils.validate(LocalCacheUtils.CacheType.OTHER, "auth:" + user.getUserName());
+        LocalCacheUtils.invalidate(LocalCacheUtils.CacheType.OTHER, "auth:" + user.getUserName());
         return R.success();
     }
 

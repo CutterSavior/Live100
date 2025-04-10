@@ -99,7 +99,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         this.saveOrUpdate(sysUser);
 
         // 删除缓存
-        LocalCacheUtils.validate(LocalCacheUtils.CacheType.USER, String.valueOf(sysUser.getId()));
+        LocalCacheUtils.invalidate(LocalCacheUtils.CacheType.USER, String.valueOf(sysUser.getId()));
 
 
         // 处理用户角色关系
@@ -126,7 +126,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     public boolean removeById(Serializable id) {
         boolean b = SqlHelper.retBool(this.baseMapper.deleteById(id));
         if (b) {
-            LocalCacheUtils.validate(LocalCacheUtils.CacheType.USER, String.valueOf(id));
+            LocalCacheUtils.invalidate(LocalCacheUtils.CacheType.USER, String.valueOf(id));
         }
         return b;
     }

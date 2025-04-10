@@ -5,12 +5,13 @@ import com.lanjii.core.annotation.MultiRequestBody;
 import com.lanjii.core.enums.ResultCode;
 import com.lanjii.core.exception.BusinessException;
 import com.lanjii.core.obj.R;
+import com.lanjii.model.dto.LoginBody;
+import com.lanjii.service.IOnlineUserService;
+import com.lanjii.service.impl.AuthService;
 import com.lanjii.util.AuthUtils;
 import com.lanjii.util.IdUtils;
 import com.lanjii.util.LocalCacheUtils;
 import com.lanjii.util.ServletUtils;
-import com.lanjii.model.dto.LoginBody;
-import com.lanjii.service.impl.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,6 +36,7 @@ public class AuthController {
 
     private final AuthService authService;
     private final Producer kaptchaProducer;
+    private final IOnlineUserService onlineUserService;
 
     @GetMapping("captcha")
     public R<Map<String, String>> getCaptcha() {
@@ -63,7 +65,7 @@ public class AuthController {
     public R<Map<String, Object>> login(@MultiRequestBody LoginBody loginBody) {
         String captchaKey = loginBody.getCaptchaKey();
         String captcha = LocalCacheUtils.get(LocalCacheUtils.CacheType.CAPTCHA, captchaKey);
-        LocalCacheUtils.validate(LocalCacheUtils.CacheType.CAPTCHA, captchaKey);
+        LocalCacheUtils.invalidate(LocalCacheUtils.CacheType.CAPTCHA, captchaKey);
         if (captcha == null || !captcha.equalsIgnoreCase(loginBody.getCaptcha())) {
             return R.fail("验证码错误");
         }
@@ -75,7 +77,8 @@ public class AuthController {
      */
     @PostMapping("/logout")
     public R<Map<String, Object>> logout() {
-        LocalCacheUtils.validate(LocalCacheUtils.CacheType.OTHER, "auth:" + AuthUtils.getCurrentUsername());
+        LocalCacheUtils.invalidate(LocalCacheUtils.CacheType.OTHER, "auth:" + AuthUtils.getCurrentUsername());
+        LocalCacheUtils.invalidate(LocalCacheUtils.CacheType.ONLINE_USER, AuthUtils.getCurrentUser().getToken());
         return R.success();
     }
 }
