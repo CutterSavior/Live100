@@ -9,6 +9,7 @@ import com.lanjii.model.vo.SysOperationLogVo;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -74,6 +75,7 @@ public class SysOperationLog implements Serializable {
     @Mapper
     public interface SysOperationLogModelMapper extends BaseModelMapper<SysOperationLogVo, SysOperationLog> {
         @Override
+        @Mapping(target = "typeLabel", expression = "java(getDictLabel(model.getType(),\"OPERATION_TYPE\"))")
         SysOperationLogVo modelToVo(SysOperationLog model);
 
     }

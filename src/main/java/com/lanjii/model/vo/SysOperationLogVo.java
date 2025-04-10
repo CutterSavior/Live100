@@ -56,4 +56,10 @@ public class SysOperationLogVo implements Serializable {
      * 是否成功
      */
     private Integer isSuccess;
+
+    /**
+     * 日志类型
+     */
+    private String typeLabel;
+
 }

@@ -30,7 +30,7 @@ import java.util.List;
  */
 @Slf4j
 @RestController
-@RequestMapping("/sys-operation-log")
+@RequestMapping("admin/sys-operation-log")
 @RequiredArgsConstructor
 public class SysOperationLogController {
 

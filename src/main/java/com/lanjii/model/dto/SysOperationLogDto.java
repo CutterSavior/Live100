@@ -1,5 +1,6 @@
 package com.lanjii.model.dto;
 
+import com.lanjii.core.annotation.Where;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -28,6 +29,7 @@ public class SysOperationLogDto implements Serializable {
     /**
      * 日志类型
      */
+    @Where(column = "type")
     private Integer type;
 
     /**
