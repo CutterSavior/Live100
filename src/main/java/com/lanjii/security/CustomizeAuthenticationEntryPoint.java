@@ -23,7 +23,7 @@ public class CustomizeAuthenticationEntryPoint implements AuthenticationEntryPoi
         response.setHeader("Cache-Control", "no-cache");
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
-        response.getWriter().println(JsonUtils.objToJson(R.fail(ResultCode.NO_PERMISSION)));
+        response.getWriter().println(JsonUtils.objToJson(R.fail(ResultCode.TOKEN_IS_INVALID)));
         response.getWriter().flush();
     }
 }

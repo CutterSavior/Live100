@@ -53,8 +53,8 @@ public class AuthService {
 
         Map<String, Object> m = new HashMap<>();
         String token = jwtTokenUtil.generateToken(authUser.getUsername());
-        LocalCacheUtils.put(LocalCacheUtils.CacheType.ONLINE_USER, token, 1);
-
+        
+        // 创建在线用户对象
         OnlineUser onlineUser = new OnlineUser();
         onlineUser.setLastActiveTime(new Date());
         onlineUser.setOnlineStatus(1);
@@ -62,7 +62,10 @@ public class AuthService {
         onlineUser.setToken(token);
         onlineUser.setUserName(authUser.getUsername());
         onlineUser.setUserid(authUser.getSysUser().getId());
-        onlineUserService.saveNew(onlineUser);
+        
+        // 使用新的方法将用户信息存入缓存
+        onlineUserService.putOnlineUser(onlineUser, token);
+        
         m.put("token", token);
         m.put("permissions", authenticate.getAuthorities().stream().map(GrantedAuthority::getAuthority).toArray());
 

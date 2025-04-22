@@ -15,6 +15,7 @@ import com.lanjii.util.IdUtils;
 import com.lanjii.util.LocalCacheUtils;
 import com.lanjii.util.ServletUtils;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,6 +35,7 @@ import java.util.Map;
  */
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class AuthController {
 
     private final AuthService authService;
@@ -81,8 +83,16 @@ public class AuthController {
     @Log(type = OperationType.LOGOUT)
     @PostMapping("/logout")
     public R<Map<String, Object>> logout() {
-        LocalCacheUtils.invalidate(LocalCacheUtils.CacheType.OTHER, "auth:" + AuthUtils.getCurrentUsername());
-        LocalCacheUtils.invalidate(LocalCacheUtils.CacheType.ONLINE_USER, AuthUtils.getCurrentUser().getToken());
+        // 获取当前用户信息
+        String username = AuthUtils.getCurrentUsername();
+        String token = AuthUtils.getCurrentUser().getToken();
+        
+        // 清除认证缓存
+        LocalCacheUtils.invalidate(LocalCacheUtils.CacheType.OTHER, "auth:" + username);
+        
+        // 使用新的方法清除在线用户缓存
+        onlineUserService.removeOnlineUser(token, username);
+        
         return R.success();
     }
 }

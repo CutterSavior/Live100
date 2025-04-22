@@ -120,6 +120,16 @@ public class SysUserController {
         if (originalSysUser == null) {
             return R.fail(ResultCode.DATA_NOT_EXIST);
         }
+        
+        // 检查用户名是否与其他用户重复
+        if (!Objects.equals(originalSysUser.getUserName(), sysUserDto.getUserName())) {
+            LambdaQueryWrapper<SysUser> query = new LambdaQueryWrapper<>();
+            query.eq(SysUser::getUserName, sysUserDto.getUserName());
+            if (sysUserService.count(query) > 0) {
+                return R.fail("用户名已存在");
+            }
+        }
+        
         sysUserService.saveOrUpdateNew(sysUserDto);
         return R.success();
     }

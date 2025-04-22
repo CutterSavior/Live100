@@ -83,6 +83,16 @@ public class TagController {
         if (originalData == null) {
             return R.fail(ResultCode.DATA_NOT_EXIST);
         }
+        
+        // 检查标签名称是否与其他标签重复
+        if (!originalData.getName().equals(tagDto.getName())) {
+            LambdaQueryWrapper<Tag> query = new LambdaQueryWrapper<>();
+            query.eq(Tag::getName, tagDto.getName());
+            if (tagService.count(query) > 0) {
+                return R.fail("标签名称已存在");
+            }
+        }
+        
         Tag tag = ModelUtils.copyTo(tagDto, Tag.class);
         tagService.saveOrUpdate(tag);
         return R.success();

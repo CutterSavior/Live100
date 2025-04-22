@@ -1,11 +1,13 @@
 package com.lanjii.security;
 
+import com.lanjii.config.support.JwtProperties;
 import com.lanjii.config.support.WhiteListProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -36,16 +38,25 @@ import java.util.stream.Collectors;
 @Slf4j
 @Configuration
 @EnableWebSecurity
-@EnableConfigurationProperties(WhiteListProperties.class)
-@RequiredArgsConstructor
+@EnableConfigurationProperties({WhiteListProperties.class, JwtProperties.class})
 public class SecurityConfig {
 
     private final JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
     private final WhiteListProperties whiteListProperties;
     private final AuthenticationEntryPoint authenticationEntryPoint;
     private final AccessDeniedHandler accessDeniedHandler;
-
+    
     private final AntPathMatcher pathMatcher = new AntPathMatcher();
+    
+    public SecurityConfig(@Lazy JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter,
+                         WhiteListProperties whiteListProperties,
+                         AuthenticationEntryPoint authenticationEntryPoint,
+                         AccessDeniedHandler accessDeniedHandler) {
+        this.jwtAuthenticationTokenFilter = jwtAuthenticationTokenFilter;
+        this.whiteListProperties = whiteListProperties;
+        this.authenticationEntryPoint = authenticationEntryPoint;
+        this.accessDeniedHandler = accessDeniedHandler;
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {

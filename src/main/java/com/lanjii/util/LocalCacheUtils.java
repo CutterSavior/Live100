@@ -5,6 +5,8 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.stats.CacheStats;
 import lombok.Getter;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -144,6 +146,22 @@ public final class LocalCacheUtils {
      */
     public static long estimatedSize(CacheType cacheType) {
         return getCache(cacheType).estimatedSize();
+    }
+
+    /**
+     * 获取指定缓存类型中的所有项
+     *
+     * @param cacheType 缓存类型
+     * @return 包含所有键值对的Map
+     */
+    public static Map<String, Object> getAllItems(CacheType cacheType) {
+        Cache<String, Object> cache = getCache(cacheType);
+        Map<String, Object> result = new HashMap<>();
+        
+        // 获取缓存中的所有键
+        cache.asMap().forEach(result::put);
+        
+        return result;
     }
 
 }
