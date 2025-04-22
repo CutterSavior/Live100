@@ -57,7 +57,7 @@ public class SysUserController {
         SysUser user = sysUserService.getById(userId);
         user.setPassword(passwordEncoder.encode(PWD));
         sysUserService.updateById(user);
-        LocalCacheUtils.validate(LocalCacheUtils.CacheType.OTHER, "auth:" + user.getUserName());
+        LocalCacheUtils.invalidate(LocalCacheUtils.CacheType.OTHER, "auth:" + user.getUserName());
         return R.success();
     }
 
@@ -74,7 +74,7 @@ public class SysUserController {
         }
         user.setPassword(passwordEncoder.encode(changePwdDto.getNewPwd()));
         sysUserService.updateById(user);
-        LocalCacheUtils.validate(LocalCacheUtils.CacheType.OTHER, "auth:" + user.getUserName());
+        LocalCacheUtils.invalidate(LocalCacheUtils.CacheType.OTHER, "auth:" + user.getUserName());
         return R.success();
     }
 
@@ -120,6 +120,16 @@ public class SysUserController {
         if (originalSysUser == null) {
             return R.fail(ResultCode.DATA_NOT_EXIST);
         }
+        
+        // 检查用户名是否与其他用户重复
+        if (!Objects.equals(originalSysUser.getUserName(), sysUserDto.getUserName())) {
+            LambdaQueryWrapper<SysUser> query = new LambdaQueryWrapper<>();
+            query.eq(SysUser::getUserName, sysUserDto.getUserName());
+            if (sysUserService.count(query) > 0) {
+                return R.fail("用户名已存在");
+            }
+        }
+        
         sysUserService.saveOrUpdateNew(sysUserDto);
         return R.success();
     }

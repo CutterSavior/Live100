@@ -79,6 +79,16 @@ public class ArticleCategoryController {
         if (originalData == null) {
             return R.fail(ResultCode.DATA_NOT_EXIST);
         }
+        
+        // 检查分类名称是否与其他分类重复
+        if (!originalData.getCategory().equals(articleCategoryDto.getCategory())) {
+            LambdaQueryWrapper<ArticleCategory> query = new LambdaQueryWrapper<>();
+            query.eq(ArticleCategory::getCategory, articleCategoryDto.getCategory());
+            if (articleCategoryService.count(query) > 0) {
+                return R.fail("分类名称已存在");
+            }
+        }
+        
         ArticleCategory articleCategory = ModelUtils.copyTo(articleCategoryDto, ArticleCategory.class);
         articleCategoryService.saveOrUpdate(articleCategory);
         return R.success();

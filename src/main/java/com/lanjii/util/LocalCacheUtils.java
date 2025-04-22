@@ -5,6 +5,8 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.stats.CacheStats;
 import lombok.Getter;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -17,46 +19,6 @@ public final class LocalCacheUtils {
 
     private LocalCacheUtils() {
         throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
-    }
-
-    /**
-     * 定义缓存类型
-     */
-    @Getter
-    public enum CacheType {
-        CAPTCHA(60 * 3, 1000),
-        USER(30 * 60, 10000),
-        DICT(12 * 60 * 60, 5000),
-        CONFIG(12 * 60 * 60, 1000),
-        OTHER(60 * 60, 10000);
-
-        private final int ttl; // 过期时间(秒)
-        private final int maxSize; // 最大数量
-
-        CacheType(int ttl, int maxSize) {
-            this.ttl = ttl;
-            this.maxSize = maxSize;
-        }
-
-    }
-
-    private static class CacheHolder {
-        private static final Cache<String, Object> CAPTCHA_CACHE = buildCache(CacheType.CAPTCHA);
-        private static final Cache<String, Object> USER_CACHE = buildCache(CacheType.USER);
-        private static final Cache<String, Object> DICT_CACHE = buildCache(CacheType.DICT);
-        private static final Cache<String, Object> CONFIG_CACHE = buildCache(CacheType.CONFIG);
-        private static final Cache<String, Object> OTHER_CACHE = buildCache(CacheType.OTHER);
-    }
-
-    /**
-     * 构建缓存实例
-     */
-    private static Cache<String, Object> buildCache(CacheType cacheType) {
-        return Caffeine.newBuilder()
-                .expireAfterWrite(cacheType.getTtl(), TimeUnit.SECONDS)
-                .maximumSize(cacheType.getMaxSize())
-                .recordStats()
-                .build();
     }
 
     /**
@@ -74,9 +36,53 @@ public final class LocalCacheUtils {
                 return CacheHolder.CONFIG_CACHE;
             case OTHER:
                 return CacheHolder.OTHER_CACHE;
+            case ONLINE_USER:
+                return CacheHolder.ONLINE_USER_CACHE;
             default:
                 throw new IllegalArgumentException("Unknown cache type: " + cacheType);
         }
+    }
+
+    /**
+     * 定义缓存类型
+     */
+    @Getter
+    public enum CacheType {
+        CAPTCHA(60 * 3, 1000),
+        ONLINE_USER(3 * 60, 1000),
+        USER(30 * 60, 10000),
+        DICT(12 * 60 * 60, 5000),
+        CONFIG(12 * 60 * 60, 1000),
+        OTHER(60 * 60, 10000);
+
+        private final int ttl; // 过期时间(秒)
+        private final int maxSize; // 最大数量
+
+        CacheType(int ttl, int maxSize) {
+            this.ttl = ttl;
+            this.maxSize = maxSize;
+        }
+
+    }
+
+    /**
+     * 构建缓存实例
+     */
+    private static Cache<String, Object> buildCache(CacheType cacheType) {
+        return Caffeine.newBuilder()
+                .expireAfterWrite(cacheType.getTtl(), TimeUnit.SECONDS)
+                .maximumSize(cacheType.getMaxSize())
+                .recordStats()
+                .build();
+    }
+
+    private static class CacheHolder {
+        private static final Cache<String, Object> CAPTCHA_CACHE = buildCache(CacheType.CAPTCHA);
+        private static final Cache<String, Object> USER_CACHE = buildCache(CacheType.USER);
+        private static final Cache<String, Object> DICT_CACHE = buildCache(CacheType.DICT);
+        private static final Cache<String, Object> CONFIG_CACHE = buildCache(CacheType.CONFIG);
+        private static final Cache<String, Object> OTHER_CACHE = buildCache(CacheType.OTHER);
+        private static final Cache<String, Object> ONLINE_USER_CACHE = buildCache(CacheType.ONLINE_USER);
     }
 
     /**
@@ -109,7 +115,7 @@ public final class LocalCacheUtils {
      * @param cacheType 缓存类型
      * @param key       缓存键
      */
-    public static void validate(CacheType cacheType, String key) {
+    public static void invalidate(CacheType cacheType, String key) {
         getCache(cacheType).invalidate(key);
     }
 
@@ -140,6 +146,22 @@ public final class LocalCacheUtils {
      */
     public static long estimatedSize(CacheType cacheType) {
         return getCache(cacheType).estimatedSize();
+    }
+
+    /**
+     * 获取指定缓存类型中的所有项
+     *
+     * @param cacheType 缓存类型
+     * @return 包含所有键值对的Map
+     */
+    public static Map<String, Object> getAllItems(CacheType cacheType) {
+        Cache<String, Object> cache = getCache(cacheType);
+        Map<String, Object> result = new HashMap<>();
+        
+        // 获取缓存中的所有键
+        cache.asMap().forEach(result::put);
+        
+        return result;
     }
 
 }

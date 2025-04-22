@@ -7,6 +7,7 @@ import com.lanjii.service.ISysMenuService;
 import com.lanjii.service.ISysUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,11 +19,15 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Component
-@RequiredArgsConstructor
 public class MyUserDetailsService implements UserDetailsService {
 
     private final ISysUserService sysUserService;
     private final ISysMenuService sysMenuService;
+    
+    public MyUserDetailsService(@Lazy ISysUserService sysUserService, ISysMenuService sysMenuService) {
+        this.sysUserService = sysUserService;
+        this.sysMenuService = sysMenuService;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

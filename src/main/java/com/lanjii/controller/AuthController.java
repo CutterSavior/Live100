@@ -1,17 +1,21 @@
 package com.lanjii.controller;
 
 import com.google.code.kaptcha.Producer;
+import com.lanjii.core.annotation.Log;
 import com.lanjii.core.annotation.MultiRequestBody;
+import com.lanjii.core.enums.OperationType;
 import com.lanjii.core.enums.ResultCode;
 import com.lanjii.core.exception.BusinessException;
 import com.lanjii.core.obj.R;
+import com.lanjii.model.dto.LoginBody;
+import com.lanjii.service.IOnlineUserService;
+import com.lanjii.service.impl.AuthService;
 import com.lanjii.util.AuthUtils;
 import com.lanjii.util.IdUtils;
 import com.lanjii.util.LocalCacheUtils;
 import com.lanjii.util.ServletUtils;
-import com.lanjii.model.dto.LoginBody;
-import com.lanjii.service.impl.AuthService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,10 +35,12 @@ import java.util.Map;
  */
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class AuthController {
 
     private final AuthService authService;
     private final Producer kaptchaProducer;
+    private final IOnlineUserService onlineUserService;
 
     @GetMapping("captcha")
     public R<Map<String, String>> getCaptcha() {
@@ -59,11 +65,12 @@ public class AuthController {
     /**
      * 登录
      */
+    @Log(type = OperationType.LOGIN)
     @PostMapping("/login")
     public R<Map<String, Object>> login(@MultiRequestBody LoginBody loginBody) {
         String captchaKey = loginBody.getCaptchaKey();
         String captcha = LocalCacheUtils.get(LocalCacheUtils.CacheType.CAPTCHA, captchaKey);
-        LocalCacheUtils.validate(LocalCacheUtils.CacheType.CAPTCHA, captchaKey);
+        LocalCacheUtils.invalidate(LocalCacheUtils.CacheType.CAPTCHA, captchaKey);
         if (captcha == null || !captcha.equalsIgnoreCase(loginBody.getCaptcha())) {
             return R.fail("验证码错误");
         }
@@ -73,9 +80,19 @@ public class AuthController {
     /**
      * 登出
      */
+    @Log(type = OperationType.LOGOUT)
     @PostMapping("/logout")
     public R<Map<String, Object>> logout() {
-        LocalCacheUtils.validate(LocalCacheUtils.CacheType.OTHER, "auth:" + AuthUtils.getCurrentUsername());
+        // 获取当前用户信息
+        String username = AuthUtils.getCurrentUsername();
+        String token = AuthUtils.getCurrentUser().getToken();
+        
+        // 清除认证缓存
+        LocalCacheUtils.invalidate(LocalCacheUtils.CacheType.OTHER, "auth:" + username);
+        
+        // 使用新的方法清除在线用户缓存
+        onlineUserService.removeOnlineUser(token, username);
+        
         return R.success();
     }
 }

@@ -12,6 +12,7 @@ import lombok.Getter;
 public enum ResultCode {
     FAILURE(-1, "请求失败"),
     SUCCESS(200, "请求成功"),
+    TOKEN_IS_INVALID(401, "登录失效或被踢出，请重新登录！"),
     NO_PERMISSION(403, "无权限访问"),
     DEMO_USER(444, "演示账户禁止操作"),
     INTERNAL_SERVER_ERROR(500, "服务器内部错误"),

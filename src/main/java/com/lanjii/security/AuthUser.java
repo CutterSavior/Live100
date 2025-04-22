@@ -17,8 +17,10 @@ import java.util.Collection;
 @Getter
 public class AuthUser extends User {
 
+    private final SysUser sysUser;
+
     @Setter
-    private SysUser sysUser;
+    private String token;
 
     public AuthUser(SysUser sysUser, Collection<? extends GrantedAuthority> authorities) {
         super(sysUser.getUserName(), sysUser.getPassword(), authorities);

@@ -1,12 +1,13 @@
 package com.lanjii.util;
 
+import com.lanjii.config.support.JwtProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -27,15 +28,12 @@ import java.util.Map;
  */
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class JwtTokenUtil {
     private static final String CLAIM_KEY_USERNAME = "sub";
     private static final String CLAIM_KEY_CREATED = "created";
-    @Value("${security.jwt.secret}")
-    private String secret;
-    @Value("${security.jwt.expiration}")
-    private Long expiration;
-    @Value("${security.jwt.tokenHead}")
-    private String tokenHead;
+    
+    private final JwtProperties jwtProperties;
 
     /**
      * 根据负责生成JWT的token
@@ -44,7 +42,7 @@ public class JwtTokenUtil {
         return Jwts.builder()
                 .setClaims(claims)
                 .setExpiration(generateExpirationDate())
-                .signWith(SignatureAlgorithm.HS512, secret)
+                .signWith(SignatureAlgorithm.HS512, jwtProperties.getSecret())
                 .compact();
     }
 
@@ -55,7 +53,7 @@ public class JwtTokenUtil {
         Claims claims = null;
         try {
             claims = Jwts.parser()
-                    .setSigningKey(secret)
+                    .setSigningKey(jwtProperties.getSecret())
                     .parseClaimsJws(token)
                     .getBody();
         } catch (Exception e) {
@@ -68,7 +66,7 @@ public class JwtTokenUtil {
      * 生成token的过期时间
      */
     private Date generateExpirationDate() {
-        return new Date(System.currentTimeMillis() + expiration * 1000);
+        return new Date(System.currentTimeMillis() + jwtProperties.getExpiration() * 1000);
     }
 
     /**
@@ -131,7 +129,7 @@ public class JwtTokenUtil {
         if (StringUtils.isEmpty(oldToken)) {
             return null;
         }
-        String token = oldToken.substring(tokenHead.length());
+        String token = oldToken.substring(jwtProperties.getTokenHead().length());
         if (StringUtils.isEmpty(token)) {
             return null;
         }

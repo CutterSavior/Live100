@@ -13,8 +13,10 @@ import com.lanjii.model.entity.SysUserRoleRel;
 import com.lanjii.service.ISysConfigService;
 import com.lanjii.service.ISysUserService;
 import com.lanjii.model.vo.SysUserVo;
-import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,8 +34,8 @@ import java.util.stream.Collectors;
  * @author lizheng
  * @since 2023-08-28
  */
+@Slf4j
 @Service
-@RequiredArgsConstructor
 public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> implements ISysUserService<SysUser> {
 
     private final SysUserMapper sysUserMapper;
@@ -41,6 +43,19 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     private final SysUserRoleRelServiceImpl sysUserRoleRelService;
     private final ISysConfigService sysConfigService;
     private final PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public SysUserServiceImpl(SysUserMapper sysUserMapper, 
+                             SysUserRoleRelMapper sysUserRoleRelMapper,
+                             @Lazy SysUserRoleRelServiceImpl sysUserRoleRelService,
+                             ISysConfigService sysConfigService,
+                             @Lazy PasswordEncoder passwordEncoder) {
+        this.sysUserMapper = sysUserMapper;
+        this.sysUserRoleRelMapper = sysUserRoleRelMapper;
+        this.sysUserRoleRelService = sysUserRoleRelService;
+        this.sysConfigService = sysConfigService;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     /**
      * 根据账户获取用户
@@ -99,7 +114,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         this.saveOrUpdate(sysUser);
 
         // 删除缓存
-        LocalCacheUtils.validate(LocalCacheUtils.CacheType.USER, String.valueOf(sysUser.getId()));
+        LocalCacheUtils.invalidate(LocalCacheUtils.CacheType.USER, String.valueOf(sysUser.getId()));
 
 
         // 处理用户角色关系
@@ -126,7 +141,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     public boolean removeById(Serializable id) {
         boolean b = SqlHelper.retBool(this.baseMapper.deleteById(id));
         if (b) {
-            LocalCacheUtils.validate(LocalCacheUtils.CacheType.USER, String.valueOf(id));
+            LocalCacheUtils.invalidate(LocalCacheUtils.CacheType.USER, String.valueOf(id));
         }
         return b;
     }

@@ -1,5 +1,7 @@
 package com.lanjii.model.dto;
 
+import com.lanjii.core.annotation.Where;
+import com.lanjii.core.enums.Condition;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -44,6 +46,7 @@ public class OnlineUserDto implements Serializable {
     /**
      * 在线状态
      */
+    @Where(value = Condition.EQ, column = "online_status")
     private Integer onlineStatus;
 
     /**
