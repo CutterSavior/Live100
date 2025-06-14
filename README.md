@@ -2,6 +2,7 @@
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)![Spring Boot](https://img.shields.io/badge/Spring%20Boot-2.x-green)![Spring Security](https://img.shields.io/badge/Spring%20Security-5.x-blue)![MyBatis-Plus](https://img.shields.io/badge/MyBatis--Plus-3.x-orange)![Vue](https://img.shields.io/badge/Vue-2.x-brightgreen)![MySQL](https://img.shields.io/badge/MySQL-8.0-blue)
 
+> 由于这个项目技术老旧，不再进行更新，现已构建了 Vue3 的前端：[Lanjii-vue3](https://gitee.com/leven2018/lanjii-vue-3)。
 
 很早之前就想构建一个自己的后台项目，但是一直是断断续续的写一点。最近有时间，就将之前的代码捡起来，把未完成的工作完成了。细节还没处理，后期有时间再慢点优化，会陆续增加一些新的功能。
 
@@ -68,3 +69,16 @@
 ![5](screenshots/img_3.png)
 
 ![6](screenshots/img_4.png)
+
+## 交流群
+> 大家可以进群一起交流，备注“开源”
+
+<p align="center">
+  <img src="screenshots/group-qrcode.png" alt="收款码" width="400" />
+</p>
+
+## 捐赠
+> 如果能帮助到你，可以请作者喝杯咖啡哦~~~
+<p align="center"> 
+  <img src="screenshots/donation.png" alt="收款码" width="400" />
+</p>
