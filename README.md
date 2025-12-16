@@ -28,8 +28,8 @@
 
 ## 演示图
 
-![](D:\03_WorkSpace\01_Server\lanjii-----gitee\screenshots\img.png)
+![2](screenshots/img.png)
 
-![](D:\03_WorkSpace\01_Server\lanjii-----gitee\screenshots\img_1.png)
+![3](screenshots/img_1.png)
 
-![](D:\03_WorkSpace\01_Server\lanjii-----gitee\screenshots\img_2.png)
+![4](screenshots/img_2.png)
