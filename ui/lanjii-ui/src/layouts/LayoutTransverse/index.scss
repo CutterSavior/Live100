@@ -1,0 +1,19 @@
+.el-menu--horizontal {
+  max-width: 800px;
+  margin-right: auto;
+}
+
+.el-container {
+  height: 100vh;
+
+  .right-container {
+    height: 100%;
+  }
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}

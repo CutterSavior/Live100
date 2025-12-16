@@ -1,0 +1,48 @@
+// flex布局
+@mixin flex($direction:row, $x:center, $y:center) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $x;
+  align-items: $y;
+}
+
+// 美化滚动条
+@mixin scrollbar {
+  ::-webkit-scrollbar {
+    /*滚动条整体样式*/
+    width: 5px;  /*高宽分别对应横竖滚动条的尺寸*/
+    height: 5px;
+  }
+  ::-webkit-scrollbar-thumb {
+    /*滚动条里面深色条*/
+    border-radius: 3px;  // 圆角值为宽度的一半
+    cursor: pointer;
+    background: #eee;
+  }
+  ::-webkit-scrollbar-track {
+    /*滚动条里面轨道*/
+    border-radius: 3px;
+    background: #ffffff;
+    margin: 2px 0;  // 上下留白，让圆角显示出来
+  }
+
+  /*隐藏所有滚动条箭头 */
+  ::-webkit-scrollbar-button {
+    display: none;
+  }
+}
+
+// 文本单行超出省略号
+@mixin no-wrap {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+// 文本多行超出省略号
+@mixin no-wrap-multi($count: 3) {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $count;
+  overflow: hidden;
+}

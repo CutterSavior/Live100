@@ -1,0 +1,15 @@
+:root {
+  --el-menu-active-bg-color: var(--el-color-primary-light-9);
+  --el-menu-active-lf-color: var(--el-color-primary);
+  --el-header-bg-color: var(--el-bg-color);
+  --el-main-bg-color: var(--el-fill-color-light);
+  --el-aside-border-color: var(--el-border-color);
+  --el-menu-bg-color: var(--el-bg-color);
+  --el-table-th-color: #222;
+  --el-table-th-bg-color: #f8f9fa;
+}
+
+html.dark {
+  --el-table-th-color: #ffffff;
+  --el-table-th-bg-color: #2d2d2d;
+}

@@ -1,0 +1,64 @@
+﻿import {del, get, post, put} from '@/api/http'
+import type {SysDictType} from '@/types/sys/sysDictType.ts'
+import type {SysDictData} from '@/types/sys/sysDictData.ts'
+import type {PageResponse} from '@/types/common'
+
+// 获取字典类型分页列表（权限: sys:dict-type:page）
+export function getDictTypeList(params: any) {
+    return get<PageResponse<SysDictType>>('/admin/sys/dict-types', params)
+}
+
+// 获取字典类型详情（权限: sys:dict-type:view）
+export function getDictTypeById(id: number) {
+    return get<SysDictType>(`/admin/sys/dict-types/${id}`)
+}
+
+// 新增字典类型（权限: sys:dict-type:save）
+export function createDictType(data: SysDictType) {
+    return post('/admin/sys/dict-types', data)
+}
+
+// 更新字典类型（权限: sys:dict-type:update）
+export function updateDictType(id: number, data: SysDictType) {
+    return put(`/admin/sys/dict-types/${id}`, data)
+}
+
+// 删除字典类型（权限: sys:dict-type:delete）
+export function deleteDictType(id: number) {
+    return del(`/admin/sys/dict-types/${id}`)
+}
+
+// 按类型编码查询字典数据（权限: sys:dict-type:data）
+export function getDictDataByTypeCode(typeCode: string, params?: SysDictData) {
+    return get<PageResponse<SysDictData>>(`/admin/sys/dict-types/${typeCode}/data`, params)
+}
+
+// 获取字典数据分页列表（权限: sys:dict-data:page）
+export function getDictDataList(params: any) {
+    return get<PageResponse<SysDictData>>('/admin/sys/dict-data', params)
+}
+
+// 获取字典数据详情（权限: sys:dict-data:view）
+export function getDictDataById(id: number) {
+    return get<SysDictData>(`/admin/sys/dict-data/${id}`)
+}
+
+// 新增字典数据（权限: sys:dict-data:save）
+export function createDictData(data: SysDictData) {
+    return post('/admin/sys/dict-data', data)
+}
+
+// 更新字典数据（权限: sys:dict-data:update）
+export function updateDictData(id: number, data: SysDictData) {
+    return put(`/admin/sys/dict-data/${id}`, data)
+}
+
+// 删除字典数据（权限: sys:dict-data:delete）
+export function deleteDictData(id: number) {
+    return del(`/admin/sys/dict-data/${id}`)
+}
+
+// 清除字典数据缓存（权限: sys:dict-data:cache）
+export function clearDictDataCache() {
+    return post('/admin/sys/dict-data/cache/clear', {})
+}
