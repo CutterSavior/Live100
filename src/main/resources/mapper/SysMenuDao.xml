@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lanjii.biz.admin.system.dao.SysMenuDao">
+
+    <!-- 查询所有权限字符 -->
+    <select id="selectAllPermissions" resultType="java.lang.String">
+        SELECT DISTINCT permission 
+        FROM sys_menu 
+        WHERE permission IS NOT NULL
+    </select>
+
+    <!-- 根据用户ID查询权限字符 -->
+    <select id="selectPermissionsByUserId" parameterType="java.lang.Long" resultType="java.lang.String">
+        SELECT DISTINCT m.permission 
+        FROM sys_menu m
+        JOIN sys_role_menu rm ON m.id = rm.menu_id
+        JOIN sys_user_role ur ON rm.role_id = ur.role_id
+        WHERE ur.user_id = #{userId} AND m.permission IS NOT NULL
+    </select>
+
+    <!-- 根据用户ID查询菜单列表 -->
+    <select id="selectMenusByUserId" parameterType="java.lang.Long" resultType="com.lanjii.biz.admin.system.model.entity.SysMenu">
+        SELECT m.* 
+        FROM sys_menu m
+        JOIN sys_role_menu rm ON m.id = rm.menu_id
+        JOIN sys_user_role ur ON rm.role_id = ur.role_id
+        WHERE ur.user_id = #{userId} 
+          AND m.is_visible = 1 
+          AND m.is_enabled = 1 
+          AND type != 3
+        GROUP BY m.id 
+        ORDER BY m.sort_order
+    </select>
+
+    <!-- 根据父级ID查询子菜单 -->
+    <select id="selectChildrenByParentId" parameterType="java.lang.Long" resultType="com.lanjii.biz.admin.system.model.entity.SysMenu">
+        SELECT * 
+        FROM sys_menu 
+        WHERE parent_id = #{parentId}
+    </select>
+
+    <!-- 根据菜单ID查询所有子孙菜单（使用ancestors字段） -->
+    <select id="selectDescendantsByMenuId" parameterType="java.lang.Long" resultType="com.lanjii.biz.admin.system.model.entity.SysMenu">
+        SELECT * 
+        FROM sys_menu 
+        WHERE FIND_IN_SET(#{menuId}, ancestors) > 0
+    </select>
+
+</mapper>

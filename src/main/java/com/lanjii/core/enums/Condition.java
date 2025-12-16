@@ -3,6 +3,11 @@ package com.lanjii.core.enums;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * 条件
+ *
+ * @author lizheng
+ */
 @AllArgsConstructor
 @Getter
 public enum Condition {

@@ -6,8 +6,9 @@
     <property name="LOG_HOME" value="./logs"/>
     <property name="LOG_NAME" value="lanjii"/>
     <property name="LOG_PATTERN"
-              value="%cyan(%d{yyyy-MM-dd HH:mm:ss.SSS}) [%thread] %highlight(%-5level) %magenta([%mdc{traceId:-0} - [%X{traceId}]]) %green(%logger{50}:%L) - %msg %n"/>
+              value="%cyan(%d{yyyy-MM-dd HH:mm:ss.SSS}) [%thread] %highlight(%-5level) %magenta([%mdc{traceId:-0} - [%X{traceId}]]) %green(%logger{50}:%L) - %msg%n%ex{5}"/>
 
+    <!-- 控制台输出 -->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>${logging.level}</level>
@@ -17,11 +18,14 @@
         </layout>
     </appender>
 
+    <!-- 错误日志 -->
     <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOG_HOME}/${LOG_NAME}-error.log</file>
         <append>true</append>
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>error</level>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
         </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${LOG_HOME}/${LOG_NAME}-error-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
@@ -35,6 +39,7 @@
         </layout>
     </appender>
 
+    <!-- 常规日志 -->
     <appender name="file_log" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOG_HOME}/${LOG_NAME}.log</file>
         <append>true</append>
@@ -53,10 +58,16 @@
         </layout>
     </appender>
 
+    <!-- 业务异常特殊处理 -->
+    <logger name="com.yourpackage.BizException" level="WARN" additivity="false">
+        <appender-ref ref="console"/>
+        <appender-ref ref="file_log"/>
+    </logger>
+
+    <!-- 其他日志处理 -->
     <root level="${logging.level}">
         <appender-ref ref="console"/>
-        <appender-ref ref="error"/>
         <appender-ref ref="file_log"/>
+        <appender-ref ref="error"/>
     </root>
-    <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener"/>
 </configuration>

@@ -1,25 +1,37 @@
-package com.lanjii.core.annotation;
+﻿package com.lanjii.core.annotation;
 
-import com.lanjii.core.enums.OperationType;
+import com.lanjii.common.enums.BusinessTypeEnum;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * 操作日志注解
  *
- * @author lizheng
- * @date 2025-04-10
+ * @author lanjii
  */
-@Target(ElementType.METHOD)
+@Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
+@Documented
 public @interface Log {
 
     /**
-     * 操作类型
+     * 操作模块
      */
-    OperationType type();
+    String title() default "";
+
+    /**
+     * 业务类型
+     */
+    BusinessTypeEnum businessType() default BusinessTypeEnum.OTHER;
+
+    /**
+     * 是否保存请求参数
+     */
+    boolean isSaveRequestData() default true;
+
+    /**
+     * 是否保存响应参数
+     */
+    boolean isSaveResponseData() default true;
 
 }

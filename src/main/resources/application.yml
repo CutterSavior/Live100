@@ -1,117 +1,109 @@
-server:
-  port: 8081
-  servlet:
-    context-path: /
-
 spring:
-  servlet:
-    multipart:
-      max-file-size: 20MB
-      max-request-size: 20MB
-  main:
-    allow-circular-references: true
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/leven_db?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+    # 基本连接配置
+    url: jdbc:mysql://127.0.0.1/lanjii-v3?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
     username: root
-    password: root
-    # Druid 配置
+    password: 2025@12#5!Lz
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
     type: com.alibaba.druid.pool.DruidDataSource
+
+    # Druid 连接池配置
     druid:
-      # 初始化时建立物理连接的个数
+      # 初始化大小、最小、最大
       initial-size: 5
-      # 连接池的最小空闲数量
       min-idle: 5
-      # 连接池最大连接数量
       max-active: 20
-      # 获取连接时最大等待时间，单位毫秒
+
+      # 获取连接等待超时时间
       max-wait: 60000
-      # 申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
-      test-while-idle: true
-      # 既作为检测的间隔时间又作为testWhileIdel执行的依据
+
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
       time-between-eviction-runs-millis: 60000
-      # 销毁线程时检测当前连接的最后活动时间和当前时间差大于该值时，关闭当前连接(配置连接在池中的最小生存时间)
-      min-evictable-idle-time-millis: 30000
-      # 用来检测数据库连接是否有效的sql 必须是一个查询语句(oracle中为 select 1 from dual)
-      validation-query: select 'x'
-      # 申请连接时会执行validationQuery检测连接是否有效,开启会降低性能,默认为true
-      test-on-borrow: false
-      # 归还连接时会执行validationQuery检测连接是否有效,开启会降低性能,默认为true
+
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      min-evictable-idle-time-millis: 300000
+
+      # 测试连接是否有效的SQL
+      validation-query: SELECT 1
+      test-while-idle: true
+      test-on-borrow: true
       test-on-return: false
-      # 是否缓存preparedStatement, 也就是PSCache,PSCache对支持游标的数据库性能提升巨大，比如说oracle,在mysql下建议关闭。
-      pool-prepared-statements: false
-      # 置监控统计拦截的filters，去掉后监控界面sql无法统计，stat: 监控统计、Slf4j:日志记录、waLL: 防御sqL注入
+
+      # 打开PSCache，并且指定每个连接上PSCache的大小
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+
+      # 配置监控统计拦截的filters
       filters: stat,wall,slf4j
-      # 要启用PSCache，必须配置大于0，当大于0时，poolPreparedStatements自动触发修改为true。在Druid中，不会存在Oracle下PSCache占用内存过多的问题，可以把这个数值配置大一些，比如说100
-      max-pool-prepared-statement-per-connection-size: -1
-      # 合并多个DruidDataSource的监控数据
-      use-global-data-source-stat: true
-      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
-      #      connect-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
 
-      web-stat-filter:
-        # 是否启用StatFilter默认值true
-        enabled: true
-        # 添加过滤规则
-        url-pattern: /*
-        # 忽略过滤的格式
-        exclusions: /druid/*,*.js,*.gif,*.jpg,*.png,*.css,*.ico
+      # 通过connectProperties属性来打开mergeSql功能
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
 
+      # 配置监控服务器
       stat-view-servlet:
-        # 是否启用StatViewServlet默认值true
         enabled: true
-        # 访问路径为/druid时，跳转到StatViewServlet
         url-pattern: /druid/*
-        # 是否能够重置数据
+        # 登录监控页面的账号密码
+        login-username: admin
+        login-password: admin
         reset-enable: false
-        # 需要账号密码才能访问控制台，默认为root
-        login-username: druid
-        login-password: druid
-        # IP白名单
-        allow: 127.0.0.1
-        # IP黑名单（共同存在时，deny优先于allow）
-        deny:
-  jackson:
-    date-format: yyyy-MM-dd HH:mm:ss
-    time-zone: GMT+8
-    serialization:
-      write-dates-as-timestamps: false
+
+      # 配置Web监控过滤器
+      web-stat-filter:
+        enabled: true
+        url-pattern: /*
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+
+      # 配置防火墙
+      wall:
+        enabled: true
+        config:
+          drop-table-allow: false
+          delete-where-none-check: true
 
 mybatis-plus:
   configuration:
+    # 日志实现 (可选)
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    # 下划线转驼峰
     map-underscore-to-camel-case: true
-    auto-mapping-behavior: full
-  #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-  mapper-locations: classpath*:mapper/**/*Mapper.xml
+    # 本地缓存作用域 (SESSION/STATEMENT)
+  #    local-cache-scope: statement
   global-config:
-    # 逻辑删除配置
     db-config:
+      # 主键类型 AUTO(0), NONE(1), INPUT(2), ASSIGN_ID(3), ASSIGN_UUID(4)
+      id-type: auto
+      # 逻辑删除字段名
       logic-delete-field: deleted
-      # 删除前
+      # 逻辑删除值
       logic-not-delete-value: 0
-      # 删除后
       logic-delete-value: 1
-pagehelper:
-  helperDialect: mysql
-  reasonable: true
-  supportMethodsArguments: true
-  params: count=countSql
+  # mapper.xml文件位置 (如果没有xml文件可不配置)
+  mapper-locations: classpath*:/mapper/**/*.xml
+  # 实体扫描包
+  type-aliases-package: com.lanjii.entity
 
+jwt:
+  secret: "d3b9e7f2a5c8e1b6d4f0a9c3e7b2d5f8e1c4a9d2b6e0f3c7a1d8e5b9f2c4a7d0" # 64字符=256位
+  expiration: 86400000 # 24小时
+
+# 安全配置
 security:
-  white:
-    urls:
-      - /websocket/**
-      - /login
-      - /logout
-      - /captcha
-      - /druid/**
-      - /upload/**
-      - /api/**
-      - /admin/sys-menu/current
-  jwt:
-    tokenHeader: Authorization #JWT存储的请求头
-    secret: leven-secret #JWT加解密使用的密钥
-    expiration: 604800 #JWT的超期限时间(60*60*24*7)
-    tokenHead: 'Bearer '  #JWT负载中拿到开头
-logging:
-  config: classpath:logback-spring.xml
+  # 白名单接口路径（无需认证）
+  whitelist:
+    - "/"
+    - "/admin/login"
+    - "/admin/captcha"
+    - "/druid/**"
+    - "/static/**"
+    - "/health"
+    - "/ws/**"
+    - "/upload/**"
+
+# 自定义配置
+file:
+  # 必须以斜杠结尾
+  upload-path: /opt/app/lanjii/upload/
+  # 访问的前缀
+  access-prefix: /upload/

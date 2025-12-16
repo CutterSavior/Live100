@@ -1,4 +1,4 @@
-package com.lanjii.core.base.support;
+﻿package com.lanjii.core.base.support;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +11,6 @@ import java.util.List;
  * 分页数据
  *
  * @author lizheng
- * @date 2024-09-25
  */
 @Data
 @NoArgsConstructor
