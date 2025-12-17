@@ -3,7 +3,7 @@
       :model-value="visible"
       @update:model-value="$emit('close')"
       :title="modalTitle"
-      width="600px"
+      width="800px"
       :close-on-click-modal="false"
       append-to-body
       destroy-on-close
@@ -27,9 +27,6 @@
         </el-descriptions-item>
         <el-descriptions-item label="更新时间">
           {{ fileData.updateTime }}
-        </el-descriptions-item>
-        <el-descriptions-item label="文件路径" :span="2">
-          <el-text type="info" size="small">{{ fileData.filePath }}</el-text>
         </el-descriptions-item>
       </el-descriptions>
 

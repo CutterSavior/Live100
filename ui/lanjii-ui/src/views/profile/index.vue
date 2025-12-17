@@ -8,33 +8,28 @@
         </el-avatar>
       </div>
       <div class="info-list">
-        <h3>个人信息</h3>
         <div class="info-item">
-          <span class="label">用户名：</span>
+          <span class="label"><el-icon><User/></el-icon>用户名</span>
           <span class="value">{{ userInfo.username }}</span>
         </div>
         <div class="info-item">
-          <span class="label">昵称：</span>
+          <span class="label"><el-icon><UserFilled/></el-icon>昵称</span>
           <span class="value">{{ userInfo.nickname }}</span>
         </div>
         <div class="info-item">
-          <span class="label">邮箱：</span>
+          <span class="label"><el-icon><Message/></el-icon>邮箱</span>
           <span class="value">{{ userInfo.email }}</span>
         </div>
         <div class="info-item">
-          <span class="label">手机号：</span>
+          <span class="label"><el-icon><Iphone/></el-icon>手机号</span>
           <span class="value">{{ userInfo.phone }}</span>
         </div>
         <div class="info-item">
-          <span class="label">IP地址：</span>
+          <span class="label"><el-icon><Monitor/></el-icon>IP地址</span>
           <span class="value">{{ userInfo.lastLoginIp }}</span>
         </div>
         <div class="info-item">
-          <span class="label">创建时间：</span>
-          <span class="value">{{ userInfo.createTime }}</span>
-        </div>
-        <div class="info-item">
-          <span class="label">最近登录：</span>
+          <span class="label"><el-icon><Clock/></el-icon>最近登录：</span>
           <span class="value">{{ userInfo.lastLoginTime }}</span>
         </div>
       </div>
@@ -216,15 +211,16 @@ onMounted(() => {
 }
 
 .label {
-  font-weight: bold;
-  color: #606266;
   width: 100px;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .value {
-  color: #303133;
   flex: 1;
+  text-align: right;
 }
 
 .avatar-uploader {

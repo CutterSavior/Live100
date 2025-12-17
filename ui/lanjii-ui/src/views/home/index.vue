@@ -165,21 +165,21 @@ const noticeList = [
 
 const barOption = computed(() => {
   return {
-    tooltip: {trigger: 'axis'},
+    tooltip: {trigger: 'axis' as const},
     grid: {left: 40, right: 20, top: 40, bottom: 30, containLabel: true},
     xAxis: {
-      type: 'category',
+      type: 'category' as const,
       data: orderSalesMonths,
       axisTick: {alignWithLabel: true}
     },
     yAxis: {
-      type: 'value',
+      type: 'value' as const,
       name: '销量(单)'
     },
     series: [
       {
         name: '订单销量',
-        type: 'bar',
+        type: 'bar' as const,
         data: orderSalesData,
         barMaxWidth: 28,
         itemStyle: {color: '#409EFF', borderRadius: [4, 4, 0, 0]}
@@ -190,14 +190,14 @@ const barOption = computed(() => {
 
 const lineOption = computed(() => {
   return {
-    tooltip: {trigger: 'axis'},
+    tooltip: {trigger: 'axis' as const},
     grid: {left: 40, right: 20, top: 40, bottom: 30, containLabel: true},
-    xAxis: {type: 'category', data: orderSalesMonths},
-    yAxis: {type: 'value', name: '销量(单)'},
+    xAxis: {type: 'category' as const, data: orderSalesMonths},
+    yAxis: {type: 'value' as const, name: '销量(单)'},
     series: [
       {
         name: '订单销量',
-        type: 'line',
+        type: 'line' as const,
         data: orderSalesData,
         smooth: true,
         symbol: 'circle',
