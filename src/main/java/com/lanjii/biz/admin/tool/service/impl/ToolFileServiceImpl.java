@@ -1,4 +1,4 @@
-﻿package com.lanjii.biz.admin.tool.service.impl;
+package com.lanjii.biz.admin.tool.service.impl;
 
 import com.lanjii.biz.admin.tool.dao.ToolFileDao;
 import com.lanjii.biz.admin.tool.model.entity.ToolFile;

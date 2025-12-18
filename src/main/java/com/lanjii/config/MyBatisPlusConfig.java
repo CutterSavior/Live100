@@ -1,4 +1,4 @@
-﻿package com.lanjii.config;
+package com.lanjii.config;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;

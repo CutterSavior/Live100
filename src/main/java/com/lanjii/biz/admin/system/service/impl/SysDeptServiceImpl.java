@@ -1,4 +1,4 @@
-﻿package com.lanjii.biz.admin.system.service.impl;
+package com.lanjii.biz.admin.system.service.impl;
 
 import com.lanjii.biz.admin.system.dao.SysDeptDao;
 import com.lanjii.biz.admin.system.model.dto.SysDeptDTO;

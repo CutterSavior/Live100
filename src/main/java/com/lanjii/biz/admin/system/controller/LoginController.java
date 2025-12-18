@@ -1,4 +1,4 @@
-﻿package com.lanjii.biz.admin.system.controller;
+package com.lanjii.biz.admin.system.controller;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.lanjii.biz.admin.system.model.dto.LoginBody;

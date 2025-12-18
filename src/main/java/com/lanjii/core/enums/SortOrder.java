@@ -1,4 +1,4 @@
-﻿package com.lanjii.core.enums;
+package com.lanjii.core.enums;
 
 /**
  * 排序

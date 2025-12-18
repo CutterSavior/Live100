@@ -1,4 +1,4 @@
-﻿package com.lanjii.common.exception;
+package com.lanjii.common.exception;
 
 import com.lanjii.core.resp.ResultCode;
 import lombok.Getter;
@@ -62,16 +62,11 @@ public class BizException extends RuntimeException {
     @Override
     public Throwable fillInStackTrace() {
         if (!recordStackTrace) {
-            return this; // 快速返回，避免native调用
+            return this;
         }
-        return isVirtualThread() ?
-                super.fillInStackTrace() : // 虚拟线程直接调用
-                synchronizedFillInStackTrace(); // 物理线程同步处理
+        return synchronizedFillInStackTrace();
     }
 
-    private boolean isVirtualThread() {
-        return Thread.currentThread().isVirtual();
-    }
 
     private synchronized Throwable synchronizedFillInStackTrace() {
         return super.fillInStackTrace();

@@ -1,4 +1,4 @@
-﻿package com.lanjii.biz.admin.system.model.dto;
+package com.lanjii.biz.admin.system.model.dto;
 
 import com.lanjii.core.annotation.QueryCondition;
 import com.lanjii.core.enums.QueryType;

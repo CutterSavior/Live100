@@ -1,4 +1,4 @@
-﻿package com.lanjii.config;
+package com.lanjii.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;

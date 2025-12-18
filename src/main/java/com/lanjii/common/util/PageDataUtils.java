@@ -1,4 +1,4 @@
-﻿package com.lanjii.common.util;
+package com.lanjii.common.util;
 
 import com.github.pagehelper.Page;
 import com.lanjii.core.base.BaseEntityMapper;

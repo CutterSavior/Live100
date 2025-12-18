@@ -1,4 +1,4 @@
-﻿package com.lanjii.security;
+package com.lanjii.security;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.benmanes.caffeine.cache.Cache;

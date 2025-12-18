@@ -1,4 +1,4 @@
-﻿package com.lanjii.biz.admin.notice.dao;
+package com.lanjii.biz.admin.notice.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lanjii.biz.admin.notice.model.dto.NoticeDTO;

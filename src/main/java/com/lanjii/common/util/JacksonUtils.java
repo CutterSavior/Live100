@@ -1,4 +1,4 @@
-﻿package com.lanjii.common.util;
+package com.lanjii.common.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;

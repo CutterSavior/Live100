@@ -1,4 +1,4 @@
-﻿package com.lanjii.core.resp;
+package com.lanjii.core.resp;
 
 import com.lanjii.common.util.JacksonUtils;
 import com.lanjii.common.util.WebContextUtils;

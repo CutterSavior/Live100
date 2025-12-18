@@ -1,4 +1,4 @@
-﻿package com.lanjii.common.constant;
+package com.lanjii.common.constant;
 
 /**
  * 系统配置键名常量

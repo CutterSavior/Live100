@@ -1,4 +1,4 @@
-﻿package com.lanjii.common.util;
+package com.lanjii.common.util;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

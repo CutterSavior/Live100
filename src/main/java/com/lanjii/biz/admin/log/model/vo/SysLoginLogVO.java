@@ -1,4 +1,4 @@
-﻿package com.lanjii.biz.admin.log.model.vo;
+package com.lanjii.biz.admin.log.model.vo;
 
 import lombok.Data;
 

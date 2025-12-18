@@ -1,4 +1,4 @@
-﻿package com.lanjii.websocket.config;
+package com.lanjii.websocket.config;
 
 import com.lanjii.websocket.interceptor.JwtChannelInterceptor;
 import lombok.RequiredArgsConstructor;

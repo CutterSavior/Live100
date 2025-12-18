@@ -1,4 +1,4 @@
-﻿package com.lanjii.biz.admin.system.model.vo;
+package com.lanjii.biz.admin.system.model.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

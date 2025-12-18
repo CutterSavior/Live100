@@ -1,4 +1,4 @@
-﻿package com.lanjii.biz.admin.notice.model.entity;
+package com.lanjii.biz.admin.notice.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;

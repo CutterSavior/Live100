@@ -1,4 +1,4 @@
-﻿package com.lanjii.config;
+package com.lanjii.config;
 
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;

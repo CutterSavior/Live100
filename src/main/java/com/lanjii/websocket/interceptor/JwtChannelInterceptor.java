@@ -1,4 +1,4 @@
-﻿package com.lanjii.websocket.interceptor;
+package com.lanjii.websocket.interceptor;
 
 import com.lanjii.biz.admin.monitor.service.UserSessionService;
 import com.lanjii.common.util.JwtUtils;

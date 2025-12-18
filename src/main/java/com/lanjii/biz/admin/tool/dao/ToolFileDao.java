@@ -1,4 +1,4 @@
-﻿package com.lanjii.biz.admin.tool.dao;
+package com.lanjii.biz.admin.tool.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lanjii.biz.admin.tool.model.entity.ToolFile;

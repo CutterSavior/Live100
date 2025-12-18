@@ -1,4 +1,4 @@
-﻿package com.lanjii.biz.admin.system.dao;
+package com.lanjii.biz.admin.system.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lanjii.biz.admin.system.model.entity.SysDictType;

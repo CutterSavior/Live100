@@ -1,4 +1,4 @@
-﻿package com.lanjii.common.enums;
+package com.lanjii.common.enums;
 
 /**
  * 枚举编码接口

@@ -1,4 +1,4 @@
-﻿package com.lanjii.core.annotation;
+package com.lanjii.core.annotation;
 
 import com.lanjii.common.enums.BusinessTypeEnum;
 

@@ -1,4 +1,4 @@
-﻿package com.lanjii.common.util;
+package com.lanjii.common.util;
 
 import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.LineCaptcha;

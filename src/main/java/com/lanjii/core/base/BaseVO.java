@@ -1,4 +1,4 @@
-﻿package com.lanjii.core.base;
+package com.lanjii.core.base;
 
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.format.DateTimeFormat;

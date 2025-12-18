@@ -1,4 +1,4 @@
-﻿package com.lanjii.core.base;
+package com.lanjii.core.base;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;

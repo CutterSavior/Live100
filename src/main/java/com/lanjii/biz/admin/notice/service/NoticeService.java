@@ -1,4 +1,4 @@
-﻿package com.lanjii.biz.admin.notice.service;
+package com.lanjii.biz.admin.notice.service;
 
 import com.lanjii.biz.admin.notice.model.dto.NoticeDTO;
 import com.lanjii.biz.admin.notice.model.entity.Notice;

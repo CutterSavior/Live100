@@ -1,4 +1,4 @@
-﻿package com.lanjii.security.filter;
+package com.lanjii.security.filter;
 
 import com.lanjii.biz.admin.monitor.service.UserSessionService;
 import com.lanjii.common.util.JwtUtils;

@@ -1,4 +1,4 @@
-﻿package com.lanjii.common.util;
+package com.lanjii.common.util;
 
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.write.metadata.style.WriteCellStyle;

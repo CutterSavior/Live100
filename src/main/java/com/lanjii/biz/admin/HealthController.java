@@ -1,4 +1,4 @@
-﻿package com.lanjii.biz.admin;
+package com.lanjii.biz.admin;
 
 import com.lanjii.core.resp.R;
 import lombok.RequiredArgsConstructor;

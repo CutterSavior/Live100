@@ -1,4 +1,4 @@
-﻿package com.lanjii.biz.admin.log.dao;
+package com.lanjii.biz.admin.log.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lanjii.biz.admin.log.model.entity.SysOperLog;

@@ -1,4 +1,4 @@
-﻿package com.lanjii.biz.admin.monitor.service.impl;
+package com.lanjii.biz.admin.monitor.service.impl;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.lanjii.biz.admin.monitor.service.UserSessionService;

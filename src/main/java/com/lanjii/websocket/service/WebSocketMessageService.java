@@ -1,4 +1,4 @@
-﻿package com.lanjii.websocket.service;
+package com.lanjii.websocket.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-﻿package com.lanjii.security.config;
+package com.lanjii.security.config;
 
 import com.lanjii.core.resp.R;
 import com.lanjii.core.resp.ResultCode;

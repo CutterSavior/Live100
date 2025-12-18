@@ -1,4 +1,4 @@
-﻿package com.lanjii.biz.admin.notice.model.entity;
+package com.lanjii.biz.admin.notice.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;

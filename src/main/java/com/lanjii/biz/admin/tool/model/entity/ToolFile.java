@@ -1,4 +1,4 @@
-﻿package com.lanjii.biz.admin.tool.model.entity;
+package com.lanjii.biz.admin.tool.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.lanjii.biz.admin.tool.model.dto.ToolFileDTO;

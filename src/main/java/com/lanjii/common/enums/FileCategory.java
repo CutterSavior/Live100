@@ -1,4 +1,4 @@
-﻿package com.lanjii.common.enums;
+package com.lanjii.common.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

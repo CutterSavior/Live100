@@ -1,4 +1,4 @@
-﻿package com.lanjii.biz.admin.monitor.controller;
+package com.lanjii.biz.admin.monitor.controller;
 
 import com.lanjii.biz.admin.monitor.service.UserSessionService;
 import com.lanjii.core.base.PageParam;

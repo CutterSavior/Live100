@@ -1,4 +1,4 @@
-﻿package com.lanjii.biz.admin.log.service;
+package com.lanjii.biz.admin.log.service;
 
 import com.lanjii.biz.admin.log.model.dto.SysLoginLogDTO;
 import com.lanjii.biz.admin.log.model.vo.SysLoginLogVO;

@@ -1,4 +1,4 @@
-﻿package com.lanjii.config;
+package com.lanjii.config;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;

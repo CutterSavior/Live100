@@ -1,4 +1,4 @@
-﻿package com.lanjii.biz.admin.system.service.impl;
+package com.lanjii.biz.admin.system.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.lanjii.biz.admin.system.dao.SysMenuDao;

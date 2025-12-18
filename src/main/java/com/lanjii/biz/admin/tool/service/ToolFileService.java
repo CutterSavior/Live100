@@ -1,4 +1,4 @@
-﻿package com.lanjii.biz.admin.tool.service;
+package com.lanjii.biz.admin.tool.service;
 
 import com.lanjii.biz.admin.tool.model.vo.ToolFileVO;
 import com.lanjii.core.base.BaseService;

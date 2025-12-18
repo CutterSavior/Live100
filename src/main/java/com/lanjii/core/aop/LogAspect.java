@@ -1,4 +1,4 @@
-﻿package com.lanjii.core.aop;
+package com.lanjii.core.aop;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -1,4 +1,4 @@
-﻿package com.lanjii.core.resp;
+package com.lanjii.core.resp;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

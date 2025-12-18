@@ -1,4 +1,4 @@
-﻿package com.lanjii.core.handler;
+package com.lanjii.core.handler;
 
 import com.lanjii.core.resp.R;
 import com.lanjii.core.resp.ResultCode;

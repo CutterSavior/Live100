@@ -1,4 +1,4 @@
-﻿package com.lanjii.biz.admin.system.service;
+package com.lanjii.biz.admin.system.service;
 
 import com.lanjii.biz.admin.system.model.dto.SysMenuDTO;
 import com.lanjii.biz.admin.system.model.vo.SysMenuVO;

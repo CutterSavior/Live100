@@ -1,4 +1,4 @@
-﻿package com.lanjii.biz.admin.notice.model.dto;
+package com.lanjii.biz.admin.notice.model.dto;
 
 import com.lanjii.core.annotation.QueryCondition;
 import com.lanjii.core.base.BaseDTO;

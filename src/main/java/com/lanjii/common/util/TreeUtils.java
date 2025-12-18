@@ -106,13 +106,17 @@ public class TreeUtils {
 
     private static void setFieldValue(Object obj, String fieldName, Object value) {
         try {
-            final Class<?> paramType = switch (value) {
-                case null -> Object.class;
-                case ArrayList<?> ignored -> List.class;
-                default -> value.getClass();
-            };
+            final Class<?> paramType;
 
-            String methodName = "set%s".formatted(capitalize(fieldName));
+            if (value == null) {
+                paramType = Object.class;
+            } else if (value instanceof ArrayList) {
+                paramType = List.class;
+            } else {
+                paramType = value.getClass();
+            }
+
+            String methodName = String.format("set%s", capitalize(fieldName));
 
             Method setter = obj.getClass().getMethod(methodName, paramType);
             setter.invoke(obj, value);

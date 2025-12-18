@@ -1,7 +1,7 @@
 spring:
   datasource:
     # 基本连接配置
-    url: jdbc:mysql://127.0.0.1/lanjii-v3?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://127.0.0.1:3306/lanjii-v3?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
     username: root
     password: 2025@12#5!Lz
     driver-class-name: com.mysql.cj.jdbc.Driver

@@ -1,4 +1,4 @@
-﻿package com.lanjii.security;
+package com.lanjii.security;
 
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;

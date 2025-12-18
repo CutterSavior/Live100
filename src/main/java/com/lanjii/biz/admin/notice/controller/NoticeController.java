@@ -1,4 +1,4 @@
-﻿package com.lanjii.biz.admin.notice.controller;
+package com.lanjii.biz.admin.notice.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.lanjii.biz.admin.notice.model.dto.NoticeDTO;

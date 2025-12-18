@@ -1,4 +1,4 @@
-﻿package com.lanjii.biz.admin.tool.controller;
+package com.lanjii.biz.admin.tool.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.lanjii.core.base.PageParam;

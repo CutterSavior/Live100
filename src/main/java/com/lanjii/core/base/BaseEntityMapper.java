@@ -1,4 +1,4 @@
-﻿package com.lanjii.core.base;
+package com.lanjii.core.base;
 
 import com.lanjii.biz.admin.system.model.entity.SysDept;
 import com.lanjii.biz.admin.system.service.SysConfigService;

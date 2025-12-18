@@ -1,4 +1,4 @@
-﻿package com.lanjii.biz.admin.system.model.dto;
+package com.lanjii.biz.admin.system.model.dto;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;

@@ -1,4 +1,4 @@
-﻿package com.lanjii.core.base.support;
+package com.lanjii.core.base.support;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

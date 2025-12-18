@@ -1,4 +1,4 @@
-﻿package com.lanjii.biz.admin.notice.service;
+package com.lanjii.biz.admin.notice.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.lanjii.biz.admin.monitor.service.UserSessionService;

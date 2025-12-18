@@ -1,4 +1,4 @@
-﻿package com.lanjii.common.util;
+package com.lanjii.common.util;
 
 import lombok.Getter;
 import org.springframework.beans.BeansException;
