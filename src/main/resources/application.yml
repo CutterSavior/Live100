@@ -1,4 +1,16 @@
 spring:
+  ai:
+    openai:
+      api-key: ${your api key}
+      base-url: https://api.siliconflow.cn
+      embedding:
+        options:
+          model: Qwen/Qwen3-Embedding-0.6B
+      chat:
+        options:
+          model: deepseek-ai/DeepSeek-R1-0528-Qwen3-8B
+          temperature: 0.7
+
   datasource:
     # 基本连接配置
     url: jdbc:mysql://127.0.0.1:3306/lanjii-v3?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true

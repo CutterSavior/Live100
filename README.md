@@ -1,6 +1,6 @@
 # lanjii-v3
 
-这是一个基于 Spring Boot 的后台管理系统，包含用户管理、角色管理、菜单管理、部门管理、岗位管理、通知公告、系统监控等模块。
+这是一个基于 Spring Boot 的后台管理系统，包含AI、用户管理、角色管理、菜单管理、部门管理、岗位管理、通知公告、系统监控等模块。
 
 ##  在线演示
 
@@ -18,10 +18,11 @@
 - 通知公告：支持通知发布、阅读状态跟踪、WebSocket 实时通知
 - 系统监控：支持在线用户管理、操作日志、登录日志
 - 文件管理：支持文件上传、下载、管理
+- AI：集成 DeepSeek，支持智能知识库检索，根据关键字关联知识库作答。
 
 ## 技术选型
 
-- 后端：Spring Boot、MyBatis Plus、JWT、WebSocket
+- 后端：Spring Boot、MyBatis Plus、JWT、WebSocket、Spring AI
 - 前端：Vue3、Vite、Element Plus、Pinia
 - 数据库：MySQL
 - 安全：Spring Security、RBAC 权限模型
@@ -33,3 +34,7 @@
 ![3](screenshots/img_1.png)
 
 ![4](screenshots/img_2.png)
+
+## AI 知识库演示
+![4](screenshots/Snipaste_2025-12-22_13-04-58-20251222130606-bxau0eg.png)
+![4](screenshots/image-20251222131234-axw7get.png)
