@@ -10,7 +10,7 @@
       </div>
       <div class="right">
         <el-button :icon="Refresh" circle @click="refreshTable"/>
-        <el-button :icon="Search" circle @click="toggleSearchBar"/>
+        <el-button v-if="searchItems && searchItems.length > 0"  :icon="Search" circle @click="toggleSearchBar"/>
         <el-popover placement="bottom-end" width="200" trigger="click">
           <template #reference>
             <el-button :icon="Setting" circle/>
