@@ -1,9 +1,11 @@
 package com.lanjii.core.base;
 
 import com.lanjii.biz.admin.system.model.entity.SysDept;
+import com.lanjii.biz.admin.system.model.entity.SysUser;
 import com.lanjii.biz.admin.system.service.SysConfigService;
 import com.lanjii.biz.admin.system.service.SysDeptService;
 import com.lanjii.biz.admin.system.service.SysDictDataService;
+import com.lanjii.biz.admin.system.service.SysUserService;
 import com.lanjii.common.util.SpringUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.mapstruct.Named;
@@ -49,6 +51,22 @@ public interface BaseEntityMapper<E, V, D> {
             return null;
         }
         SysDept dept = SpringUtils.getBean(SysDeptService.class).getById(deptId);
+        if (dept == null) {
+            return null;
+        }
+        return dept.getDeptName();
+    }
+
+    @Named("usernameToDeptName")
+    default String usernameToDeptName(String username) {
+        if (username == null) {
+            return null;
+        }
+        SysUser user = SpringUtils.getBean(SysUserService.class).getUserByUsername(username);
+        if (user == null || user.getDeptId() == null) {
+            return null;
+        }
+        SysDept dept = SpringUtils.getBean(SysDeptService.class).getById(user.getDeptId());
         if (dept == null) {
             return null;
         }

@@ -35,10 +35,6 @@ public class SysDeptVO extends BaseVO {
      */
     private String deptName;
 
-    /**
-     * 部门编码
-     */
-    private String deptCode;
 
     /**
      * 显示顺序

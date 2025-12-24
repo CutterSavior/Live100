@@ -16,4 +16,10 @@ public class LoginBody {
 
     @NotEmpty(message = "密码不能为空")
     private String password;
+
+    @NotEmpty(message = "验证码标识不能为空")
+    private String captchaKey;
+
+    @NotEmpty(message = "验证码不能为空")
+    private String captchaCode;
 }

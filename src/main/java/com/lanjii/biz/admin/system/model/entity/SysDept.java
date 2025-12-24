@@ -41,10 +41,6 @@ public class SysDept extends BaseEntity<SysDept> {
      */
     private String deptName;
 
-    /**
-     * 部门编码
-     */
-    private String deptCode;
 
     /**
      * 显示顺序

@@ -1,5 +1,40 @@
 ﻿<template>
   <div class="main-content">
+    <!-- 开源项目展示横幅 -->
+    <div class="opensource-banner" v-if="showBanner">
+      <div class="banner-content">
+        <div class="banner-left">
+          <div class="banner-icon">
+            <el-icon :size="32" color="#409EFF">
+              <Star />
+            </el-icon>
+          </div>
+          <div class="banner-info">
+            <h3 class="banner-title">🎉 <span class="project-name">岚迹</span> 后台管理系统</h3>
+            <p class="banner-description">
+              采用 SpringBoot + Spring AI + MyBatis Plus + Vue3 技术栈构建，功能完善、开箱即用
+            </p>
+            <p class="license-note">基于 MIT 开源协议</p>
+            <div class="tech-stack">
+              <el-tag type="primary" size="small">SpringBoot</el-tag>
+              <el-tag type="success" size="small">Spring AI</el-tag>
+              <el-tag type="warning" size="small">MyBatis Plus</el-tag>
+              <el-tag type="info" size="small">Vue3</el-tag>
+            </div>
+          </div>
+        </div>
+        <div class="banner-right">
+          <el-button type="primary" size="large" @click="openGitee" class="star-button">
+            <el-icon><Star /></el-icon>
+            在 Gitee 上点个 Star
+          </el-button>
+          <el-button type="info" size="small" text @click="closeBanner" class="close-button">
+            <el-icon><Close /></el-icon>
+          </el-button>
+        </div>
+      </div>
+    </div>
+
     <!-- 系统统计 -->
     <el-row :gutter="20">
       <el-col :span="6" v-for="(stat, index) in systemStats" :key="index">
@@ -111,9 +146,22 @@
 </template>
 
 <script setup lang="ts">
-import {DataLine, Lightning, Star, TrendCharts} from '@element-plus/icons-vue'
-import {computed} from 'vue'
+import {DataLine, Lightning, Star, TrendCharts, Close} from '@element-plus/icons-vue'
+import {computed, ref} from 'vue'
 import EChart from '@/components/EChart/index.vue'
+
+// 横幅显示控制
+const showBanner = ref(true)
+
+// 打开 Gitee 链接
+const openGitee = () => {
+  window.open('https://gitee.com/leven2018/lanjii', '_blank')
+}
+
+// 关闭横幅
+const closeBanner = () => {
+  showBanner.value = false
+}
 
 // 系统统计数据
 const systemStats = [
@@ -217,6 +265,159 @@ const lineOption = computed(() => {
 
 .mt-20 {
   margin-top: 20px;
+}
+
+/* 开源项目横幅样式 */
+.opensource-banner {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><g fill="%23409eff" fill-opacity="0.02"><circle cx="30" cy="30" r="2"/></g></svg>') repeat;
+    pointer-events: none;
+  }
+}
+
+.banner-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1;
+}
+
+.banner-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex: 1;
+}
+
+.banner-icon {
+  width: 64px;
+  height: 64px;
+  background: rgba(64, 158, 255, 0.1);
+  border: 1px solid rgba(64, 158, 255, 0.2);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.banner-info {
+  flex: 1;
+}
+
+.banner-title {
+  color: #1e293b;
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+  line-height: 1.3;
+}
+
+.project-name {
+  color: #409EFF;
+  font-size: 24px;
+  font-weight: 800;
+  text-shadow: 0 1px 2px rgba(64, 158, 255, 0.1);
+}
+
+.banner-description {
+  color: #64748b;
+  font-size: 14px;
+  margin: 0 0 8px 0;
+  line-height: 1.5;
+}
+
+.license-note {
+  color: #94a3b8;
+  font-size: 12px;
+  margin: 0 0 12px 0;
+  font-style: italic;
+}
+
+.tech-stack {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  
+  .el-tag {
+    font-weight: 500;
+    
+    &.el-tag--primary {
+      background: rgba(64, 158, 255, 0.1);
+      border-color: rgba(64, 158, 255, 0.3);
+      color: #409EFF;
+    }
+    
+    &.el-tag--success {
+      background: rgba(103, 194, 58, 0.1);
+      border-color: rgba(103, 194, 58, 0.3);
+      color: #67C23A;
+    }
+    
+    &.el-tag--warning {
+      background: rgba(230, 162, 60, 0.1);
+      border-color: rgba(230, 162, 60, 0.3);
+      color: #E6A23C;
+    }
+    
+    &.el-tag--info {
+      background: rgba(144, 147, 153, 0.1);
+      border-color: rgba(144, 147, 153, 0.3);
+      color: #909399;
+    }
+  }
+}
+
+.banner-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.star-button {
+  background: #409EFF;
+  color: #ffffff;
+  border: none;
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background: #337ecc;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(64, 158, 255, 0.3);
+  }
+  
+  .el-icon {
+    margin-right: 6px;
+  }
+}
+
+.close-button {
+  color: #94a3b8;
+  
+  &:hover {
+    color: #64748b;
+    background: rgba(148, 163, 184, 0.1);
+  }
 }
 
 /* 统计卡片样式 */

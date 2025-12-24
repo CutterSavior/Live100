@@ -5,9 +5,11 @@ import com.lanjii.biz.admin.system.model.dto.LoginBody;
 import com.lanjii.biz.admin.system.model.vo.CaptchaVO;
 import com.lanjii.biz.admin.system.model.vo.LoginInfo;
 import com.lanjii.biz.admin.system.service.LoginService;
+import com.lanjii.common.exception.BizException;
 import com.lanjii.common.util.CaptchaUtils;
 import com.lanjii.core.annotation.LoginLog;
 import com.lanjii.core.resp.R;
+import com.lanjii.core.resp.ResultCode;
 import com.lanjii.security.AuthUser;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +43,13 @@ public class LoginController {
     @LoginLog
     @PostMapping("/login")
     public R<LoginInfo> login(@Validated @RequestBody LoginBody loginBody) {
+
+        String cachedCode = captchaCache.getIfPresent(loginBody.getCaptchaKey());
+        if (cachedCode == null || !CaptchaUtils.verifyCaptcha(loginBody.getCaptchaCode(), cachedCode)) {
+            throw new BizException(ResultCode.BAD_REQUEST, "验证码错误");
+        }
+
+        captchaCache.invalidate(loginBody.getCaptchaKey());
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(

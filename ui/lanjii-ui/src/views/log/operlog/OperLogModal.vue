@@ -39,12 +39,6 @@
       <el-descriptions-item label="请求URL" :span="2">
         {{ form.operUrl }}
       </el-descriptions-item>
-      <el-descriptions-item label="主机地址">
-        {{ form.operIp }}
-      </el-descriptions-item>
-      <el-descriptions-item label="操作地点">
-        {{ form.operLocation }}
-      </el-descriptions-item>
       <el-descriptions-item label="操作时间">
         {{ form.operTime }}
       </el-descriptions-item>
@@ -119,8 +113,6 @@ const form = ref({
   operName: '',
   deptName: '',
   operUrl: '',
-  operIp: '',
-  operLocation: '',
   operParam: '',
   jsonResult: '',
   status: 1,
