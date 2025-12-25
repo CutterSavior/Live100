@@ -26,6 +26,19 @@
 
     <!-- 右侧聊天对话框 -->
     <div class="chat-main">
+      <!-- 演示提示横幅 -->
+      <div class="demo-notice">
+        <el-alert
+          title="演示版本提醒"
+          type="warning"
+          :closable="false"
+          show-icon
+        >
+          <template #default>
+            <span>此AI助手仅作演示使用，请勿输入敏感信息。演示功能可能存在限制，实际效果仅供参考。</span>
+          </template>
+        </el-alert>
+      </div>
       <div class="chat-messages" ref="messagesContainer">
         <div
             v-for="(message, index) in currentMessages"
@@ -86,10 +99,14 @@
 </template>
 
 <script setup lang="ts">
-import {ref, reactive, onMounted, nextTick, computed} from 'vue'
+import {computed, nextTick, onMounted, ref} from 'vue'
 import {ElMessage} from 'element-plus'
-import {User, Loading} from '@element-plus/icons-vue'
-import {sendChatMessage} from '@/api/chat'
+import {Loading, User} from '@element-plus/icons-vue'
+
+// 生成随机conversationId
+const generateConversationId = (): string => {
+  return 'conv_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9)
+}
 
 interface ChatMessage {
   type: 'user' | 'assistant'
@@ -99,6 +116,7 @@ interface ChatMessage {
 }
 
 interface ChatSession {
+  id: string
   title: string
   messages: ChatMessage[]
   createTime: number
@@ -140,6 +158,7 @@ const saveChatHistory = () => {
 // 创建新对话
 const createNewSession = () => {
   const newSession: ChatSession = {
+    id: generateConversationId(),
     title: `对话 ${chatHistory.value.length + 1}`,
     messages: [],
     createTime: Date.now()
@@ -194,7 +213,8 @@ const sendMessage = async () => {
 
   try {
     // 使用EventSource接收流式响应
-    const eventSource = new EventSource(`/api/chat/stream?message=${encodeURIComponent(messageToSend)}&conversationId=001`)
+    const currentConversationId = chatHistory.value[currentSessionIndex.value].id
+    const eventSource = new EventSource(`/api/chat/stream?message=${encodeURIComponent(messageToSend)}&conversationId=${currentConversationId}`)
 
     eventSource.onmessage = (event) => {
       if (event.data) {
@@ -268,7 +288,7 @@ const formatTime = (timestamp: number) => {
 <style scoped>
 .ai-chat-container {
   display: flex;
-  height: calc(100vh - 120px);
+  height: calc(100vh - 141px);
   background: #f5f5f5;
   border-radius: 8px;
   overflow: hidden;
@@ -446,6 +466,21 @@ const formatTime = (timestamp: number) => {
 .chat-messages::-webkit-scrollbar-thumb {
   background: #c1c1c1;
   border-radius: 3px;
+}
+
+/* 演示提示横幅样式 */
+.demo-notice {
+  margin: 16px;
+  margin-bottom: 0;
+}
+
+.demo-notice .el-alert {
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.demo-notice .el-alert__content {
+  font-weight: 500;
 }
 
 .history-list::-webkit-scrollbar-thumb:hover,

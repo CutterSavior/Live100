@@ -7,8 +7,8 @@
       <div class="bg-circle"></div>
       <div class="illustration-container">
         <!-- 主插画SVG -->
-        <img class="illustration" src="/src/assets/svg/illustration.svg" alt="illustration" />
-        <img class="rocket" src="/src/assets/svg/rocket.svg" alt="rocket" />
+        <img class="illustration" src="/src/assets/svg/illustration.svg" alt="illustration"/>
+        <img class="rocket" src="/src/assets/svg/rocket.svg" alt="rocket"/>
         <!-- 数据点动画 -->
         <div class="data-point"></div>
         <div class="data-point"></div>
@@ -51,16 +51,16 @@
               class="form-input"
           />
         </el-form-item>
-        <el-form-item prop="captcha">
+        <el-form-item prop="captchaCode">
           <div class="captcha-container">
             <el-input
-                v-model="loginForm.captcha"
+                v-model="loginForm.captchaCode"
                 placeholder="请输入验证码"
                 class="captcha-input"
                 maxlength="4"
             />
             <div class="captcha-image" @click="refreshCaptcha" :title="'点击刷新验证码'">
-              <img :src="captchaImage" alt="验证码" />
+              <img :src="captchaImage" alt="验证码"/>
             </div>
           </div>
         </el-form-item>
@@ -80,14 +80,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, nextTick } from 'vue'
-import { useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
-import type { FormInstance } from 'element-plus'
-import { User, Lock } from '@element-plus/icons-vue'
-import { login as loginApi, getCaptcha } from '@/api/modules/sys/authApi'
-import { useUserStore } from '@/stores/user.store'
-import { useGlobalSettingStore } from '@/stores/globalSetting.store'
+import {nextTick, reactive, ref} from 'vue'
+import {useRouter} from 'vue-router'
+import type {FormInstance} from 'element-plus'
+import {ElMessage} from 'element-plus'
+import {Lock, User} from '@element-plus/icons-vue'
+import {getCaptcha, login as loginApi} from '@/api/modules/sys/authApi'
+import {useUserStore} from '@/stores/user.store'
+import {useGlobalSettingStore} from '@/stores/globalSetting.store'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -97,24 +97,25 @@ const loginFormRef = ref<FormInstance>()
 const captchaImage = ref('')
 const captchaKey = ref('')
 
-const loginForm = reactive({
+const loginForm = ref({
   username: 'admin',
   password: '123456',
-  captcha: ''
+  captchaCode: '',
+  captchaKey: '',
 })
 
 const loginRules = {
   username: [
-    { required: true, message: '请输入用户名', trigger: 'blur' },
-    { min: 3, max: 20, message: '用户名长度应在3到20个字符之间', trigger: 'blur' }
+    {required: true, message: '请输入用户名', trigger: 'blur'},
+    {min: 3, max: 20, message: '用户名长度应在3到20个字符之间', trigger: 'blur'}
   ],
   password: [
-    { required: true, message: '请输入密码', trigger: 'blur' },
-    { min: 6, max: 20, message: '密码长度应在6到20个字符之间', trigger: 'blur' }
+    {required: true, message: '请输入密码', trigger: 'blur'},
+    {min: 6, max: 20, message: '密码长度应在6到20个字符之间', trigger: 'blur'}
   ],
-  captcha: [
-    { required: true, message: '请输入验证码', trigger: 'blur' },
-    { len: 4, message: '验证码长度为4位', trigger: 'blur' }
+  captchaCode: [
+    {required: true, message: '请输入验证码', trigger: 'blur'},
+    {len: 4, message: '验证码长度为4位', trigger: 'blur'}
   ]
 }
 
@@ -122,7 +123,7 @@ const loginRules = {
 const generateCaptcha = async () => {
   try {
     const response = await getCaptcha()
-    captchaKey.value = response.data.captchaKey
+    loginForm.value.captchaKey = response.data.captchaKey
     captchaImage.value = response.data.imageBase64
   } catch (error) {
     ElMessage.error('获取验证码失败')
@@ -147,17 +148,17 @@ const handleLogin = async () => {
       loading.value = true
       try {
         const response = await loginApi({
-          username: loginForm.username,
-          password: loginForm.password
+          ...loginForm.value
         })
-        
-        const { token, sysUser, menusTree, permissions } = response.data
-        
+
+        const {token, sysUser, menusTree, permissions, displayUuid} = response.data
+
         // 将数据存储到userStore中
         userStore.setToken(token)
         userStore.setUserInfo(sysUser)
         userStore.setMenus(menusTree)
         userStore.setPermissions(permissions)
+        userStore.setDisplayUuid(displayUuid)
 
         // 登录成功后清空标签页，保留控制台
         globalSettingStore.clearVisitedTabs()
@@ -166,10 +167,8 @@ const handleLogin = async () => {
         await nextTick()
         await router.replace('/admin/index')
       } catch (error: any) {
-        const errorMessage = error?.response?.data?.msg || error?.message || '登录失败，请检查用户名和密码'
-        ElMessage.error(errorMessage)
         refreshCaptcha()
-        loginForm.captcha = ''
+        loginForm.value.captchaCode = ''
       } finally {
         loading.value = false
       }

@@ -28,6 +28,8 @@ export interface SysMenu {
   isExt?: number
   /** 打开方式（0-内嵌，1-新窗口） */
   openMode?: number
+  /** 是否页面缓存（0-否，1-是） */
+  isKeepAlive?: number
   /** 子菜单列表 */
   children?: SysMenu[]
   /** 启用状态标签（字典转换） */

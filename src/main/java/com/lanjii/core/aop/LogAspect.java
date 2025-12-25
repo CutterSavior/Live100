@@ -2,13 +2,14 @@ package com.lanjii.core.aop;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lanjii.core.annotation.Log;
-import com.lanjii.core.annotation.LoginLog;
 import com.lanjii.biz.admin.log.model.dto.SysLoginLogDTO;
 import com.lanjii.biz.admin.log.model.dto.SysOperLogDTO;
 import com.lanjii.biz.admin.log.service.SysLoginLogService;
 import com.lanjii.biz.admin.log.service.SysOperLogService;
+import com.lanjii.common.util.IpUtils;
 import com.lanjii.common.util.WebContextUtils;
+import com.lanjii.core.annotation.Log;
+import com.lanjii.core.annotation.LoginLog;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -68,7 +69,7 @@ public class LogAspect {
         } finally {
             long endTime = System.currentTimeMillis();
             long costTime = endTime - startTime;
-            
+
             try {
                 handleOperLog(joinPoint, result, exception, costTime);
             } catch (Exception e) {
@@ -118,13 +119,12 @@ public class LogAspect {
         }
 
         SysOperLogDTO operLogDTO = new SysOperLogDTO();
-        
+
         operLogDTO.setTitle(logAnnotation.title());
         operLogDTO.setBusinessType(logAnnotation.businessType().getCode());
         operLogDTO.setMethod(joinPoint.getSignature().getName());
         operLogDTO.setRequestMethod(request.getMethod());
         operLogDTO.setOperUrl(request.getRequestURI());
-        operLogDTO.setOperIp(WebContextUtils.getClientIpAddress());
         operLogDTO.setOperTime(LocalDateTime.now());
         operLogDTO.setCostTime(costTime);
 
@@ -169,10 +169,12 @@ public class LogAspect {
         }
 
         SysLoginLogDTO loginLogDTO = new SysLoginLogDTO();
-        
-        loginLogDTO.setIpAddress(WebContextUtils.getClientIpAddress());
+
+        String clientIp = WebContextUtils.getClientIpAddress();
+        loginLogDTO.setIpAddress(clientIp);
         loginLogDTO.setBrowser(getBrowser(request));
         loginLogDTO.setOs(getOs(request));
+        loginLogDTO.setLoginLocation(IpUtils.getFormattedAddress(clientIp));
         loginLogDTO.setLoginTime(LocalDateTime.now());
 
         // 判断是登录还是登出操作
@@ -239,7 +241,7 @@ public class LogAspect {
         if (args == null || args.length == 0) {
             return "";
         }
-        
+
         try {
             return objectMapper.writeValueAsString(args);
         } catch (JsonProcessingException e) {
@@ -255,7 +257,7 @@ public class LogAspect {
         if (result == null) {
             return "";
         }
-        
+
         try {
             return objectMapper.writeValueAsString(result);
         } catch (JsonProcessingException e) {
@@ -292,7 +294,7 @@ public class LogAspect {
         if (userAgent == null) {
             return "unknown";
         }
-        
+
         if (userAgent.contains("Chrome")) {
             return "Chrome";
         } else if (userAgent.contains("Firefox")) {
@@ -316,7 +318,7 @@ public class LogAspect {
         if (userAgent == null) {
             return "unknown";
         }
-        
+
         if (userAgent.contains("Windows")) {
             return "Windows";
         } else if (userAgent.contains("Mac")) {
@@ -339,13 +341,13 @@ public class LogAspect {
         if (data == null || data.isEmpty()) {
             return data;
         }
-        
+
         // 替换密码字段
         data = data.replaceAll("\"password\"\\s*:\\s*\"[^\"]*\"", "\"password\":\"*******\"");
         data = data.replaceAll("\"pwd\"\\s*:\\s*\"[^\"]*\"", "\"pwd\":\"*******\"");
         data = data.replaceAll("\"oldPassword\"\\s*:\\s*\"[^\"]*\"", "\"oldPassword\":\"*******\"");
         data = data.replaceAll("\"newPassword\"\\s*:\\s*\"[^\"]*\"", "\"newPassword\":\"*******\"");
-        
+
         return data;
     }
 

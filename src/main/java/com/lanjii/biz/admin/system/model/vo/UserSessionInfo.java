@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * 用户会话信息
@@ -64,6 +65,11 @@ public class UserSessionInfo {
      */
     private String userAgent;
 
+    /**
+     * 显示用的UUID，用于前端识别自己的会话
+     */
+    private String displayUuid;
+
     public UserSessionInfo() {
         this.active = true;
         this.createTime = LocalDateTime.now();
@@ -74,6 +80,7 @@ public class UserSessionInfo {
         this();
         this.token = token;
         this.username = username;
+        this.displayUuid = UUID.randomUUID().toString();
     }
 
     /**

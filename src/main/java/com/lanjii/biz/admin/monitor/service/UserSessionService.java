@@ -38,9 +38,9 @@ public interface UserSessionService {
     /**
      * 踢出指定会话（强制下线）
      *
-     * @param sessionId 会话标识
+     * @param displayUuid 会话显示UUID
      */
-    void kickSession(String sessionId);
+    void kickSession(String displayUuid);
 
     /**
      * 分页获取所有会话列表
@@ -56,5 +56,21 @@ public interface UserSessionService {
      * @return 在线用户名列表
      */
     List<String> getAllOnlineUsernames();
+
+    /**
+     * 获取会话的displayUuid
+     *
+     * @param token JWT token
+     * @return displayUuid
+     */
+    String getSessionDisplayUuid(String token);
+
+    /**
+     * 设置会话的active状态
+     *
+     * @param token JWT token
+     * @param active 是否激活
+     */
+    void setSessionActive(String token, boolean active);
 
 }

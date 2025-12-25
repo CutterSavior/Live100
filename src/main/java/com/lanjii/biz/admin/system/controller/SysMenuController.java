@@ -51,10 +51,8 @@ public class SysMenuController {
      */
     @PreAuthorize("hasAuthority('sys:menu:tree')")
     @GetMapping("/tree")
-    public R<List<SysMenuVO>> tree() {
-        List<SysMenu> menuList = sysMenuService.list();
-        List<SysMenuVO> voList = SysMenu.INSTANCE.toVo(menuList);
-        List<SysMenuVO> tree = TreeUtils.buildTree(voList);
+    public R<List<SysMenuVO>> tree(SysMenuDTO filter) {
+        List<SysMenuVO> tree =  sysMenuService.treeByFilterWithParent(filter);
         return R.success(tree);
     }
 

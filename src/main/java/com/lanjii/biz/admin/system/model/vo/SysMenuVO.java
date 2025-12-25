@@ -91,6 +91,11 @@ public class SysMenuVO extends BaseVO {
     private Integer openMode;
 
     /**
+     * 是否页面缓存（0-否，1-是）
+     */
+    private Integer isKeepAlive;
+
+    /**
      * 子菜单
      */
     private List<SysMenuVO> children;

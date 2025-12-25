@@ -61,17 +61,6 @@ public class SysOperLogDTO {
     @QueryCondition(type = QueryType.LIKE)
     private String operUrl;
 
-    /**
-     * 主机地址
-     */
-    @QueryCondition(type = QueryType.LIKE)
-    private String operIp;
-
-    /**
-     * 操作地点
-     */
-    @QueryCondition(type = QueryType.LIKE)
-    private String operLocation;
 
     /**
      * 请求参数

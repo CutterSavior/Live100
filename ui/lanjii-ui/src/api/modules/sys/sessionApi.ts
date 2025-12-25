@@ -3,14 +3,15 @@
 // 用户会话信息VO类型定义
 export interface UserSessionInfo {
   token: string
+  maskedToken: string
   username: string
   active: boolean
-  deviceId: string
   deviceType: string
   createTime: string
   lastAccessTime: string
   clientIp: string
   userAgent: string
+  displayUuid: string
 }
 
 // 会话分页请求参数
@@ -31,8 +32,8 @@ export function getSessionList(params: SessionPageParams) {
 }
 
 // 踢出指定会话
-export function kickSession(token: string) {
-  return post(`/admin/session/kick/${encodeURIComponent(token)}`)
+export function kickSession(displayUuid: string) {
+  return post(`/admin/session/kick/${encodeURIComponent(displayUuid)}`)
 }
 
 // 清除用户会话缓存

@@ -13,7 +13,8 @@
         <el-input v-model="form.username" :disabled="type === 'view' || type === 'edit'" placeholder="请输入用户名"/>
       </el-form-item>
       <el-form-item label="所属角色" prop="roleIds">
-        <el-select v-model="form.roleIds" :disabled="type === 'view'" multiple filterable placeholder="请选择角色">
+        <el-select v-model="form.roleIds" :disabled="type === 'view' || form.id===1" multiple filterable
+                   placeholder="请选择角色">
           <el-option v-for="role in props.roleOptions as any[]" :key="role.id" :label="role.name" :value="role.id"/>
         </el-select>
       </el-form-item>
@@ -49,7 +50,8 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item v-if="type !== 'view'">
-        <el-button type="primary" :loading="submitLoading" :disabled="submitLoading" @click="handleSubmit">确 定</el-button>
+        <el-button type="primary" :loading="submitLoading" :disabled="submitLoading" @click="handleSubmit">确 定
+        </el-button>
         <el-button @click="$emit('close')">取 消</el-button>
       </el-form-item>
       <el-form-item v-else>
@@ -103,7 +105,7 @@ const formRef = ref();
 const loading = ref(false);
 
 // 提交按钮 loading 状态
-const { loading: submitLoading, withLoading: withSubmitLoading } = useLoading();
+const {loading: submitLoading, withLoading: withSubmitLoading} = useLoading();
 const form = ref<UserFormData>({
   id: undefined as number | undefined,
   username: '',

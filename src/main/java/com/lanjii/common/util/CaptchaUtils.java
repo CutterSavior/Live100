@@ -17,7 +17,7 @@ public class CaptchaUtils {
     /**
      * 验证码宽度
      */
-    private static final int WIDTH = 120;
+    private static final int WIDTH = 110;
 
     /**
      * 验证码高度

@@ -57,15 +57,6 @@ public class SysOperLogVO {
      */
     private String operUrl;
 
-    /**
-     * 主机地址
-     */
-    private String operIp;
-
-    /**
-     * 操作地点
-     */
-    private String operLocation;
 
     /**
      * 请求参数

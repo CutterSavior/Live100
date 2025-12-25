@@ -7,7 +7,8 @@ export const useUserStore = defineStore('user', {
         token: '',
         userInfo: {} as SysUser,
         menus: [] as SysMenu[],
-        permissions: [] as string[]
+        permissions: [] as string[],
+        displayUuid: ''
     }),
     getters: {
         isLoggedIn: (state) => !!state.token,
@@ -30,11 +31,15 @@ export const useUserStore = defineStore('user', {
         setPermissions(permissions: string[]) {
             this.permissions = permissions
         },
+        setDisplayUuid(displayUuid: string) {
+            this.displayUuid = displayUuid
+        },
         clearUserData() {
             this.token = ''
             this.userInfo = {} as SysUser
             this.menus = []
             this.permissions = []
+            this.displayUuid = ''
         }
     },
     persist: {

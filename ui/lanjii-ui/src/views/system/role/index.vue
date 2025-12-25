@@ -27,7 +27,8 @@
                        @click="openPermissionModal(data)">
               权限分配
             </el-button>
-            <el-button v-permission="'sys:role:delete'" type="danger" link :icon="Delete" @click="handleDelete(data)">删除
+            <el-button :disabled="data.id===1" v-permission="'sys:role:delete'" type="danger" link :icon="Delete"
+                       @click="handleDelete(data)">删除
             </el-button>
           </template>
         </MoreActions>

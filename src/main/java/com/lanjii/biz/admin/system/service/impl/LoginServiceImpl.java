@@ -1,16 +1,16 @@
 package com.lanjii.biz.admin.system.service.impl;
 
 import com.github.benmanes.caffeine.cache.Cache;
+import com.lanjii.biz.admin.monitor.service.UserSessionService;
 import com.lanjii.biz.admin.system.dao.SysUserDao;
+import com.lanjii.biz.admin.system.model.entity.SysUser;
 import com.lanjii.biz.admin.system.model.vo.LoginInfo;
 import com.lanjii.biz.admin.system.model.vo.SysMenuVO;
-import com.lanjii.biz.admin.system.model.entity.SysUser;
-import com.lanjii.security.AuthUser;
 import com.lanjii.biz.admin.system.service.LoginService;
 import com.lanjii.biz.admin.system.service.SysMenuService;
-import com.lanjii.biz.admin.monitor.service.UserSessionService;
 import com.lanjii.common.util.JwtUtils;
 import com.lanjii.common.util.WebContextUtils;
+import com.lanjii.security.AuthUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -56,8 +56,10 @@ public class LoginServiceImpl implements LoginService {
                 .flatMap(perm -> Arrays.stream(perm.split(",")))
                 .collect(Collectors.toList());
 
+        String displayUuid = userSessionService.getSessionDisplayUuid(token);
+
         SysUser sysUser = sysUserDao.selectById(userId);
-        return new LoginInfo(token, menuTree, sysUser, permissions);
+        return new LoginInfo(token, menuTree, sysUser, permissions, displayUuid);
     }
 
     /**

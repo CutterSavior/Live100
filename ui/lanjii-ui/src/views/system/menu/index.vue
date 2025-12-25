@@ -101,7 +101,7 @@ const treeConfig = {
 }
 
 const fetchMenus = async (params: any) => {
-  const res = await menuApi.getMenuTree() as ResponseData
+  const res = await menuApi.getMenuTree(params) as ResponseData
   if (Array.isArray(res.data)) {
     menuTreeData.value = res.data
     return {list: res.data, total: res.data.length}

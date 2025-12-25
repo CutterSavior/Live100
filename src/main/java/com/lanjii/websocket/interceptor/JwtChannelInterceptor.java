@@ -19,7 +19,7 @@ import java.util.List;
 
 /**
  * WebSocket STOMP 消息通道 JWT 拦截器
- * 
+ * <p>
  * 专门用于 WebSocket STOMP 协议的 JWT 认证
  * 在客户端建立 WebSocket 连接时验证 JWT Token
  *
@@ -61,11 +61,23 @@ public class JwtChannelInterceptor implements ChannelInterceptor {
             // 将认证信息设置到STOMP会话中
             accessor.setUser(authentication);
 
-            // 存储用户ID到会话属性（用于推送通知）
+            // 存储用户ID和token到会话属性（用于推送通知和断开连接时处理）
             accessor.getSessionAttributes().put("userId", authUser.getUserId());
             accessor.getSessionAttributes().put("username", authUser.getUsername());
+            accessor.getSessionAttributes().put("token", token);
+
+            // WebSocket连接建立时，设置会话状态为激活
+            userSessionService.setSessionActive(token, true);
 
             log.info("WebSocket STOMP连接成功，用户：{} (ID: {})", authUser.getUsername(), authUser.getUserId());
+        } else if (accessor != null && StompCommand.DISCONNECT.equals(accessor.getCommand())) {
+            // 处理DISCONNECT命令时设置会话状态为非激活
+            String token = (String) accessor.getSessionAttributes().get("token");
+            if (token != null) {
+                userSessionService.setSessionActive(token, false);
+                String username = (String) accessor.getSessionAttributes().get("username");
+                log.info("WebSocket STOMP断开连接，用户：{}", username);
+            }
         }
 
         return message;

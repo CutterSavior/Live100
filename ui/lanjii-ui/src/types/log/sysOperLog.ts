@@ -18,10 +18,6 @@ export interface SysOperLog {
   requestParam?: string
   /** 响应结果 */
   responseResult?: string
-  /** 操作IP */
-  operIp?: string
-  /** 操作地点 */
-  operLocation?: string
   /** 操作时间 */
   operTime?: string
   /** 执行耗时（毫秒） */
