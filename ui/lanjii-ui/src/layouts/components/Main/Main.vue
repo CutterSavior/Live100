@@ -1,9 +1,10 @@
 ﻿<template>
-  <router-view v-slot="{ Component }">
+  <router-view v-slot="{ Component, route }">
     <transition name="animation" mode="out-in" appear>
-      <keep-alive>
-        <component :is="Component"/>
+      <keep-alive v-if="route.meta?.isKeepAlive">
+        <component :is="Component" />
       </keep-alive>
+      <component v-else :is="Component" />
     </transition>
   </router-view>
 </template>
@@ -19,13 +20,16 @@
   transform: translateX(20px);
   opacity: 0;
 }
+
 .animation-enter-to,
 .animation-leave-from {
   opacity: 1;
 }
+
 .animation-enter-active {
   transition: all 0.7s ease;
 }
+
 .animation-leave-active {
   transition: all 0.3s cubic-bezier(1, 0.6, 0.6, 1);
 }

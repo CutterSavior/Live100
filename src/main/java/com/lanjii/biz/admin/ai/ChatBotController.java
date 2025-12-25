@@ -28,7 +28,7 @@ public class ChatBotController {
     /**
      * 流式问答
      */
-    @PreAuthorize("hasAuthority('ai:chats:stream')")
+    // @PreAuthorize("hasAuthority('ai:chats:stream')")
     @GetMapping(value = "/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<String> chatStream(String message, String conversationId) {
 

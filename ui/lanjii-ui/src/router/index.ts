@@ -99,7 +99,8 @@ const menuToRoutes = (menus: SysMenu[]): RouteRecordRaw[] => {
                     title: menu.name,
                     icon: menu.icon,
                     permission: menu.permission,
-                    requiresAuth: true
+                    requiresAuth: true,
+                    isKeepAlive: menu.isKeepAlive === 1
                 }
             }
             routes.push(route)

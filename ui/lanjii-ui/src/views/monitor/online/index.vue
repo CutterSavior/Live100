@@ -5,7 +5,7 @@
                 :query-params="{}">
       <template #active="{ row }">
         <el-tag :type="row.active ? 'success' : 'danger'">
-          {{ row.active ? '在线' : '已踢出' }}
+          {{ row.active ? '在线' : '离线' }}
         </el-tag>
       </template>
       <template #deviceType="{ row }">
@@ -21,7 +21,7 @@
       <template #action-column="{row}">
         <el-button
             v-permission="'sys:session:kick'"
-            v-if="row.active"
+            v-if="row.active && row.displayUuid !== userStore.displayUuid"
             type="danger"
             link
             :icon="Close"
@@ -29,7 +29,8 @@
         >
           踢出
         </el-button>
-        <el-text v-else type="info">已踢出</el-text>
+        <el-text v-else-if="!row.active"></el-text>
+        <el-text v-else type="success">当前会话</el-text>
       </template>
     </AsyncTable>
   </div>
@@ -41,13 +42,15 @@ import {ElMessage, ElMessageBox} from 'element-plus'
 import AsyncTable from '@/components/AsyncTable/AsyncTable.vue'
 import * as sessionApi from '@/api/modules/sys/sessionApi'
 import {Close} from "@element-plus/icons-vue"
-import type {SearchItem} from "@/types/search.ts"
-import type {TableColumn} from '@/types/table';
+import type {TableColumn} from '@/types/table'
+import {useUserStore} from '@/stores/user.store';
 
 const asyncTableRef = ref()
+const userStore = useUserStore()
 
 const allColumns: TableColumn[] = [
   {label: '序号', type: 'index', width: '70', align: 'center'},
+  {prop: 'displayUuid', label: '会话标识', minWidth: '200', align: 'center'},
   {prop: 'username', label: '用户名', minWidth: '120', align: 'center'},
   {prop: 'active', label: '状态', minWidth: '100', align: 'center'},
   {prop: 'deviceType', label: '设备类型', minWidth: '100', align: 'center'},
@@ -105,7 +108,7 @@ const handleKickSession = (row: any) => {
       }
   ).then(async () => {
     try {
-      await sessionApi.kickSession(row.sessionId)
+      await sessionApi.kickSession(row.displayUuid)
       ElMessage.success('踢出成功')
       asyncTableRef.value?.refreshTable()
     } catch (e) {
@@ -118,7 +121,6 @@ const handleKickSession = (row: any) => {
 </script>
 
 <style scoped>
-
 .user-agent-text {
   font-size: 12px;
 }

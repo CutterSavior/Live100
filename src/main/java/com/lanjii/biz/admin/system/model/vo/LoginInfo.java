@@ -16,9 +16,15 @@ public class LoginInfo {
     private List<SysMenuVO> menusTree;
 
     private SysUser sysUser;
-    
+
     /**
      * 权限字符列表，供前端控制按钮显示
      */
     private List<String> permissions;
+
+    /**
+     * 显示用的UUID，用于前端识别自己的会话
+     */
+    private String displayUuid;
+
 }

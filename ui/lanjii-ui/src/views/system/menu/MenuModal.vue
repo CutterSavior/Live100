@@ -113,6 +113,25 @@
           <el-radio :label="0">隐藏</el-radio>
         </el-radio-group>
       </el-form-item>
+      <el-form-item v-if="form.type === 2" prop="isKeepAlive">
+        <template #label>
+          <span style="display: inline-flex; align-items: center;">
+            <span>页面缓存</span>
+            <el-tooltip
+                content="页面缓存功能可以保持页面状态，缓存的页面再次打开时不会刷新页面内容。"
+                placement="top"
+            >
+              <el-icon style="margin-left: 4px; cursor: help; color: #909399; vertical-align: middle;">
+                <QuestionFilled/>
+              </el-icon>
+            </el-tooltip>
+          </span>
+        </template>
+        <el-radio-group v-model="form.isKeepAlive" :disabled="type === 'view'">
+          <el-radio :label="1">是</el-radio>
+          <el-radio :label="0">否</el-radio>
+        </el-radio-group>
+      </el-form-item>
       <el-form-item label="备注" prop="remark">
         <el-input v-model="form.remark" :disabled="type === 'view'" type="textarea" placeholder="请输入备注"/>
       </el-form-item>
@@ -171,6 +190,7 @@ const form = ref({
   isVisibleLabel: '',
   isExt: 0,
   openMode: 0,
+  isKeepAlive: 0,
   remark: ''
 });
 

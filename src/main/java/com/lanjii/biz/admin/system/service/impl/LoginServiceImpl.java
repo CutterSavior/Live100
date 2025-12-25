@@ -56,8 +56,10 @@ public class LoginServiceImpl implements LoginService {
                 .flatMap(perm -> Arrays.stream(perm.split(",")))
                 .collect(Collectors.toList());
 
+        String displayUuid = userSessionService.getSessionDisplayUuid(token);
+
         SysUser sysUser = sysUserDao.selectById(userId);
-        return new LoginInfo(token, menuTree, sysUser, permissions);
+        return new LoginInfo(token, menuTree, sysUser, permissions, displayUuid);
     }
 
     /**

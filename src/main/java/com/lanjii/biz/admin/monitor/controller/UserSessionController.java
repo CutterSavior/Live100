@@ -38,9 +38,9 @@ public class UserSessionController {
      * 踢出会话
      */
     @PreAuthorize("hasAuthority('sys:session:kick')")
-    @PostMapping("/kick/{sessionId}")
-    public R<Void> kickSession(@PathVariable String sessionId) {
-        userSessionService.kickSession(sessionId);
+    @PostMapping("/kick/{displayUuid}")
+    public R<Void> kickSession(@PathVariable String displayUuid) {
+        userSessionService.kickSession(displayUuid);
         return R.success();
     }
 

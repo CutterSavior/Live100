@@ -151,13 +151,14 @@ const handleLogin = async () => {
           ...loginForm.value
         })
 
-        const {token, sysUser, menusTree, permissions} = response.data
+        const {token, sysUser, menusTree, permissions, displayUuid} = response.data
 
         // 将数据存储到userStore中
         userStore.setToken(token)
         userStore.setUserInfo(sysUser)
         userStore.setMenus(menusTree)
         userStore.setPermissions(permissions)
+        userStore.setDisplayUuid(displayUuid)
 
         // 登录成功后清空标签页，保留控制台
         globalSettingStore.clearVisitedTabs()

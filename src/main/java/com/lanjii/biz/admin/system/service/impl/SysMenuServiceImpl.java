@@ -3,19 +3,22 @@ package com.lanjii.biz.admin.system.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.lanjii.biz.admin.system.dao.SysMenuDao;
 import com.lanjii.biz.admin.system.model.dto.SysMenuDTO;
-import com.lanjii.biz.admin.system.model.vo.SysMenuVO;
-import com.lanjii.core.base.BaseServiceImpl;
-import com.lanjii.core.resp.ResultCode;
 import com.lanjii.biz.admin.system.model.entity.SysMenu;
+import com.lanjii.biz.admin.system.model.vo.SysMenuVO;
+import com.lanjii.biz.admin.system.service.SysMenuService;
 import com.lanjii.common.enums.IsAdminEnum;
 import com.lanjii.common.exception.BizException;
-import com.lanjii.biz.admin.system.service.SysMenuService;
 import com.lanjii.common.util.TreeUtils;
+import com.lanjii.core.base.BaseServiceImpl;
+import com.lanjii.core.resp.ResultCode;
+import io.jsonwebtoken.lang.Collections;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 系统菜单表(SysMenu)表服务实现类
@@ -100,6 +103,28 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuDao, SysMenu> imp
 
         // 删除当前菜单
         removeById(id);
+    }
+
+    @Override
+    public List<SysMenuVO> treeByFilterWithParent(SysMenuDTO filter) {
+        long menuCount = count();
+        List<SysMenu> menuList = listByFilter(filter);
+        if (CollectionUtils.isEmpty(menuList)) {
+            return Collections.emptyList();
+        }
+        Set<SysMenu> uniqueMenuSet = new HashSet<>(menuList);
+        if (menuCount != menuList.size()) {
+            Set<String> uniqueAncestorsSet = uniqueMenuSet.stream()
+                    .map(SysMenu::getAncestors)
+                    .flatMap(ancestorsStr -> Arrays.stream(ancestorsStr.split(",")))
+                    .collect(Collectors.toSet());
+
+            List<SysMenu> parentMenuList = listByIds(uniqueAncestorsSet);
+            uniqueMenuSet.addAll(new HashSet<>(parentMenuList));
+        }
+        List<SysMenu> finalMenuList = new ArrayList<>(uniqueMenuSet);
+        List<SysMenuVO> voList = SysMenu.INSTANCE.toVo(finalMenuList);
+        return TreeUtils.buildTree(voList);
     }
 
     /**

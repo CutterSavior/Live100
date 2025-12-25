@@ -13,6 +13,7 @@ export interface LoginResponse {
     menusTree: MenuItem[]
     sysUser: SysUser
     permissions: string[]
+    displayUuid: string
 }
 
 // 菜单项类型

@@ -1,7 +1,9 @@
 package com.lanjii.biz.admin.system.model.dto;
 
+import com.lanjii.core.annotation.QueryCondition;
 import com.lanjii.core.annotation.SortField;
 import com.lanjii.core.base.BaseDTO;
+import com.lanjii.core.enums.QueryType;
 import com.lanjii.core.enums.SortOrder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -28,16 +30,19 @@ public class SysMenuDTO extends BaseDTO {
     /**
      * 菜单名称
      */
+    @QueryCondition(type = QueryType.LIKE)
     private String name;
 
     /**
      * 菜单类型（1-目录，2-菜单，3-按钮）
      */
+    @QueryCondition
     private Integer type;
 
     /**
      * 路由路径(前端路由或外链URL)
      */
+    @QueryCondition(type = QueryType.LIKE)
     private String path;
 
     /**
@@ -48,6 +53,7 @@ public class SysMenuDTO extends BaseDTO {
     /**
      * 权限标识
      */
+    @QueryCondition(type = QueryType.LIKE)
     private String permission;
 
     /**
@@ -55,11 +61,6 @@ public class SysMenuDTO extends BaseDTO {
      */
     private String icon;
 
-    /**
-     * 显示顺序
-     */
-    @SortField(order = SortOrder.ASC, priority = 1)
-    private Integer sortOrder;
 
     /**
      * 是否可见（0-隐藏，1-显示）
@@ -69,6 +70,7 @@ public class SysMenuDTO extends BaseDTO {
     /**
      * 是否启用（1启用 0禁用）
      */
+    @QueryCondition
     private Integer isEnabled;
 
     /**
@@ -80,5 +82,10 @@ public class SysMenuDTO extends BaseDTO {
      * 打开方式（0-内嵌，1-新窗口）
      */
     private Integer openMode;
+
+    /**
+     * 是否页面缓存（0-否，1-是）
+     */
+    private Integer isKeepAlive;
 
 }

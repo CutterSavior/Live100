@@ -17,8 +17,8 @@ import org.mapstruct.factory.Mappers;
  * @author lanjii
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
 @TableName("sys_menu")
+@EqualsAndHashCode(of = "id", callSuper = false)
 public class SysMenu extends BaseEntity<SysMenu> {
 
     /**
@@ -90,6 +90,11 @@ public class SysMenu extends BaseEntity<SysMenu> {
      * 打开方式（0-内嵌，1-新窗口）
      */
     private Integer openMode;
+
+    /**
+     * 是否页面缓存（0-否，1-是）
+     */
+    private Integer isKeepAlive;
 
     @Mapper
     public interface SysMenuMapper extends BaseEntityMapper<SysMenu, SysMenuVO, SysMenuDTO> {

@@ -86,7 +86,7 @@ const treeProps = {
 const loadMenuTree = async () => {
   try {
     loading.value = true
-    const res = await menuApi.getMenuTree() as ResponseData
+    const res = await menuApi.getMenuTree({} as SysMenu) as ResponseData
     menuTree.value = res.data || []
   } catch (error) {
     ElMessage.error('加载菜单树失败')
@@ -98,13 +98,13 @@ const loadMenuTree = async () => {
 // 加载角色已分配的菜单
 const loadRoleMenus = async () => {
   if (!props.roleData?.id) return
-  
+
   try {
     loading.value = true
     // 调用获取角色菜单的API
     const res = await roleApi.getRoleMenuIds(props.roleData.id) as ResponseData
     checkedKeys.value = res.data || []
-    
+
     // 等待树渲染完成后设置选中状态
     await nextTick()
     if (treeRef.value) {
@@ -137,10 +137,10 @@ const getAllMenuIds = (menus: SysMenu[]): number[] => {
 // 更新全选状态
 const updateCheckAllStatus = () => {
   if (!treeRef.value) return
-  
+
   const checkedNodes = treeRef.value.getCheckedKeys()
   const allMenuIds = getAllMenuIds(menuTree.value)
-  
+
   if (checkedNodes.length === 0) {
     checkAll.value = false
     isIndeterminate.value = false
@@ -156,7 +156,7 @@ const updateCheckAllStatus = () => {
 // 全选/全不选
 const handleCheckAllChange = (val: boolean) => {
   if (!treeRef.value) return
-  
+
   if (val) {
     const allMenuIds = getAllMenuIds(menuTree.value)
     treeRef.value.setCheckedKeys(allMenuIds)
@@ -192,17 +192,17 @@ const collapseAll = () => {
 // 提交
 const handleSubmit = async () => {
   if (!treeRef.value) return
-  
+
   try {
     submitting.value = true
     // 获取选中的节点（包含半选中的父节点）
     const checkedKeys = treeRef.value.getCheckedKeys()
     const halfCheckedKeys = treeRef.value.getHalfCheckedKeys()
     const allKeys = [...checkedKeys, ...halfCheckedKeys]
-    
+
     // 调用分配权限的API
     await roleApi.assignRoleMenus(props.roleData.id, allKeys)
-    
+
     ElMessage.success('权限分配成功')
     emit('success')
   } catch (error) {

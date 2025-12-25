@@ -3,10 +3,10 @@ package com.lanjii.biz.admin.monitor.service.impl;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.lanjii.biz.admin.monitor.service.UserSessionService;
 import com.lanjii.biz.admin.system.model.vo.UserSessionInfo;
-import com.lanjii.core.base.PageParam;
-import com.lanjii.core.base.support.PageData;
 import com.lanjii.common.util.JwtUtils;
 import com.lanjii.common.util.WebContextUtils;
+import com.lanjii.core.base.PageParam;
+import com.lanjii.core.base.support.PageData;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -72,7 +72,7 @@ public class UserSessionServiceImpl implements UserSessionService {
 
         // 从缓存中检查会话是否存在且有效
         UserSessionInfo sessionInfo = userSessionCache.getIfPresent(token);
-        return sessionInfo != null && sessionInfo.getActive();
+        return sessionInfo != null;
     }
 
     @Override
@@ -81,7 +81,7 @@ public class UserSessionServiceImpl implements UserSessionService {
             // 从缓存中移除
             UserSessionInfo sessionInfo = userSessionCache.getIfPresent(token);
             userSessionCache.invalidate(token);
-            
+
             if (sessionInfo != null) {
                 log.info("已移除用户 {} 的会话，token前缀: {}", sessionInfo.getUsername(), token.substring(0, Math.min(20, token.length())));
             }
@@ -89,34 +89,33 @@ public class UserSessionServiceImpl implements UserSessionService {
     }
 
     @Override
-    public void kickSession(String sessionId) {
-        if (StringUtils.isEmpty(sessionId)) {
+    public void kickSession(String displayUuid) {
+        if (StringUtils.isEmpty(displayUuid)) {
             return;
         }
 
-        // 遍历缓存查找匹配sessionId的会话
-        for (var entry : userSessionCache.asMap().entrySet()) {
-            String token = entry.getKey();
-            UserSessionInfo sessionInfo = entry.getValue();
-            
-            // 通过token的hashCode匹配sessionId
-            if (String.valueOf(token.hashCode()).equals(sessionId) && sessionInfo.getActive()) {
-                sessionInfo.markAsKicked();
-                // 更新缓存中的会话状态
-                userSessionCache.put(token, sessionInfo);
-                log.info("已踢出会话，用户: {}, sessionId: {}", sessionInfo.getUsername(), sessionId);
-                return;
-            }
+        String currentDisplayUuid = getSessionDisplayUuid(WebContextUtils.getBearerToken());
+
+        // 防止踢出自己的会话
+        if (displayUuid.equals(currentDisplayUuid)) {
+            log.warn("不能踢出自己的会话，displayUuid: {}", displayUuid);
+            return;
         }
 
-        log.warn("会话不存在或已失效，sessionId: {}", sessionId);
+        // 遍历缓存查找匹配displayUuid的会话
+        for (var entry : userSessionCache.asMap().entrySet()) {
+            String token = entry.getKey();
+            removeUserSession(token);
+        }
+
+        log.warn("会话不存在或已失效，displayUuid: {}", displayUuid);
     }
 
     @Override
     public PageData<UserSessionInfo> getAllSessionsPage(PageParam pageParam) {
         // 从缓存中获取所有有效会话
         List<UserSessionInfo> allSessionsList = userSessionCache.asMap().values().stream()
-                .filter(sessionInfo -> sessionInfo.getActive() && isTokenValid(sessionInfo.getToken()))
+                .filter(sessionInfo -> isTokenValid(sessionInfo.getToken()))
                 .sorted(Comparator.comparing(UserSessionInfo::getCreateTime).reversed())
                 .collect(Collectors.toList());
 
@@ -146,6 +145,31 @@ public class UserSessionServiceImpl implements UserSessionService {
                 .distinct()
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public String getSessionDisplayUuid(String token) {
+        if (StringUtils.isEmpty(token)) {
+            return null;
+        }
+
+        UserSessionInfo sessionInfo = userSessionCache.getIfPresent(token);
+        return sessionInfo != null ? sessionInfo.getDisplayUuid() : null;
+    }
+
+    @Override
+    public void setSessionActive(String token, boolean active) {
+        if (StringUtils.isEmpty(token)) {
+            return;
+        }
+
+        UserSessionInfo sessionInfo = userSessionCache.getIfPresent(token);
+        if (sessionInfo != null) {
+            sessionInfo.setActive(active);
+            userSessionCache.put(token, sessionInfo);
+            log.debug("已更新用户 {} 的会话状态为: {}", sessionInfo.getUsername(), active ? "激活" : "非激活");
+        }
+    }
+
     /**
      * 检测设备类型
      */

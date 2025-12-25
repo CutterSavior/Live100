@@ -119,7 +119,7 @@
                   </el-button>
                   <el-button
                       v-permission="'sys:user:delete'"
-                      v-if="data.id !== 1"
+                      :disabled="data.id === 1"
                       type="danger"
                       link
                       :icon="Delete"
