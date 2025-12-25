@@ -1,17 +1,20 @@
-# Lanjii-v3
+<div align="center">
+    <h1>Lanjii</h1>
+    <p align="center">
+        <img src="https://img.shields.io/badge/Lanjii-v3-purple.svg" alt="Lanjii"/>
+        <img src="https://img.shields.io/badge/Stars-47-yellow.svg" alt="GitHub Stars"/>
+        <img src="https://img.shields.io/badge/Spring%20Boot-3.3.12-brightgreen.svg" alt="Spring Boot"/>
+        <img src="https://img.shields.io/badge/Spring%20AI-1.1.2-blue.svg" alt="Spring AI"/>
+        <img src="https://img.shields.io/badge/MyBatis%20Plus-3.5.12-red.svg" alt="MyBatis Plus"/>
+        <img src="https://img.shields.io/badge/MySQL-8.0.33-orange.svg" alt="MySQL"/>
+        <img src="https://img.shields.io/badge/Vue3-3.5.13-4FC08D.svg" alt="Vue3"/>
+        <img src="https://img.shields.io/badge/Pinia-3.0.1-yellow.svg" alt="Pinia"/>
+        <img src="https://img.shields.io/badge/Element%20Plus-2.9.8-409EFF.svg" alt="Element Plus"/>
+        <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License"/>
+    </p>
+</div>
 
-![Lanjii](https://img.shields.io/badge/Lanjii-v3-purple.svg)
-![GitHub Stars](https://img.shields.io/badge/Stars-47-yellow.svg)
-![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.3.12-brightgreen.svg)
-![Spring AI](https://img.shields.io/badge/Spring%20AI-1.1.2-blue.svg)
-![MyBatis Plus](https://img.shields.io/badge/MyBatis%20Plus-3.5.12-red.svg)
-![MySQL](https://img.shields.io/badge/MySQL-8.0.33-orange.svg)
-![Vue3](https://img.shields.io/badge/Vue3-3.5.13-4FC08D.svg)
-![Pinia](https://img.shields.io/badge/Pinia-3.0.1-yellow.svg)
-![Element Plus](https://img.shields.io/badge/Element%20Plus-2.9.8-409EFF.svg)
-![License](https://img.shields.io/badge/License-MIT-green.svg)
-
-🚀 **Lanjii** 是一个现代化的前后端分离企业级管理系统，采用 Spring Boot + Vue3 技术栈构建，集成完整的RBAC权限系统、AI智能对话和RAG知识库功能，具有无复杂依赖、开箱即用的特点，支持MIT开源协议可商用，可用于构建CRM、OA、博客等各种Web后台系统，适用于企业项目开发或个人学习实践。项目会在有时间时不定期进行更新，如果对你有帮助或感兴趣，欢迎 ⭐ **Star** 持续关注！
+🚀 **岚迹** 是一个现代化的前后端分离企业级管理系统，采用 Spring Boot + Vue3 技术栈构建，集成完整的RBAC权限系统、AI智能对话和RAG知识库功能，具有无复杂依赖、开箱即用的特点，支持MIT开源协议可商用，可用于构建CRM、OA、博客等各种Web后台系统，适用于企业项目开发或个人学习实践。项目会在有时间时不定期进行更新，如果对你有帮助或感兴趣，欢迎 ⭐ **Star** 持续关注！
 
 ##  在线演示
 
