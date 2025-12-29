@@ -55,7 +55,6 @@ const deptTreeData = ref<any>([])
 
 const allColumns: TableColumn[] = [
   {prop: 'deptName', label: '部门名称', minWidth: '200', align: 'left'},
-  {prop: 'deptCode', label: '部门编码', minWidth: '120', align: 'center'},
   {prop: 'sortOrder', label: '显示顺序', minWidth: '100', align: 'center'},
   {prop: 'isEnabled', label: '是否启用', minWidth: '100', align: 'center'},
   {prop: 'leader', label: '负责人', minWidth: '120', align: 'center'},

@@ -13,6 +13,12 @@
         </el-icon>
         <span v-else>-</span>
       </template>
+      <template #type="{ row }">
+        <el-tag v-if="row.type === 1" size="small" type="info">目录</el-tag>
+        <el-tag v-else-if="row.type === 2" size="small" type="success">菜单</el-tag>
+        <el-tag v-else-if="row.type === 3" size="small" type="warning">按钮</el-tag>
+        <el-tag v-else size="small">未知</el-tag>
+      </template>
       <template #isEnabled="{ row }">
         <el-tag :type="row.isEnabled === 1 ? 'success' : 'danger'">
           {{ row.isEnabledLabel }}
@@ -80,6 +86,7 @@ const menuTreeData = ref<any[]>([])
 
 const allColumns: TableColumn[] = [
   {prop: 'name', label: '菜单名称', minWidth: 200, align: 'center'},
+  {prop: 'type', label: '菜单类型', minWidth: 100, align: 'center'},
   {prop: 'icon', label: '图标', minWidth: 80, align: 'center'},
   {prop: 'path', label: '路由地址', minWidth: 180, align: 'center'},
   {prop: 'permission', label: '权限标识', minWidth: 180, align: 'center'},

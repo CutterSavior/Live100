@@ -32,11 +32,11 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 处理 @Validated 参数校验异常，只返回第一个错误
+     * 处理认证失败异常
      */
     @ExceptionHandler(BadCredentialsException.class)
     public R<Void> handleBadCredentialsException(BadCredentialsException ex) {
-        return R.fail(ResultCode.BAD_REQUEST.getCode(), ex.getMessage());
+        return R.fail(ResultCode.BAD_REQUEST.getCode(), "账户或密码错误，请重新输入！");
     }
 
 

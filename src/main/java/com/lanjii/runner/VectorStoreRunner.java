@@ -1,29 +1,38 @@
 package com.lanjii.runner;
 
+import com.lanjii.biz.admin.ai.model.entity.AiKnowledge;
+import com.lanjii.biz.admin.ai.service.AiKnowledgeService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 向量数据加载
  *
  * @author lanjii
  */
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class VectorStoreRunner implements CommandLineRunner {
 
     private final VectorStore vectorStore;
+    private final AiKnowledgeService aiKnowledgeService;
 
     @Override
     public void run(String... args) throws Exception {
-        List<Document> documents = List.of(
-                new Document("lanjii（岚迹）是开箱即用的 RBAC 权限管理系统。后端基于 Spring Boot3 构建， 集成了 JWT 认证、Spring Security 6、MyBatis-Plus\u200B 和 WebSocket\u200B 等核心技术。前端使用了 Vue3 +Vite + Element Plus + Pinia 构建。它是一个简洁、高效、无过多依赖的项目，支持按钮级别的权限控制，使用简单，开箱即用。")
-        );
+
+        List<AiKnowledge> list = aiKnowledgeService.list();
+        List<Document> documents = list.stream().map(aiKnowledge -> {
+            return new Document(String.valueOf(aiKnowledge.getId()), aiKnowledge.toString(), new HashMap<>());
+        }).collect(Collectors.toList());
         vectorStore.add(documents);
     }
 }

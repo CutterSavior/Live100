@@ -12,9 +12,6 @@
       <el-form-item label="部门名称" prop="deptName">
         <el-input v-model="form.deptName" :disabled="type === 'view'" placeholder="请输入部门名称"/>
       </el-form-item>
-      <el-form-item v-if="type !== 'add'" label="部门编码" prop="deptCode">
-        <el-input v-model="form.deptCode" disabled placeholder="请输入部门编码"/>
-      </el-form-item>
       <el-form-item label="上级部门" prop="parentId">
         <el-tree-select
             v-model="form.parentId"
@@ -91,7 +88,6 @@ const loading = ref(false);
 const form = ref<SysDept>({
   id: undefined as number | undefined,
   deptName: '',
-  deptCode: '',
   parentId: undefined as number | undefined,
   ancestors: '',
   sortOrder: 0,

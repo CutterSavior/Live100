@@ -1,10 +1,8 @@
 package com.lanjii.biz.admin.system.model.dto;
 
 import com.lanjii.core.annotation.QueryCondition;
-import com.lanjii.core.annotation.SortField;
 import com.lanjii.core.base.BaseDTO;
 import com.lanjii.core.enums.QueryType;
-import com.lanjii.core.enums.SortOrder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -61,6 +59,10 @@ public class SysMenuDTO extends BaseDTO {
      */
     private String icon;
 
+    /**
+     * 显示顺序
+     */
+    private Integer sortOrder;
 
     /**
      * 是否可见（0-隐藏，1-显示）
