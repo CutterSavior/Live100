@@ -177,7 +177,8 @@ const computedActionColumnWidth = computed(() => {
     ? parseInt(props.actionColumnWidth) 
     : props.actionColumnWidth;
   
-  return Math.max(80, Math.min(230, width));
+  // 最小值为80，允许更大的值
+  return Math.max(80, width);
 });
 
 // 搜索

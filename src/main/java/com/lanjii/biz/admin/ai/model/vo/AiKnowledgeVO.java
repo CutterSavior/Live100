@@ -28,6 +28,11 @@ public class AiKnowledgeVO {
     private String content;
 
     /**
+     * 元数据 JSON 字符串
+     */
+    private String metadataJson;
+
+    /**
      * 创建时间
      */
     private LocalDateTime createTime;

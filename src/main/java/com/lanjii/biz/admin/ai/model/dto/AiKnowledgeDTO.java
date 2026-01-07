@@ -25,4 +25,10 @@ public class AiKnowledgeDTO {
      */
     @NotBlank(message = "内容不能为空")
     private String content;
+
+    /**
+     * 元数据 JSON 字符串（可选）
+     * 由前端根据元数据字段配置动态构造
+     */
+    private String metadataJson;
 }

@@ -257,7 +257,6 @@ const sendMessage = async () => {
   } catch (error) {
     console.error('发送消息失败:', error)
     isLoading.value = false
-    ElMessage.error('发送失败，请重试')
 
     // 移除失败的AI消息
     chatHistory.value[currentSessionIndex.value].messages.pop()

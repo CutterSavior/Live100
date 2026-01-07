@@ -41,4 +41,16 @@ public interface AiKnowledgeService extends BaseService<AiKnowledge> {
      * @param id 知识库ID
      */
     void removeByIdNew(Long id);
+
+    /**
+     * 重建所有知识库的向量数据
+     */
+    void rebuildAllVectors();
+
+    /**
+     * 重建单条知识库的向量数据
+     *
+     * @param id 知识库ID
+     */
+    void rebuildVectorById(Long id);
 }

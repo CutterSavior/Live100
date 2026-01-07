@@ -175,7 +175,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
-        
+
         <!-- Jackson 用于STOMP消息序列化 -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -196,39 +196,58 @@
             <version>2.7.0</version>
         </dependency>
 
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-webflux</artifactId>
-    </dependency>
-    <!-- <dependency> -->
-    <!--     <groupId>org.springframework.ai</groupId> -->
-    <!--     <artifactId>spring-ai-starter-vector-store-redis</artifactId> -->
-    <!-- </dependency> -->
-    <dependency>
-        <groupId>org.springframework.ai</groupId>
-        <artifactId>spring-ai-advisors-vector-store</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>org.springframework.ai</groupId>
-        <artifactId>spring-ai-starter-model-openai</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>org.springframework.ai</groupId>
-        <artifactId>spring-ai-rag</artifactId>
-    </dependency>
-</dependencies>
-
-<dependencyManagement>
-    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+        </dependency>
+        <!-- <dependency> -->
+        <!--     <groupId>org.springframework.ai</groupId> -->
+        <!--     <artifactId>spring-ai-starter-vector-store-redis</artifactId> -->
+        <!-- </dependency> -->
         <dependency>
             <groupId>org.springframework.ai</groupId>
-            <artifactId>spring-ai-bom</artifactId>
-            <version>1.1.2</version>
-            <type>pom</type>
-            <scope>import</scope>
+            <artifactId>spring-ai-advisors-vector-store</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-starter-model-openai</artifactId>
+        </dependency>
+        <!-- DeepSeek ChatModel 支持 -->
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-deepseek</artifactId>
+        </dependency>
+        <!-- 智谱 ZhiPuAI ChatModel 支持 -->
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-zhipuai</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-rag</artifactId>
+        </dependency>
+        <!-- Spring AI 文档读取器：PDF / Markdown，用于文件 RAG -->
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-pdf-document-reader</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-markdown-document-reader</artifactId>
         </dependency>
     </dependencies>
-</dependencyManagement>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.ai</groupId>
+                <artifactId>spring-ai-bom</artifactId>
+                <version>1.1.2</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <build>
         <plugins>
             <plugin>

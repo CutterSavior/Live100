@@ -6,11 +6,11 @@ import com.lanjii.biz.admin.ai.model.entity.AiKnowledge;
 import com.lanjii.biz.admin.ai.model.vo.AiKnowledgeVO;
 import com.lanjii.biz.admin.ai.service.AiKnowledgeService;
 import com.lanjii.common.enums.BusinessTypeEnum;
+import com.lanjii.common.util.PageDataUtils;
 import com.lanjii.core.annotation.Log;
 import com.lanjii.core.base.PageParam;
 import com.lanjii.core.base.support.PageData;
 import com.lanjii.core.resp.R;
-import com.lanjii.common.util.PageDataUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -85,13 +85,24 @@ public class AiKnowledgeController {
     }
 
     /**
-     * 批量删除知识库
+     * 重建所有知识库向量数据
      */
-    @DeleteMapping("/batch")
-    @PreAuthorize("hasAuthority('ai:knowledge:remove')")
-    @Log(title = "批量删除知识库", businessType = BusinessTypeEnum.DELETE)
-    public R<Void> removeBatch(@RequestBody List<Long> ids) {
-        aiKnowledgeService.removeByIds(ids);
+    @PostMapping("/rebuild-vectors")
+    @PreAuthorize("hasAuthority('ai:knowledge:rebuild')")
+    @Log(title = "重建所有知识库向量", businessType = BusinessTypeEnum.OTHER)
+    public R<Void> rebuildVectors() {
+        aiKnowledgeService.rebuildAllVectors();
+        return R.success();
+    }
+
+    /**
+     * 重建单条知识库向量数据
+     */
+    @PostMapping("/{id}/rebuild-vector")
+    @PreAuthorize("hasAuthority('ai:knowledge:rebuild')")
+    @Log(title = "重建知识库向量", businessType = BusinessTypeEnum.OTHER)
+    public R<Void> rebuildVectorById(@PathVariable Long id) {
+        aiKnowledgeService.rebuildVectorById(id);
         return R.success();
     }
 }

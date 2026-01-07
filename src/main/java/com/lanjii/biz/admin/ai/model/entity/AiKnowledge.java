@@ -20,25 +20,26 @@ import org.mapstruct.factory.Mappers;
 @TableName("ai_knowledge")
 public class AiKnowledge extends BaseEntity<AiKnowledge> {
 
+    public static final AiKnowledgeMapper INSTANCE = Mappers.getMapper(AiKnowledgeMapper.class);
     /**
      * 主键ID
      */
     private Long id;
-
     /**
      * 知识库标题
      */
     private String title;
-
     /**
      * 知识库内容
      */
     private String content;
+    /**
+     * 元数据 JSON
+     */
+    private String metadataJson;
 
     @Mapper
     public interface AiKnowledgeMapper extends BaseEntityMapper<AiKnowledge, AiKnowledgeVO, AiKnowledgeDTO> {
         AiKnowledgeMapper INSTANCE = Mappers.getMapper(AiKnowledgeMapper.class);
     }
-
-    public static final AiKnowledgeMapper INSTANCE = Mappers.getMapper(AiKnowledgeMapper.class);
 }

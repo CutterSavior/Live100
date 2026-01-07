@@ -18,6 +18,16 @@ export interface AiKnowledge {
     content: string
 
     /**
+     * 元数据 JSON 字符串
+     */
+    metadataJson?: string
+
+    /**
+     * 前端使用的元数据对象（不会直接持久化）
+     */
+    metadata?: Record<string, any>
+
+    /**
      * 创建时间
      */
     createTime?: string

@@ -45,14 +45,22 @@ public class MyBatisPlusConfig {
             public void insertFill(MetaObject metaObject) {
                 this.strictInsertFill(metaObject, "createTime", LocalDateTime.class, LocalDateTime.now());
                 this.strictInsertFill(metaObject, "updateTime", LocalDateTime.class, LocalDateTime.now());
-                this.strictInsertFill(metaObject, "createBy", String.class, SecurityUtils.getCurrentUsername());
-                this.strictUpdateFill(metaObject, "updateBy", String.class, SecurityUtils.getCurrentUsername());
+                String username = SecurityUtils.getCurrentUsername();
+                if (username == null) {
+                    username = "admin";
+                }
+                this.strictInsertFill(metaObject, "createBy", String.class, username);
+                this.strictUpdateFill(metaObject, "updateBy", String.class, username);
             }
 
             @Override
             public void updateFill(MetaObject metaObject) {
                 this.strictUpdateFill(metaObject, "updateTime", LocalDateTime.class, LocalDateTime.now());
-                this.strictUpdateFill(metaObject, "updateBy", String.class, SecurityUtils.getCurrentUsername());
+                String username = SecurityUtils.getCurrentUsername();
+                if (username == null) {
+                    username = "admin";
+                }
+                this.strictUpdateFill(metaObject, "updateBy", String.class, username);
             }
 
         };

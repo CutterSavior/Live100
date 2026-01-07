@@ -19,13 +19,17 @@ public final class SecurityUtils {
         return SecurityContextHolder.getContext().getAuthentication();
     }
 
-    /**
+/**
      * 获取当前登录用户（自定义 AuthUser），不可用或未登录返回 null
      */
     public static AuthUser getCurrentUser() {
         Authentication authentication = getAuthentication();
-        if (authentication.getPrincipal() instanceof AuthUser) {
-            return (AuthUser) authentication.getPrincipal();
+        if (authentication == null) {
+            return null;
+        }
+        Object principal = authentication.getPrincipal();
+        if (principal instanceof AuthUser) {
+            return (AuthUser) principal;
         }
         return null;
     }

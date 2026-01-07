@@ -27,7 +27,13 @@ export function deleteKnowledge(id: number) {
     return del(`/admin/ai/knowledge/${id}`)
 }
 
-// 批量删除知识库（权限: ai:knowledge:remove）
-export function deleteBatchKnowledge(ids: number[]) {
-    return del('/admin/ai/knowledge/batch', ids)
+// 重建所有知识库向量（权限: ai:knowledge:rebuild）
+export function rebuildKnowledgeVectors() {
+    return post('/admin/ai/knowledge/rebuild-vectors', {})
 }
+
+// 重建单条知识库向量（权限: ai:knowledge:rebuild）
+export function rebuildKnowledgeVectorById(id: number) {
+    return post(`/admin/ai/knowledge/${id}/rebuild-vector`, {})
+}
+

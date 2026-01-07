@@ -2,3 +2,6 @@
 /logs/
 /.idea/
 *.iml
+
+application-dev.yml
+application-prod.yml
