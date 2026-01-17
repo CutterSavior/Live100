@@ -35,9 +35,9 @@ public class AiKnowledgeController {
      */
     @GetMapping("/page")
     @PreAuthorize("hasAuthority('ai:knowledge:page')")
-    public R<PageData<AiKnowledgeVO>> page(PageParam pageParam) {
+    public R<PageData<AiKnowledgeVO>> page(PageParam pageParam, AiKnowledgeDTO filter) {
         PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize());
-        List<AiKnowledge> list = aiKnowledgeService.list();
+        List<AiKnowledge> list = aiKnowledgeService.listByFilter(filter);
         return R.success(PageDataUtils.make(list, AiKnowledge.INSTANCE));
     }
 

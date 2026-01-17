@@ -1,5 +1,7 @@
 package com.lanjii.biz.admin.ai.model.dto;
 
+import com.lanjii.core.annotation.QueryCondition;
+import com.lanjii.core.enums.QueryType;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
@@ -18,6 +20,7 @@ public class AiKnowledgeDTO {
      */
     @NotBlank(message = "标题不能为空")
     @Size(max = 200, message = "标题长度不能超过200个字符")
+    @QueryCondition(type = QueryType.LIKE)
     private String title;
 
     /**
@@ -27,8 +30,7 @@ public class AiKnowledgeDTO {
     private String content;
 
     /**
-     * 元数据 JSON 字符串（可选）
-     * 由前端根据元数据字段配置动态构造
+     * 元数据 JSON 字符串
      */
     private String metadataJson;
 }

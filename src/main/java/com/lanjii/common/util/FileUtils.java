@@ -2,6 +2,7 @@ package com.lanjii.common.util;
 
 import com.lanjii.common.enums.FileCategory;
 import com.lanjii.config.FileProperties;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -240,12 +241,17 @@ public final class FileUtils {
      * @return 保存后的文件路径
      * @throws IOException 保存文件失败时抛出
      */
-    public static void saveFile(MultipartFile file, String directory, String fileName) throws IOException {
+    public static String saveFile(MultipartFile file, String directory, String fileName) throws IOException {
         Path targetDir = Paths.get(directory).normalize();
         ensureDirectoryExists(targetDir);
 
         Path targetPath = targetDir.resolve(fileName);
         Files.copy(file.getInputStream(), targetPath, StandardCopyOption.REPLACE_EXISTING);
+        return targetPath.toString();
+    }
+
+    public static String getDiskFullPath(String targetPath) {
+        return "";
     }
 
     /**
@@ -254,10 +260,10 @@ public final class FileUtils {
      *
      * @param file      上传的文件
      * @param directory 目标根目录
-     * @return 保存后的文件路径
+     * @return Pair 对象，Left 为物理完整路径，Right 为访问路径
      * @throws IOException 保存文件失败时抛出
      */
-    public static String saveFileWithDatePath(MultipartFile file, String directory) throws IOException {
+    public static Pair<String, String> saveFileWithDatePath(MultipartFile file, String directory) throws IOException {
 
         LocalDate now = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
@@ -266,20 +272,32 @@ public final class FileUtils {
         Path fullDirectory = Paths.get(directory, nowFormat).normalize();
         String uniqueFileName = generateUniqueFileName(file.getOriginalFilename());
 
-        saveFile(file, fullDirectory.toString(), uniqueFileName);
+        String fullPath = saveFile(file, fullDirectory.toString(), uniqueFileName);
+        String accessPath = FileProperties.getAccessPrefix() + nowFormat + "/" + uniqueFileName;
 
-        return FileProperties.getAccessPrefix() + nowFormat + "/" + uniqueFileName;
+        return Pair.of(fullPath, accessPath);
     }
 
     /**
      * 保存上传的文件到默认目录，按照日期自动创建子目录
      *
      * @param file 上传的文件
-     * @return 保存后的文件路径
+     * @return Pair 对象，Left 为物理完整路径，Right 为访问路径
+     * @throws IOException 保存文件失败时抛出
+     */
+    public static Pair<String, String> saveFileWithDatePathDetail(MultipartFile file) throws IOException {
+        return saveFileWithDatePath(file, DEFAULT_UPLOAD_PATH);
+    }
+
+    /**
+     * 保存上传的文件到默认目录，按照日期自动创建子目录
+     *
+     * @param file 上传的文件
+     * @return 访问路径
      * @throws IOException 保存文件失败时抛出
      */
     public static String saveFileWithDatePath(MultipartFile file) throws IOException {
-        return saveFileWithDatePath(file, DEFAULT_UPLOAD_PATH);
+        return saveFileWithDatePathDetail(file).getRight();
     }
 
     /**

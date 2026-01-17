@@ -100,9 +100,8 @@ security:
     - "/ws/**"
     - "/upload/**"
 
-# 自定义配置
-file:
-  # 必须以斜杠结尾
-  upload-path: /opt/app/lanjii/upload/
-  # 访问的前缀
-  access-prefix: /upload/
+# AI 向量配置
+ai:
+  vector:
+    rebuild-on-startup: false
+

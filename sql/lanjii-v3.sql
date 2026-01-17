@@ -1,5 +1,46 @@
+/*
+ Navicat Premium Dump SQL
+
+ Source Server         : xxx
+ Source Server Type    : MySQL
+ Source Server Version : 80044 (8.0.44)
+ Source Host           : xxx
+ Source Schema         : lanjii-v3
+
+ Target Server Type    : MySQL
+ Target Server Version : 80044 (8.0.44)
+ File Encoding         : 65001
+
+ Date: 16/01/2026 19:42:07
+*/
+
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for ai_file_knowledge
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_file_knowledge`;
+CREATE TABLE `ai_file_knowledge`  (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `tenant_id` bigint NOT NULL DEFAULT 0 COMMENT '租户ID（0-平台，>0-租户）',
+  `file_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '文件名称',
+  `file_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '文件类型（pdf/markdown/txt/html/doc/docx等）',
+  `file_path` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '文件存储路径',
+  `full_path` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '物理全路径',
+  `file_size` bigint NOT NULL COMMENT '文件大小（字节）',
+  `metadata_json` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT '元数据JSON',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '创建人',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '更新人',
+  `deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '删除标志（0-未删除 1-已删除）',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = 'AI文件知识库表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of ai_file_knowledge
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for ai_knowledge
@@ -14,12 +55,12 @@ CREATE TABLE `ai_knowledge`  (
   `create_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '创建人',
   `update_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '更新人',
   `deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否删除(0-未删除，1-已删除)',
-  `metadata_json` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '元数据 JSON',
+  `metadata_json` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '元数据 JSON（根据元数据字段配置动态生成）',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_title`(`title` ASC) USING BTREE,
   INDEX `idx_create_time`(`create_time` ASC) USING BTREE,
   INDEX `idx_deleted`(`deleted` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 23 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = 'AI知识库表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = 'AI知识库表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of ai_knowledge
@@ -33,7 +74,7 @@ CREATE TABLE `ai_metadata_field`  (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
   `field_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '字段名（英文唯一标识）',
   `display_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '显示名称（中文）',
-  `data_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '数据类型',
+  `data_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '数据类型(string,number,boolean,date,datetime,array,object,enum)',
   `default_value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '默认值',
   `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '字段描述',
   `is_required` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否必填（1 是 0 否）',
@@ -46,7 +87,7 @@ CREATE TABLE `ai_metadata_field`  (
   `deleted` tinyint NOT NULL DEFAULT 0 COMMENT '逻辑删除标志',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_field_name`(`field_name` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = 'AI 元数据字段配置表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = 'AI 元数据字段配置表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of ai_metadata_field
@@ -59,13 +100,13 @@ DROP TABLE IF EXISTS `ai_model_config`;
 CREATE TABLE `ai_model_config`  (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
   `config_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '配置名称',
-  `api_provider` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'API 提供商',
-  `model_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '模型标识',
+  `api_provider` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'API 提供商（openai/azure/anthropic/alibaba/baidu/custom 等）',
+  `model_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '模型标识（例如 gpt-4-turbo-preview）',
   `is_enabled` tinyint(1) NOT NULL DEFAULT 1 COMMENT '是否启用（1-启用 0-禁止）',
   `is_default` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否默认（1-是 0-否）',
   `role_id` bigint NULL DEFAULT NULL COMMENT '绑定角色ID（来自角色配置模块，允许为空）',
-  `api_key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '模型 API Key',
-  `api_endpoint` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT 'API 端点',
+  `api_key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '模型 API Key（建议后期做加密/脱敏）',
+  `api_endpoint` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT 'API 端点（为空则使用默认）',
   `description` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '描述',
   `temperature` decimal(3, 2) NULL DEFAULT 0.70 COMMENT '温度，0.0-2.0',
   `top_p` decimal(3, 2) NULL DEFAULT 0.90 COMMENT 'Top P，0.0-1.0',
@@ -81,7 +122,7 @@ CREATE TABLE `ai_model_config`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '删除标志（0-未删除，1-已删除）',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = 'AI 模型配置表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = 'AI 模型配置表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of ai_model_config
@@ -110,7 +151,7 @@ CREATE TABLE `ai_role_prompt`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_role_name`(`role_name` ASC) USING BTREE,
   INDEX `idx_is_enabled`(`is_enabled` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = 'AI 角色与提示词配置表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = 'AI 角色与提示词配置表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of ai_role_prompt
@@ -290,7 +331,7 @@ CREATE TABLE `sys_login_log`  (
   INDEX `idx_login_time`(`login_time` ASC) USING BTREE,
   INDEX `idx_login_type`(`login_type` ASC) USING BTREE,
   INDEX `idx_status`(`status` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 924 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户登录日志表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户登录日志表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_login_log
@@ -446,7 +487,7 @@ CREATE TABLE `sys_notice`  (
   INDEX `idx_level`(`level` ASC) USING BTREE,
   INDEX `idx_status`(`status` ASC) USING BTREE,
   INDEX `idx_is_deleted`(`is_deleted` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 39 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统通知公告表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统通知公告表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_notice
@@ -466,7 +507,7 @@ CREATE TABLE `sys_notice_read_record`  (
   UNIQUE INDEX `uk_notice_user`(`notice_id` ASC, `user_id` ASC) USING BTREE COMMENT '通知+用户唯一索引',
   INDEX `idx_user_id`(`user_id` ASC) USING BTREE,
   INDEX `idx_notice_id`(`notice_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 47 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '通知阅读记录表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '通知阅读记录表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_notice_read_record
@@ -502,7 +543,7 @@ CREATE TABLE `sys_oper_log`  (
   INDEX `idx_oper_time`(`oper_time` ASC) USING BTREE,
   INDEX `idx_status`(`status` ASC) USING BTREE,
   INDEX `idx_title`(`title` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 347 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户操作日志表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户操作日志表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_oper_log
@@ -782,45 +823,10 @@ CREATE TABLE `tool_file`  (
   INDEX `idx_file_type`(`file_type` ASC) USING BTREE,
   INDEX `idx_upload_user`(`upload_user_id` ASC) USING BTREE,
   INDEX `idx_upload_time`(`upload_time` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 66 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统文件管理表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统文件管理表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tool_file
 -- ----------------------------
-
--- ----------------------------
--- Procedure structure for update_menu_ancestors
--- ----------------------------
-DROP PROCEDURE IF EXISTS `update_menu_ancestors`;
-delimiter ;;
-CREATE DEFINER=`root`@`%` PROCEDURE `update_menu_ancestors`()
-BEGIN
-    DECLARE done INT DEFAULT FALSE;
-    DECLARE v_id BIGINT;
-    DECLARE v_parent_id BIGINT;
-    DECLARE v_ancestors VARCHAR(500);
-    DECLARE cur CURSOR FOR 
-        SELECT id, parent_id FROM sys_menu ORDER BY parent_id;
-    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
-
-    -- 先将所有顶级菜单的ancestors设置为'0'
-    UPDATE sys_menu SET ancestors = '0' WHERE parent_id = 0 OR parent_id IS NULL;
-
-    -- 迭代更新所有菜单的ancestors
-    -- 最多循环10次，防止数据层级过深导致死循环
-    SET @max_level = 10;
-    WHILE @max_level > 0 DO
-        UPDATE sys_menu m
-        INNER JOIN sys_menu p ON m.parent_id = p.id
-        SET m.ancestors = CONCAT(p.ancestors, ',', m.parent_id)
-        WHERE m.parent_id > 0 
-          AND (m.ancestors IS NULL OR m.ancestors = '0' OR m.ancestors NOT LIKE CONCAT('%,', m.parent_id));
-        
-        SET @max_level = @max_level - 1;
-    END WHILE;
-
-END
-;;
-delimiter ;
 
 SET FOREIGN_KEY_CHECKS = 1;
