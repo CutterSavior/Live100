@@ -1,6 +1,4 @@
-﻿/**
- * 系统字典类型实体（对应后端SysDictType）
- */
+﻿/** 系统字典类型 */
 export interface SysDictType {
   /** 字典类型ID */
   id?: number

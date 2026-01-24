@@ -60,12 +60,6 @@ public class SysUserVO extends BaseVO {
     private Integer isEnabled;
 
     /**
-     * 状态
-     */
-    @ExcelProperty(value = "状态")
-    private String statusLabel;
-
-    /**
      * 所属部门 ID
      */
     private Long deptId;

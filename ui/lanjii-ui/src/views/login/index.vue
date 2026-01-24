@@ -88,10 +88,12 @@ import {Lock, User} from '@element-plus/icons-vue'
 import {getCaptcha, login as loginApi} from '@/api/modules/sys/authApi'
 import {useUserStore} from '@/stores/user.store'
 import {useGlobalSettingStore} from '@/stores/globalSetting.store'
+import {useDictStore} from '@/stores/dict.store'
 
 const router = useRouter()
 const userStore = useUserStore()
 const globalSettingStore = useGlobalSettingStore()
+const dictStore = useDictStore()
 const loading = ref(false)
 const loginFormRef = ref<FormInstance>()
 const captchaImage = ref('')
@@ -159,6 +161,8 @@ const handleLogin = async () => {
         userStore.setMenus(menusTree)
         userStore.setPermissions(permissions)
         userStore.setDisplayUuid(displayUuid)
+
+        await dictStore.loadAllDicts()
 
         // 登录成功后清空标签页，保留控制台
         globalSettingStore.clearVisitedTabs()

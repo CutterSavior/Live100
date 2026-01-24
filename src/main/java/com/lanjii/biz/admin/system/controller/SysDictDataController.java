@@ -106,4 +106,5 @@ public class SysDictDataController {
         sysDictDataService.clearCache();
         return R.success();
     }
+
 }

@@ -83,15 +83,10 @@ import type {TableColumn} from '@/types/table'
 import type {SearchItem} from '@/types/search'
 import type {ModalType} from '@/types/modal'
 import type {AiRolePrompt} from '@/types/ai/aiRolePrompt'
-import {
-  deleteRolePrompt,
-  getRolePromptPage,
-  toggleRolePrompt
-} from '@/api/modules/ai/rolePromptApi'
-import { Delete, Edit, Plus, View } from '@element-plus/icons-vue'
+import {deleteRolePrompt, getRolePromptPage, toggleRolePrompt} from '@/api/modules/ai/rolePromptApi'
+import {Delete, Edit, Plus, View} from '@element-plus/icons-vue'
 import RolePromptModal from './RolePromptModal.vue'
 import type {ResponseData} from '@/api/http'
-import {isEnabledOptions} from '@/constants'
 
 const tableRef = ref()
 const modalVisible = ref(false)
@@ -108,19 +103,8 @@ const columns: TableColumn[] = [
 ]
 
 const searchItems: SearchItem[] = [
-  {
-    field: 'roleName',
-    label: '角色名称',
-    type: 'input',
-    placeholder: '请输入角色名称'
-  },
-  {
-    field: 'isEnabled',
-    label: '是否启用',
-    type: 'select',
-    clearable: true,
-    options: isEnabledOptions
-  }
+  {field: 'roleName', label: '角色名称', type: 'input', placeholder: '请输入角色名称'},
+  {field: 'isEnabled', label: '是否启用', type: 'select', clearable: true, options: 'IS_ENABLED'}
 ]
 
 const fetchRolePrompts = async (params: any) => {

@@ -54,9 +54,6 @@ public class SysPost extends BaseEntity<SysPost> {
     @Mapper
     public interface SysPostMapper extends BaseEntityMapper<SysPost, SysPostVO, SysPostDTO> {
 
-        @Mapping(target = "isEnabledLabel", expression = "java(dictValueToLabel(entity.getIsEnabled(),\"STATUS\"))")
-        SysPostVO toVo(SysPost entity);
-
     }
 
     public static final SysPostMapper INSTANCE = Mappers.getMapper(SysPostMapper.class);

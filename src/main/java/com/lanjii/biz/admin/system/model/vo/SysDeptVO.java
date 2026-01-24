@@ -62,11 +62,6 @@ public class SysDeptVO extends BaseVO {
     private Integer isEnabled;
 
     /**
-     * 部门状态
-     */
-    private String isEnabledLabel;
-
-    /**
      * 子部门
      */
     private List<SysDeptVO> children;

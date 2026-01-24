@@ -1,6 +1,4 @@
-﻿/**
- * 系统角色实体（对应后端SysRole）
- */
+﻿/** 系统角色 */
 export interface SysRole {
   /** 角色ID */
   id?: number
@@ -14,8 +12,6 @@ export interface SysRole {
   isEnabled?: number
   /** 备注 */
   remark?: string
-  /** 启用状态标签（字典转换） */
-  isEnabledLabel?: string
   /** 创建时间 */
   createTime?: string
   /** 更新时间 */

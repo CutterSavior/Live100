@@ -2,7 +2,7 @@ import { del, get, post, put } from '@/api/http'
 import type { AiModelConfig } from '@/types/ai/aiModelConfig'
 import type { PageResponse } from '@/types/common'
 
-// 分页列表
+// 获取模型配置分页列表
 export function getModelConfigList(params: any) {
   return get<PageResponse<AiModelConfig>>('/admin/ai/model-config/page', params)
 }

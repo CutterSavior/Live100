@@ -55,9 +55,6 @@ public class SysRole extends BaseEntity<SysRole> {
     @Mapper
     public interface SysRoleMapper extends BaseEntityMapper<SysRole, SysRoleVO, SysRoleDTO> {
 
-        @Mapping(target = "isEnabledLabel", expression = "java(dictValueToLabel(entity.getIsEnabled(),\"STATUS\"))")
-        SysRoleVO toVo(SysRole entity);
-
     }
 
     public static final SysRoleMapper INSTANCE = Mappers.getMapper(SysRoleMapper.class);

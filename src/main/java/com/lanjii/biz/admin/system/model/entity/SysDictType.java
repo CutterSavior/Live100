@@ -49,8 +49,6 @@ public class SysDictType extends BaseEntity<SysDictType> {
     @Mapper
     public interface SysDictTypeMapper extends BaseEntityMapper<SysDictType, SysDictTypeVO, SysDictTypeDTO> {
 
-        @Mapping(target = "isEnabledLabel", expression = "java(dictValueToLabel(entity.getIsEnabled(),\"STATUS\"))")
-        SysDictTypeVO toVo(SysDictType entity);
     }
 
     public static final SysDictType.SysDictTypeMapper INSTANCE = Mappers.getMapper(SysDictType.SysDictTypeMapper.class);

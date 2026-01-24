@@ -60,25 +60,15 @@ public class SysMenuVO extends BaseVO {
      */
     private Integer sortOrder;
 
-    /**
+/**
      * 是否可见（0-隐藏，1-显示）
      */
     private Integer isVisible;
 
     /**
-     * 是否可见
-     */
-    private String isVisibleLabel;
-
-    /**
      * 是否启用（1启用 0禁用）
      */
     private Integer isEnabled;
-
-    /**
-     * 是否启用
-     */
-    private String isEnabledLabel;
 
     /**
      * 是否外链（0-否，1-是）

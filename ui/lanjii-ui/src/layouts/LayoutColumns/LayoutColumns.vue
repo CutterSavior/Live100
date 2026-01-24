@@ -109,7 +109,7 @@ import {useGlobalSettingStore} from '@/stores/globalSetting.store';
 import {useUserStore} from '@/stores/user.store';
 import {computed, onMounted, ref, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";
-import type {SysMenu} from "@/types/monitor/sysMenu.ts";
+import type {SysMenu} from "@/types/sys/sysMenu.ts";
 
 const globalSettingStore = useGlobalSettingStore();
 const userStore = useUserStore()

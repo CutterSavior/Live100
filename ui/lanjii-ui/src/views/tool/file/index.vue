@@ -95,25 +95,8 @@ const fetchFiles = async (params: any) => {
 }
 
 const searchItems: SearchItem[] = [
-  {
-    field: 'originalName',
-    label: '文件名',
-    type: 'input',
-    placeholder: '请输入文件名'
-  },
-  {
-    field: 'fileType',
-    label: '文件类型',
-    type: 'select',
-    clearable: true,
-    options: [
-      {label: '图片', value: 'image'},
-      {label: '文档', value: 'application'},
-      {label: '视频', value: 'video'},
-      {label: '音频', value: 'audio'},
-      {label: '其他', value: 'other'}
-    ]
-  }
+  {field: 'originalName', label: '文件名', type: 'input', placeholder: '请输入文件名'},
+  {field: 'fileType', label: '文件类型', type: 'select', clearable: true, options: 'FILE_TYPE'}
 ]
 
 const handleSelectionChange = (selection: any[]) => {

@@ -6,19 +6,13 @@
                 :query-params="{}"
                 :action-column-width="90">
       <template #businessType="{ row }">
-        <el-tag :type="getBusinessTypeTagType(row.businessType)">
-          {{ row.businessTypeLabel }}
-        </el-tag>
+        <DictTag dict-type="BUSINESS_TYPE" :value="row.businessType"/>
       </template>
       <template #requestMethod="{ row }">
-        <el-tag :type="getRequestMethodTagType(row.requestMethod)">
-          {{ row.requestMethod }}
-        </el-tag>
+        <DictTag dict-type="REQUEST_METHOD" :value="row.requestMethod"/>
       </template>
       <template #status="{ row }">
-        <el-tag :type="row.status === 1 ? 'success' : 'danger'">
-          {{ row.statusLabel }}
-        </el-tag>
+        <DictTag dict-type="IS_SUCCESS" :value="row.status"/>
       </template>
       <template #costTime="{ row }">
         <span :class="getCostTimeClass(row.costTime)">
@@ -49,7 +43,7 @@
         v-if="modalVisible"
         :visible="modalVisible"
         :type="modalType"
-        :operLogData="currentRow"
+        :id="currentRow?.id"
         @close="closeModal"
     />
   </div>
@@ -64,6 +58,7 @@ import {Delete, View} from "@element-plus/icons-vue"
 import type {SearchItem} from "@/types/search.ts"
 import type {TableColumn} from '@/types/table';
 import OperLogModal from './OperLogModal.vue'
+import DictTag from "@/components/DictTag";
 
 const asyncTableRef = ref()
 const modalVisible = ref(false)
@@ -101,11 +96,7 @@ const searchItems: SearchItem[] = [
     label: '业务类型',
     type: 'select',
     clearable: true,
-    options: [
-      {label: '新增', value: 0},
-      {label: '修改', value: 1},
-      {label: '删除', value: 2}
-    ]
+    options: 'BUSINESS_TYPE'
   },
   {
     field: 'method',
@@ -118,12 +109,7 @@ const searchItems: SearchItem[] = [
     label: '请求方式',
     type: 'select',
     clearable: true,
-    options: [
-      {label: 'GET', value: 'GET'},
-      {label: 'POST', value: 'POST'},
-      {label: 'PUT', value: 'PUT'},
-      {label: 'DELETE', value: 'DELETE'}
-    ]
+    options: 'REQUEST_METHOD'
   },
   {
     field: 'operName',
@@ -148,42 +134,9 @@ const searchItems: SearchItem[] = [
     label: '操作状态',
     type: 'select',
     clearable: true,
-    options: [
-      {label: '失败', value: 0},
-      {label: '成功', value: 1}
-    ]
+    options: 'IS_SUCCESS'
   }
 ]
-
-// 获取业务类型标签类型
-const getBusinessTypeTagType = (businessType: number) => {
-  switch (businessType) {
-    case 0:
-      return 'success'  // 新增
-    case 1:
-      return 'warning'  // 修改
-    case 2:
-      return 'danger'   // 删除
-    default:
-      return 'info'
-  }
-}
-
-// 获取请求方式标签类型
-const getRequestMethodTagType = (requestMethod: string) => {
-  switch (requestMethod) {
-    case 'GET':
-      return 'success'
-    case 'POST':
-      return 'primary'
-    case 'PUT':
-      return 'warning'
-    case 'DELETE':
-      return 'danger'
-    default:
-      return 'info'
-  }
-}
 
 // 获取耗时样式类
 const getCostTimeClass = (costTime: number) => {

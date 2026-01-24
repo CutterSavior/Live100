@@ -1,5 +1,5 @@
 ﻿import {defineStore} from 'pinia'
-import type {SysMenu} from "@/types/monitor/sysMenu.ts";
+import type {SysMenu} from "@/types/sys/sysMenu.ts";
 import type {SysUser} from "@/types/sys/sysUser.ts";
 
 export const useUserStore = defineStore('user', {

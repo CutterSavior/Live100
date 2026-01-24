@@ -127,6 +127,7 @@ import {useRouter} from 'vue-router'
 import type {FormInstance, FormRules} from 'element-plus'
 import {ElMessage, ElMessageBox} from 'element-plus'
 import {useUserStore} from '@/stores/user.store'
+import {useDictStore} from '@/stores/dict.store'
 import {logout as logoutApi} from '@/api/modules/sys/authApi'
 import {Aim, Bell, Brush, FullScreen, Lock, SwitchButton, User} from "@element-plus/icons-vue";
 import {reactive, ref} from "vue";
@@ -138,6 +139,7 @@ import {resetDynamicRoutes} from "@/router";
 
 const globalSettingStore = useGlobalSettingStore()
 const userStore = useUserStore()
+const dictStore = useDictStore()
 const noticeStore = useNoticeStore()
 const router = useRouter()
 const isFullscreen = ref(false)
@@ -225,6 +227,8 @@ const handleCommand = (command: string) => {
         } finally {
           // 清除用户数据
           userStore.clearUserData()
+          // 清除字典缓存
+          dictStore.clearDicts()
           // 清除通知状态
           noticeStore.resetState()
           // 清除动态路由

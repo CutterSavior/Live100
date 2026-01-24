@@ -57,11 +57,23 @@ public class SysDictData extends BaseEntity<SysDictData> {
      */
     private String remark;
 
+    /**
+     * 标签类型
+     */
+    private String tagType;
+
+    /**
+     * 标签颜色
+     */
+    private String tagColor;
+
+    /**
+     * 标签主题
+     */
+    private String tagEffect;
+
     @Mapper
     public interface SysDictDataMapper extends BaseEntityMapper<SysDictData, SysDictDataVO, SysDictDataDTO> {
-
-        @Mapping(target = "isEnabledLabel", expression = "java(dictValueToLabel(entity.getIsEnabled(),\"STATUS\"))")
-        SysDictDataVO toVo(SysDictData entity);
 
     }
 

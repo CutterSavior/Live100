@@ -76,10 +76,6 @@ public class SysLoginLog extends BaseEntity<SysLoginLog> {
     @Mapper
     public interface SysLoginLogMapper extends BaseEntityMapper<SysLoginLog, SysLoginLogVO, SysLoginLogDTO> {
 
-        @Mapping(target = "loginTypeLabel", expression = "java(dictValueToLabel(entity.getLoginType(),\"LOGIN_TYPE\"))")
-        @Mapping(target = "statusLabel", expression = "java(dictValueToLabel(entity.getStatus(),\"LOGIN_STATUS\"))")
-        SysLoginLogVO toVo(SysLoginLog entity);
-
     }
 
     public static final SysLoginLogMapper INSTANCE = Mappers.getMapper(SysLoginLogMapper.class);

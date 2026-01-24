@@ -2,12 +2,7 @@
 import type {ToolFile} from '@/types/tool/toolFile.ts'
 import type {PageResponse} from '@/types/common'
 
-/**
- * 文件管理 API
- * 基础路径：/admin/tool/files
- */
-
-// 1. 上传文件（权限: tool:file:upload）
+// 上传文件
 export function uploadFile(formData: FormData) {
     return post<ToolFile>('/admin/tool/files/upload', formData, {
         headers: {
@@ -16,12 +11,12 @@ export function uploadFile(formData: FormData) {
     })
 }
 
-// 2. 查询文件详情（权限: tool:file:view）
+// 查询文件详情
 export function getFileById(id: number) {
     return get<ToolFile>(`/admin/tool/files/${id}`)
 }
 
-// 3. 分页查询文件列表（权限: tool:file:page）
+// 查询文件分页列表
 export function getFileList(params?: {
     pageNum?: number
     pageSize?: number
@@ -32,7 +27,7 @@ export function getFileList(params?: {
     return get<PageResponse<ToolFile>>('/admin/tool/files', params)
 }
 
-// 4. 下载文件（权限: tool:file:download）
+// 下载文件
 export function downloadFile(id: number): Promise<Blob> {
     return getBlob(`/admin/tool/files/${id}/download`)
 }

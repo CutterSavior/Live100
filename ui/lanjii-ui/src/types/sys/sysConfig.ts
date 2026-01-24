@@ -1,5 +1,5 @@
 ﻿/**
- * 系统配置实体（对应后端SysConfig）
+ * 系统配置
  */
 export interface SysConfig {
   /** 配置ID */

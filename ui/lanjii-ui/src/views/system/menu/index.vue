@@ -14,20 +14,13 @@
         <span v-else>-</span>
       </template>
       <template #type="{ row }">
-        <el-tag v-if="row.type === 1" size="small" type="info">目录</el-tag>
-        <el-tag v-else-if="row.type === 2" size="small" type="success">菜单</el-tag>
-        <el-tag v-else-if="row.type === 3" size="small" type="warning">按钮</el-tag>
-        <el-tag v-else size="small">未知</el-tag>
+        <DictTag dict-type="MENU_TYPE" :value="row.type" empty-text="未知" />
       </template>
       <template #isEnabled="{ row }">
-        <el-tag :type="row.isEnabled === 1 ? 'success' : 'danger'">
-          {{ row.isEnabledLabel }}
-        </el-tag>
+        <DictTag dict-type="IS_ENABLED" :value="row.isEnabled" />
       </template>
       <template #isVisible="{ row }">
-        <el-tag :type="row.isVisible === 1 ? 'success' : 'danger'">
-          {{ row.isVisibleLabel }}
-        </el-tag>
+        <DictTag dict-type="IS_VISIBLE" :value="row.isVisible" />
       </template>
       <template #toolbar>
         <el-button v-permission="'sys:menu:save'" type="primary" :icon="Plus" @click="openModal('add')">新增</el-button>
@@ -68,13 +61,12 @@
 import {ref} from 'vue'
 import {ElMessage, ElMessageBox} from 'element-plus'
 import AsyncTable from '@/components/AsyncTable/AsyncTable.vue'
-import * as menuApi from '@/api/modules/monitor/menuApi'
-import {Delete, Edit, Key, Plus, View} from '@element-plus/icons-vue'
+import * as menuApi from '@/api/modules/sys/menuApi'
+import {Delete, Edit, Plus, View} from '@element-plus/icons-vue'
 import type {SearchItem} from '@/types/search.ts'
 import type {TableColumn} from '@/types/table';
 import type {ModalType} from '@/types/modal';
 import MenuModal from './MenuModal.vue'
-import {isEnabledOptions, menuTypeOptions} from '@/constants'
 import type {ResponseData} from '@/api/http.ts'
 import MoreActions from "@/components/MoreActions";
 
@@ -120,8 +112,8 @@ const searchItems: SearchItem[] = [
   {field: 'name', label: '菜单名称', type: 'input', placeholder: '请输入菜单名称'},
   {field: 'path', label: '路由地址', type: 'input', placeholder: '请输入路由地址'},
   {field: 'permission', label: '权限标识', type: 'input', placeholder: '请输入权限标识'},
-  {field: 'type', label: '菜单类型', type: 'select', clearable: true, options: menuTypeOptions},
-  {field: 'isEnabled', label: '是否启用', type: 'select', clearable: true, options: isEnabledOptions}
+  {field: 'type', label: '菜单类型', type: 'select', clearable: true, options: 'MENU_TYPE'},
+  {field: 'isEnabled', label: '是否启用', type: 'select', clearable: true, options: 'IS_ENABLED'}
 ]
 
 function openModal(type: ModalType, row: any = null) {

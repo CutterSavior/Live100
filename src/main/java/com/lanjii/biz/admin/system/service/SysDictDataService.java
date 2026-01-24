@@ -5,6 +5,8 @@ import com.lanjii.biz.admin.system.model.vo.SysDictDataVO;
 import com.lanjii.core.base.BaseService;
 import com.lanjii.biz.admin.system.model.entity.SysDictData;
 
+import java.util.List;
+
 /**
  * 字典数据表(SysDictData)表服务接口
  *
@@ -48,5 +50,20 @@ public interface SysDictDataService extends BaseService<SysDictData> {
      * 清除字典数据缓存
      */
     void clearCache();
+
+    /**
+     * 获取所有启用的字典数据
+     *
+     * @return 字典数据列表
+     */
+    List<SysDictData> getAllEnabledDictData();
+
+    /**
+     * 根据字典类型获取所有启用的字典数据
+     *
+     * @param dictType 字典类型编码
+     * @return 字典数据列表
+     */
+    List<SysDictData> getEnabledDictDataByType(String dictType);
 
 }

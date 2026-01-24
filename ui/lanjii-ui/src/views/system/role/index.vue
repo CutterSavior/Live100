@@ -5,9 +5,7 @@
                 :search-items="searchItems"
                 :fetch-data="fetchRoles">
       <template #isEnabled="{ row }">
-        <el-tag :type="row.isEnabled === 1 ? 'success' : 'danger'">
-          {{ row.isEnabledLabel }}
-        </el-tag>
+        <DictTag dict-type="IS_ENABLED" :value="row.isEnabled" />
       </template>
       <template #toolbar>
         <el-button v-permission="'sys:role:save'" type="primary" :icon="Plus" @click="openModal('add')">新增</el-button>
@@ -97,7 +95,7 @@ const fetchRoles = async (params: any) => {
 const searchItems: SearchItem[] = [
   {field: 'name', label: '角色名称', type: 'input', placeholder: '请输入角色名称'},
   {field: 'code', label: '角色编码', type: 'input', placeholder: '请输入角色编码'},
-  {field: 'isEnabled', label: '是否启用', type: 'select', clearable: true, options: isEnabledOptions}
+  {field: 'isEnabled', label: '是否启用', type: 'select', clearable: true, options: 'IS_ENABLED'}
 ]
 
 function openModal(type: ModalType, row: any = null) {

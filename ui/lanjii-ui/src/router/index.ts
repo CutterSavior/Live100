@@ -4,7 +4,7 @@ import {useUserStore} from '@/stores/user.store'
 // @ts-ignore
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-import type {SysMenu} from "@/types/monitor/sysMenu.ts";
+import type {SysMenu} from "@/types/sys/sysMenu.ts";
 
 NProgress.configure({showSpinner: false});
 

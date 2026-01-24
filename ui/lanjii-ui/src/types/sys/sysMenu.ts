@@ -1,6 +1,4 @@
-﻿/**
- * 系统菜单实体（对应后端SysMenu）
- */
+﻿/** 系统菜单 */
 export interface SysMenu {
   /** 菜单ID */
   id?: number
@@ -32,10 +30,6 @@ export interface SysMenu {
   isKeepAlive?: number
   /** 子菜单列表 */
   children?: SysMenu[]
-  /** 启用状态标签（字典转换） */
-  isEnabledLabel?: string
-  /** 可见状态标签（字典转换） */
-  isVisibleLabel?: string
   /** 创建时间 */
   createTime?: string
   /** 更新时间 */

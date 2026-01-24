@@ -40,7 +40,7 @@
 import {ref} from 'vue'
 import {ElMessage, ElMessageBox} from 'element-plus'
 import AsyncTable from '@/components/AsyncTable/AsyncTable.vue'
-import * as sessionApi from '@/api/modules/sys/sessionApi'
+import * as userSessionApi from '@/api/modules/monitor/userSessionApi'
 import {Close} from "@element-plus/icons-vue"
 import type {TableColumn} from '@/types/table'
 import {useUserStore} from '@/stores/user.store';
@@ -62,7 +62,7 @@ const allColumns: TableColumn[] = [
 ]
 
 const fetchSessions = async (params: any) => {
-  const res = await sessionApi.getSessionList(params)
+  const res = await userSessionApi.getSessionList(params)
   return res.data
 }
 
@@ -108,7 +108,7 @@ const handleKickSession = (row: any) => {
       }
   ).then(async () => {
     try {
-      await sessionApi.kickSession(row.displayUuid)
+      await userSessionApi.kickSession(row.displayUuid)
       ElMessage.success('踢出成功')
       asyncTableRef.value?.refreshTable()
     } catch (e) {

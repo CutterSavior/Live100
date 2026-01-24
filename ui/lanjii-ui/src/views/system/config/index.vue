@@ -6,9 +6,10 @@
                 ref="asyncTableRef"
                 :query-params="{}">
       <template #isEnabled="{ row }">
-        <el-tag :type="row.isEnabled === 1 ? 'success' : 'danger'">
-          {{ row.isEnabledLabel }}
-        </el-tag>
+        <DictTag dict-type="IS_ENABLED" :value="row.isEnabled"/>
+      </template>
+      <template #configType="{ row }">
+        <DictTag dict-type="CONFIG_TYPE" :value="row.configType"/>
       </template>
       <template #toolbar>
         <el-button v-permission="'sys:config:save'" type="primary" :icon="Plus" @click="openModal('add')">新增
@@ -47,7 +48,6 @@ import {Delete, Edit, Plus, Refresh, View} from "@element-plus/icons-vue"
 import type {SearchItem} from "@/types/search.ts"
 import type {TableColumn} from '@/types/table';
 import ConfigModal from './ConfigModal.vue'
-import {isEnabledOptions} from "@/constants";
 import type {ResponseData} from "@/api/http.ts";
 import type {ModalType} from "@/types/modal";
 
@@ -79,14 +79,8 @@ const searchItems: SearchItem[] = [
   {field: 'configName', label: '配置名称', type: 'input', placeholder: '请输入配置名称'},
   {field: 'configKey', label: '配置键名', type: 'input', placeholder: '请输入配置键名'},
   {field: 'configValue', label: '配置键值', type: 'input', placeholder: '请输入配置键值'},
-  {
-    field: 'configType',
-    label: '配置类型',
-    type: 'select',
-    clearable: true,
-    options: [{label: '系统配置', value: 1}, {label: '业务配置', value: 2}]
-  },
-  {field: 'isEnabled', label: '是否启用', type: 'select', clearable: true, options: isEnabledOptions}
+  {field: 'configType', label: '配置类型', type: 'select', clearable: true, options: 'CONFIG_TYPE'},
+  {field: 'isEnabled', label: '是否启用', type: 'select', clearable: true, options: 'IS_ENABLED'}
 ]
 
 function openModal(type: ModalType, row: any = null) {

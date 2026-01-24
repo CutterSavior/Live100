@@ -14,6 +14,8 @@ import com.lanjii.biz.admin.system.service.SysDictDataService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * 字典数据表(SysDictData)表服务实现类
  *
@@ -113,6 +115,23 @@ public class SysDictDataServiceImpl extends BaseServiceImpl<SysDictDataDao, SysD
     @Override
     public void clearCache() {
         dictDataCache.invalidateAll();
+    }
+
+    @Override
+    public List<SysDictData> getAllEnabledDictData() {
+        LambdaQueryWrapper<SysDictData> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SysDictData::getIsEnabled, IsEnabledEnum.ENABLED.getCode());
+        queryWrapper.orderByAsc(SysDictData::getDictType, SysDictData::getSortOrder);
+        return list(queryWrapper);
+    }
+
+    @Override
+    public List<SysDictData> getEnabledDictDataByType(String dictType) {
+        LambdaQueryWrapper<SysDictData> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SysDictData::getDictType, dictType);
+        queryWrapper.eq(SysDictData::getIsEnabled, IsEnabledEnum.ENABLED.getCode());
+        queryWrapper.orderByAsc(SysDictData::getSortOrder);
+        return list(queryWrapper);
     }
 
 }

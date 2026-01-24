@@ -44,9 +44,9 @@ public class SysOperLog extends BaseEntity<SysOperLog> {
     private String method;
 
     /**
-     * 请求方式
+     * 请求方式（1-GET，2-POST，3-PUT，4-DELETE）
      */
-    private String requestMethod;
+    private Integer requestMethod;
 
     /**
      * 操作人员
@@ -97,8 +97,6 @@ public class SysOperLog extends BaseEntity<SysOperLog> {
     @Mapper
     public interface SysOperLogMapper extends BaseEntityMapper<SysOperLog, SysOperLogVO, SysOperLogDTO> {
 
-        @Mapping(target = "businessTypeLabel", expression = "java(dictValueToLabel(entity.getBusinessType(),\"BUSINESS_TYPE\"))")
-        @Mapping(target = "statusLabel", expression = "java(dictValueToLabel(entity.getStatus(),\"OPER_STATUS\"))")
         @Mapping(target = "deptName", expression = "java(usernameToDeptName(entity.getOperName()))")
         SysOperLogVO toVo(SysOperLog entity);
 

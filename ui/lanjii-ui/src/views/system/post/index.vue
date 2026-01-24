@@ -5,9 +5,7 @@
                 :search-items="searchItems"
                 :fetch-data="fetchPosts">
       <template #isEnabled="{ row }">
-        <el-tag :type="row.isEnabled === 1 ? 'success' : 'danger'">
-          {{ row.isEnabledLabel }}
-        </el-tag>
+        <DictTag dict-type="IS_ENABLED" :value="row.isEnabled" />
       </template>
       <template #toolbar>
         <el-button v-permission="'sys:post:save'" type="primary" :icon="Plus" @click="openModal('add')">新增</el-button>
@@ -73,7 +71,7 @@ const fetchPosts = async (params: any) => {
 const searchItems: SearchItem[] = [
   {field: 'postCode', label: '岗位编码', type: 'input', placeholder: '请输入岗位编码'},
   {field: 'postName', label: '岗位名称', type: 'input', placeholder: '请输入岗位名称'},
-  {field: 'isEnabled', label: '是否启用', type: 'select', clearable: true, options: isEnabledOptions}
+  {field: 'isEnabled', label: '是否启用', type: 'select', clearable: true, options: 'IS_ENABLED'}
 ]
 
 function openModal(type: ModalType, row: any = null) {

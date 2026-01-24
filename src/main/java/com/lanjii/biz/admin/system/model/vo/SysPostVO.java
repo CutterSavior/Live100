@@ -39,11 +39,6 @@ public class SysPostVO extends BaseVO {
     private Integer isEnabled;
 
     /**
-     * 是否启用
-     */
-    private String isEnabledLabel;
-
-    /**
      * 备注
      */
     private String remark;

@@ -1,5 +1,5 @@
-﻿/**
- * 系统字典数据实体（对应后端SysDictData）
+/**
+ * 系统字典数据
  */
 export interface SysDictData {
   /** 字典数据ID */
@@ -9,7 +9,7 @@ export interface SysDictData {
   /** 字典标签 */
   dictLabel?: string
   /** 字典键值 */
-  dictValue?: string
+  dictValue?: number
   /** 显示顺序 */
   sortOrder?: number
   /** 是否默认（1是 0否） */
@@ -28,4 +28,10 @@ export interface SysDictData {
   updateBy?: string
   /** 删除标志（0-未删除，1-已删除） */
   deleted?: number
+  /** 标签类型: success/info/warning/danger/primary */
+  tagType?: 'success' | 'warning' | 'danger' | 'info' | 'primary'
+  /** 自定义标签颜色（hex或颜色名） */
+  tagColor?: string
+  /** 标签主题: dark/light/plain */
+  tagEffect?: 'dark' | 'light' | 'plain'
 }

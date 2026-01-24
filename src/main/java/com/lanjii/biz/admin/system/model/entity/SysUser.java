@@ -87,7 +87,6 @@ public class SysUser extends BaseEntity<SysUser> {
     public interface SysUserMapper extends BaseEntityMapper<SysUser, SysUserVO, SysUserDTO> {
 
         @Mapping(target = "deptName",expression = "java(deptIdToName(entity.getDeptId()))")
-        @Mapping(target = "statusLabel", expression = "java(dictValueToLabel(entity.getIsEnabled(),\"STATUS\"))")
         SysUserVO toVo(SysUser entity);
 
     }

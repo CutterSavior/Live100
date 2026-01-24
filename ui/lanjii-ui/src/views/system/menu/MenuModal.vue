@@ -149,7 +149,7 @@
 <script setup lang="ts">
 import {computed, onMounted, ref} from 'vue';
 import {menuTypeOptions, isEnabledOptions} from '@/constants';
-import * as menuApi from '@/api/modules/monitor/menuApi';
+import * as menuApi from '@/api/modules/sys/menuApi';
 import {getModalTitle} from '@/types/modal';
 import type {ResponseData} from '@/api/http.ts';
 import {IconSelector} from '@/components/IconPicker';
@@ -185,9 +185,7 @@ const form = ref({
   permission: '',
   sortOrder: 0,
   isEnabled: 1,
-  isEnabledLabel: '',
   isVisible: 1,
-  isVisibleLabel: '',
   isExt: 0,
   openMode: 0,
   isKeepAlive: 0,

@@ -71,7 +71,6 @@ public class SysDept extends BaseEntity<SysDept> {
     public interface SysDeptMapper extends BaseEntityMapper<SysDept, SysDeptVO, SysDeptDTO> {
 
         @Mapping(target = "children", ignore = true)
-        @Mapping(target = "isEnabledLabel", expression = "java(dictValueToLabel(entity.getIsEnabled(),\"STATUS\"))")
         SysDeptVO toVo(SysDept entity);
 
         @Mapping(target = "ancestors", ignore = true)

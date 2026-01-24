@@ -10,9 +10,7 @@
                 default-expand-all
     >
       <template #isEnabled="{ row }">
-        <el-tag :type="row.isEnabled === 1 ? 'success' : 'danger'">
-          {{ row.isEnabledLabel}}
-        </el-tag>
+        <DictTag dict-type="IS_ENABLED" :value="row.isEnabled" />
       </template>
       <template #toolbar>
         <el-button v-permission="'sys:dept:save'" type="primary" :icon="Plus" @click="openModal('add')">新增</el-button>

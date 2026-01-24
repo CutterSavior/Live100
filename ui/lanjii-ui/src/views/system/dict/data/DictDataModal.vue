@@ -9,6 +9,9 @@
       destroy-on-close
   >
     <el-form ref="formRef" :model="form" :rules="rules" label-width="100px">
+      <el-form-item label="字典类型" prop="dictType">
+        <el-input v-model="form.dictType" disabled placeholder="字典类型"/>
+      </el-form-item>
       <el-form-item label="字典标签" prop="dictLabel">
         <el-input v-model="form.dictLabel" :disabled="type === 'view'" placeholder="请输入字典标签"/>
       </el-form-item>
@@ -22,6 +25,31 @@
         <el-radio-group v-model="form.isEnabled" :disabled="type === 'view'">
           <el-radio v-for="item in isEnabledOptions" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
         </el-radio-group>
+      </el-form-item>
+      <el-form-item label="标签类型" prop="tagType">
+        <el-select v-model="form.tagType" :disabled="type === 'view'" placeholder="请选择标签类型" clearable>
+          <el-option label="成功" value="success"/>
+          <el-option label="信息" value="info"/>
+          <el-option label="警告" value="warning"/>
+          <el-option label="危险" value="danger"/>
+          <el-option label="默认" value="primary"/>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="标签主题" prop="tagEffect">
+        <el-radio-group v-model="form.tagEffect" :disabled="type === 'view'">
+          <el-radio label="light">浅色</el-radio>
+          <el-radio label="dark">深色</el-radio>
+          <el-radio label="plain">朴素</el-radio>
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item prop="tagColor">
+        <template #label>
+          <LabelWithTooltip
+              label="自定义颜色"
+              tooltip="十六进制颜色码（如 #ff0000）或颜色名称（如 red）"
+          />
+        </template>
+        <el-input v-model="form.tagColor" :disabled="type === 'view'" placeholder="请输入自定义颜色"/>
       </el-form-item>
       <el-form-item label="备注" prop="remark">
         <el-input v-model="form.remark" :disabled="type === 'view'" type="textarea" placeholder="请输入备注"/>
@@ -44,6 +72,7 @@ import {isEnabledOptions} from "@/constants";
 import {getModalTitle} from "@/types/modal.ts";
 import type {ResponseData} from "@/api/http.ts";
 import type {SysDictData} from "@/types/sys/sysDictData.ts";
+import {LabelWithTooltip} from "@/components/LabelWithTooltip";
 
 const props = defineProps({
   visible: Boolean,
@@ -67,11 +96,14 @@ const formRef = ref();
 const loading = ref(false);
 const form = ref<SysDictData>({
   dictLabel: '',
-  dictValue: '0',
+  dictValue: 0,
   sortOrder: 0,
   isEnabled: 1,
   remark: '',
-  dictType: props.dictType
+  dictType: props.dictType,
+  tagType: 'primary',
+  tagColor: '',
+  tagEffect: 'light'
 });
 
 const rules = {

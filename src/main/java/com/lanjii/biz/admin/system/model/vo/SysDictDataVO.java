@@ -45,13 +45,23 @@ public class SysDictDataVO extends BaseVO {
     private Integer isEnabled;
 
     /**
-     * 是否启用
-     */
-    private String isEnabledLabel;
-
-    /**
      * 备注
      */
     private String remark;
+
+    /**
+     * 标签类型
+     */
+    private String tagType;
+
+    /**
+     * 标签颜色
+     */
+    private String tagColor;
+
+    /**
+     * 标签主题
+     */
+    private String tagEffect;
 
 }

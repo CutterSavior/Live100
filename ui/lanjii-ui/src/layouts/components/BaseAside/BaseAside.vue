@@ -79,7 +79,7 @@ import {computed} from 'vue'
 import {useRoute, useRouter} from 'vue-router'
 import {useGlobalSettingStore} from '@/stores/globalSetting.store'
 import {useUserStore} from '@/stores/user.store'
-import type {SysMenu} from "@/types/monitor/sysMenu.ts";
+import type {SysMenu} from "@/types/sys/sysMenu.ts";
 
 const props = defineProps({
   mode: {

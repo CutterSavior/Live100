@@ -13,7 +13,7 @@
         <el-input v-model="form.typeName" :disabled="type === 'view'" placeholder="请输入类型名称"/>
       </el-form-item>
       <el-form-item label="类型编码" prop="typeCode">
-        <el-input v-model="form.typeCode" :disabled="type === 'view'" placeholder="请输入类型编码"/>
+        <el-input v-model="form.typeCode" :disabled="type === 'view' || type === 'edit'" placeholder="请输入类型编码"/>
       </el-form-item>
       <el-form-item label="是否启用" prop="isEnabled">
         <el-radio-group v-model="form.isEnabled" :disabled="type === 'view'">

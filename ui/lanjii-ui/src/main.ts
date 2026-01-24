@@ -36,6 +36,10 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)
 }
 
+// 注册自定义全局组件
+import DictTag from '@/components/DictTag'
+app.component('DictTag', DictTag)
+
 // 注册所有自定义指令
 setupDirectives(app)
 

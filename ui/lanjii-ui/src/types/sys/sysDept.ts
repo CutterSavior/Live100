@@ -1,5 +1,5 @@
 ﻿/**
- * 系统部门实体（对应后端SysDept）
+ * 系统部门
  */
 export interface SysDept {
   /** 部门ID */

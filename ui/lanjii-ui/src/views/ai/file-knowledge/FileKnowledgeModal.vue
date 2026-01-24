@@ -380,7 +380,8 @@ const buildMetadataJson = (): string | undefined => {
 /**
  * 获取文件类型标签颜色
  */
-const getFileTypeTag = (fileType: string) => {
+const getFileTypeTag = (fileType?: string) => {
+  if (!fileType) return 'primary'
   const typeMap: Record<string, string> = {
     'pdf': 'danger',
     'md': 'success',
@@ -388,7 +389,7 @@ const getFileTypeTag = (fileType: string) => {
     'txt': 'info',
     'json': 'warning'
   }
-  return typeMap[fileType?.toLowerCase()] || 'primary'
+  return typeMap[fileType.toLowerCase()] || 'primary'
 }
 
 /**

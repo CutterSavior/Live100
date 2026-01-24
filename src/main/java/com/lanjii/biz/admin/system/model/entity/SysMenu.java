@@ -100,8 +100,6 @@ public class SysMenu extends BaseEntity<SysMenu> {
     public interface SysMenuMapper extends BaseEntityMapper<SysMenu, SysMenuVO, SysMenuDTO> {
 
         @Mapping(target = "children", ignore = true)
-        @Mapping(target = "isEnabledLabel", expression = "java(dictValueToLabel(entity.getIsEnabled(),\"STATUS\"))")
-        @Mapping(target = "isVisibleLabel", expression = "java(dictValueToLabel(entity.getIsVisible(),\"VISIBLE\"))")
         SysMenuVO toVo(SysMenu entity);
 
         @Mapping(target = "ancestors", ignore = true)

@@ -226,7 +226,7 @@ const fetchUsers = async (params: any) => {
 
 const searchItems: SearchItem[] = [
   {field: 'username', label: '用户名', type: 'input', placeholder: '请输入用户名'},
-  {field: 'isEnabled', label: '是否启用', type: 'select', options: isEnabledOptions}
+  {field: 'isEnabled', label: '是否启用', type: 'select', clearable: true, options: 'IS_ENABLED'}
 ]
 
 const modalVisible = ref(false)

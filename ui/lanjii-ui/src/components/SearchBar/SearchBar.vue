@@ -3,6 +3,7 @@ import {computed, ref} from 'vue'
 import {ArrowDown, ArrowUp, Refresh, Search} from '@element-plus/icons-vue'
 import type {SearchItem} from '@/types/search.ts'
 import {useGlobalSettingStore} from "@/stores/globalSetting.store";
+import {useDictStore} from '@/stores/dict.store';
 
 // 定义props
 const props = defineProps({
@@ -46,6 +47,23 @@ const initQueryParams = () => {
 
 // 初始化queryParams
 queryParams.value = initQueryParams()
+
+// 字典 store
+const dictStore = useDictStore()
+
+const getSelectOptions = (item: SearchItem) => {
+  const opt = item.options
+
+  if (item.type === 'select' && typeof opt === 'string') {
+    const dicts = dictStore.getDictByType(opt)
+    return dicts.map(d => ({
+      label: d.dictLabel,
+      value: d.dictValue
+    }))
+  }
+
+  return Array.isArray(opt) ? opt : []
+}
 
 // 折叠状态
 const isExpanded = ref(false)
@@ -107,28 +125,11 @@ const chunkedRemainingItems = computed(() => {
   return result
 })
 
-// 最后一行的项目（用于确定搜索按钮的位置）
-const lastRowItems = computed(() => {
-  if (!isExpanded.value) {
-    return []
-  }
-
-  if (chunkedRemainingItems.value.length === 0) {
-    // 如果只有替换项，没有其他折叠项
-    return [firstCollapsedItem.value]
-  }
-
-  return chunkedRemainingItems.value[chunkedRemainingItems.value.length - 1]
-})
-
-// 最后一行项目的数量
-const lastRowItemCount = computed(() => {
-  return lastRowItems.value.length
-})
 </script>
 
 <template>
-  <div v-if="useGlobalSettingStore().isHiddenSearch && props.searchItems && props.searchItems.length > 0" class="search-card card-box">
+  <div v-if="useGlobalSettingStore().isHiddenSearch && props.searchItems && props.searchItems.length > 0"
+       class="search-card card-box">
     <el-form :model="queryParams" ref="searchFormRef" class="search-form" label-width="60px">
       <!-- 第一行：始终显示的项目 -->
       <el-row :gutter="16">
@@ -156,7 +157,7 @@ const lastRowItemCount = computed(() => {
                 style="width: 100%"
             >
               <el-option
-                  v-for="option in item.options"
+                  v-for="option in getSelectOptions(item)"
                   :key="option.value"
                   :label="option.label"
                   :value="option.value"
@@ -230,7 +231,7 @@ const lastRowItemCount = computed(() => {
                   style="width: 100%"
               >
                 <el-option
-                    v-for="option in firstCollapsedItem.options"
+                    v-for="option in getSelectOptions(firstCollapsedItem)"
                     :key="option.value"
                     :label="option.label"
                     :value="option.value"
@@ -292,7 +293,7 @@ const lastRowItemCount = computed(() => {
                     style="width: 100%"
                 >
                   <el-option
-                      v-for="option in item.options"
+                      v-for="option in getSelectOptions(item)"
                       :key="option.value"
                       :label="option.label"
                       :value="option.value"

@@ -59,9 +59,6 @@ public class SysConfig extends BaseEntity<SysConfig> {
     @Mapper
     public interface SysConfigMapper extends BaseEntityMapper<SysConfig, SysConfigVO, SysConfigDTO> {
 
-        @Mapping(target = "isEnabledLabel", expression = "java(dictValueToLabel(entity.getIsEnabled(),\"STATUS\"))")
-        SysConfigVO toVo(SysConfig entity);
-
     }
 
     public static final SysConfig.SysConfigMapper INSTANCE = Mappers.getMapper(SysConfig.SysConfigMapper.class);

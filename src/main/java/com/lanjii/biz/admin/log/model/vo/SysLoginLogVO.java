@@ -48,19 +48,9 @@ public class SysLoginLogVO {
     private Integer loginType;
 
     /**
-     * 登录类型标签
-     */
-    private String loginTypeLabel;
-
-    /**
      * 登录状态（0-失败，1-成功）
      */
     private Integer status;
-
-    /**
-     * 登录状态标签
-     */
-    private String statusLabel;
 
     /**
      * 提示消息

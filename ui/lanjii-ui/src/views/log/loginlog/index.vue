@@ -1,46 +1,42 @@
 ﻿<template>
   <div class="main-content">
     <AsyncTable :columns="allColumns"
-                      :search-items="searchItems"
-                      :fetch-data="fetchLoginLogs"
-                      :query-params="{}"
-                      :action-column-width="80">
+                :search-items="searchItems"
+                :fetch-data="fetchLoginLogs"
+                :query-params="{}"
+                :action-column-width="80">
       <template #loginType="{ row }">
-        <el-tag :type="row.loginType === 0 ? 'primary' : 'info'">
-          {{ row.loginTypeLabel }}
-        </el-tag>
+        <DictTag dict-type="LOGIN_TYPE" :value="row.loginType"/>
       </template>
       <template #status="{ row }">
-        <el-tag :type="row.status === 1 ? 'success' : 'danger'">
-          {{ row.statusLabel }}
-        </el-tag>
+        <DictTag dict-type="IS_SUCCESS" :value="row.status"/>
       </template>
       <template #toolbar>
-        <el-button 
-          type="danger" 
-          :icon="Delete" 
-          @click="handleClean"
-          v-permission="'sys:loginlog:clean'">
+        <el-button
+            type="danger"
+            :icon="Delete"
+            @click="handleClean"
+            v-permission="'sys:loginlog:clean'">
           清空
         </el-button>
       </template>
       <template #action-column="{row}">
-        <el-button 
-          type="info" 
-          link 
-          :icon="View" 
-          @click="openModal('view', row)"
-          v-permission="'sys:loginlog:view'">
+        <el-button
+            type="info"
+            link
+            :icon="View"
+            @click="openModal('view', row)"
+            v-permission="'sys:loginlog:view'">
           查看
         </el-button>
       </template>
     </AsyncTable>
     <LoginLogModal
-      v-if="modalVisible"
-      :visible="modalVisible"
-      :type="modalType"
-      :loginLogData="currentRow"
-      @close="closeModal"
+        v-if="modalVisible"
+        :visible="modalVisible"
+        :type="modalType"
+        :id="currentRow?.id"
+        @close="closeModal"
     />
   </div>
 </template>
@@ -80,56 +76,13 @@ const fetchLoginLogs = async (params: any) => {
 }
 
 const searchItems: SearchItem[] = [
-  {
-    field: 'username',
-    label: '用户名',
-    type: 'input',
-    placeholder: '请输入用户名'
-  },
-  {
-    field: 'ipAddress',
-    label: 'IP地址',
-    type: 'input',
-    placeholder: '请输入IP地址'
-  },
-  {
-    field: 'loginLocation',
-    label: '登录地点',
-    type: 'input',
-    placeholder: '请输入登录地点'
-  },
-  {
-    field: 'browser',
-    label: '浏览器',
-    type: 'input',
-    placeholder: '请输入浏览器'
-  },
-  {
-    field: 'os',
-    label: '操作系统',
-    type: 'input',
-    placeholder: '请输入操作系统'
-  },
-  {
-    field: 'loginType',
-    label: '登录类型',
-    type: 'select',
-    clearable: true,
-    options: [
-      { label: '登录', value: 0 },
-      { label: '登出', value: 1 }
-    ]
-  },
-  {
-    field: 'status',
-    label: '状态',
-    type: 'select',
-    clearable: true,
-    options: [
-      { label: '失败', value: 0 },
-      { label: '成功', value: 1 }
-    ]
-  }
+  {field: 'username', label: '用户名', type: 'input', placeholder: '请输入用户名'},
+  {field: 'ipAddress', label: 'IP地址', type: 'input', placeholder: '请输入IP地址'},
+  {field: 'loginLocation', label: '登录地点', type: 'input', placeholder: '请输入登录地点'},
+  {field: 'browser', label: '浏览器', type: 'input', placeholder: '请输入浏览器'},
+  {field: 'os', label: '操作系统', type: 'input', placeholder: '请输入操作系统'},
+  {field: 'loginType', label: '登录类型', type: 'select', clearable: true, options: 'LOGIN_TYPE'},
+  {field: 'status', label: '状态', type: 'select', clearable: true, options: 'IS_SUCCESS'}
 ]
 
 function openModal(type: 'view', row: any = null) {
@@ -157,7 +110,8 @@ const handleClean = () => {
     } catch (e) {
       ElMessage.error('清空失败')
     }
-  }).catch(() => {})
+  }).catch(() => {
+  })
 }
 </script>
 

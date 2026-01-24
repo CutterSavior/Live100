@@ -34,10 +34,8 @@
           >
             <template #default="{ node, data }">
               <span class="custom-tree-node">
-                <span>{{ node.label }}</span>
-                <el-tag v-if="data.type === 1" size="small" type="info">目录</el-tag>
-                <el-tag v-else-if="data.type === 2" size="small" type="success">菜单</el-tag>
-                <el-tag v-else-if="data.type === 3" size="small" type="warning">按钮</el-tag>
+               <span>{{ node.label }}</span>
+                <DictTag dict-type="MENU_TYPE" size="small" :value="data.type"/>
               </span>
             </template>
           </el-tree>
@@ -52,12 +50,13 @@
 </template>
 
 <script setup lang="ts">
-import {computed, onMounted, ref, nextTick} from 'vue'
+import {nextTick, onMounted, ref} from 'vue'
 import {ElMessage} from 'element-plus'
-import * as menuApi from '@/api/modules/monitor/menuApi'
+import * as menuApi from '@/api/modules/sys/menuApi'
 import * as roleApi from '@/api/modules/sys/roleApi'
-import type {SysMenu} from '@/types/monitor/sysMenu'
+import type {SysMenu} from '@/types/sys/sysMenu'
 import type {ResponseData} from '@/api/http'
+import DictTag from "@/components/DictTag";
 
 const props = defineProps({
   visible: Boolean,
@@ -113,7 +112,6 @@ const loadRoleMenus = async () => {
     }
   } catch (error) {
     console.error('加载角色菜单失败:', error)
-    // 如果接口不存在，不显示错误，使用空数组
     checkedKeys.value = []
   } finally {
     loading.value = false

@@ -1,12 +1,13 @@
 ﻿<template>
   <el-dialog
-    :model-value="visible"
-    @update:model-value="$emit('close')"
-    title="登录日志详情"
-    width="600px"
-    :close-on-click-modal="false"
-    append-to-body
-    destroy-on-close
+      :model-value="visible"
+      @close="$emit('close')"
+      title="登录日志详情"
+      width="600px"
+      :loading="loading"
+      :close-on-click-modal="false"
+      append-to-body
+      destroy-on-close
   >
     <el-descriptions :column="2" border>
       <el-descriptions-item label="用户名">
@@ -25,14 +26,10 @@
         {{ form.os }}
       </el-descriptions-item>
       <el-descriptions-item label="登录类型">
-        <el-tag :type="form.loginType === 0 ? 'primary' : 'info'">
-          {{ form.loginTypeLabel }}
-        </el-tag>
+        <DictTag dict-type="LOGIN_TYPE" :value="form.loginType"/>
       </el-descriptions-item>
       <el-descriptions-item label="状态">
-        <el-tag :type="form.status === 1 ? 'success' : 'danger'">
-          {{ form.statusLabel }}
-        </el-tag>
+        <DictTag dict-type="LOGIN_STATUS" :value="form.status"/>
       </el-descriptions-item>
       <el-descriptions-item label="提示信息">
         {{ form.msg }}
@@ -51,7 +48,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import {onMounted, ref} from 'vue';
+import {getLoginLogById} from '@/api/modules/log/loginLogApi';
+import type {SysLoginLog} from '@/types/log/sysLoginLog';
 
 const props = defineProps({
   visible: Boolean,
@@ -59,34 +58,45 @@ const props = defineProps({
     type: String,
     default: 'view'
   },
-  loginLogData: {
-    type: Object,
-    default: () => ({})
+  id: {
+    type: Number,
+    required: true
   }
 });
 
 const emit = defineEmits(['close']);
 
-const form = ref({
-  id: '',
+const loading = ref(false);
+
+const form = ref<SysLoginLog>({
+  id: undefined,
   username: '',
   ipAddress: '',
   loginLocation: '',
   browser: '',
   os: '',
   loginType: 0,
-  loginTypeLabel: '',
   status: 1,
-  statusLabel: '',
   msg: '',
   loginTime: '',
   createTime: ''
 });
 
-watch(() => props.loginLogData, (val) => {
-  if (val && Object.keys(val).length > 0) {
-    form.value = { ...form.value, ...val };
+const loadDetail = async () => {
+  if (!props.id) return;
+  try {
+    loading.value = true;
+    const res = await getLoginLogById(props.id);
+    form.value = res.data;
+  } finally {
+    loading.value = false;
   }
-}, { immediate: true, deep: true });
+}
+
+onMounted(() => {
+  if (props.visible) {
+    loadDetail();
+  }
+});
 </script>
 

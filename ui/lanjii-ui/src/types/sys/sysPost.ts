@@ -1,6 +1,4 @@
-﻿/**
- * 系统岗位实体（对应后端SysPost）
- */
+﻿/** 系统岗位 */
 export interface SysPost {
   /** 岗位ID */
   id?: number

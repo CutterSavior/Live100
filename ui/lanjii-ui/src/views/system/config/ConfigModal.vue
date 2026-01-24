@@ -13,7 +13,7 @@
         <el-input v-model="form.configName" :disabled="type === 'view'" placeholder="请输入配置名称"/>
       </el-form-item>
       <el-form-item label="配置键名" prop="configKey">
-        <el-input v-model="form.configKey" :disabled="type === 'view'" placeholder="请输入配置键名"/>
+        <el-input v-model="form.configKey" :disabled="type === 'view' || type === 'edit'" placeholder="请输入配置键名"/>
       </el-form-item>
       <el-form-item label="配置键值" prop="configValue">
         <el-input v-model="form.configValue" :disabled="type === 'view'" placeholder="请输入配置键值"/>

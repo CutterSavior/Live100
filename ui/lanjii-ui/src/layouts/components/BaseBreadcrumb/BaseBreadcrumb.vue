@@ -17,7 +17,7 @@
 import {computed} from 'vue'
 import {useRoute} from 'vue-router'
 import {useUserStore} from '@/stores/user.store'
-import type {SysMenu} from '@/types/monitor/sysMenu'
+import type {SysMenu} from '@/types/sys/sysMenu'
 
 const route = useRoute()
 const userStore = useUserStore()

@@ -1,7 +1,4 @@
-﻿/**
- * 工具文件实体（对应后端 ToolFileVO）
- * 基于 ToolFileController 接口文档
- */
+﻿/** 工具文件 */
 export interface ToolFile {
   /** 文件ID */
   id?: number

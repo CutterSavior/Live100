@@ -3,14 +3,21 @@ package com.lanjii.biz.admin.system.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.lanjii.biz.admin.system.dao.SysDictTypeDao;
 import com.lanjii.biz.admin.system.model.dto.SysDictTypeDTO;
+import com.lanjii.biz.admin.system.model.entity.SysDictData;
+import com.lanjii.biz.admin.system.model.entity.SysDictType;
+import com.lanjii.biz.admin.system.model.vo.SysDictDataVO;
 import com.lanjii.biz.admin.system.model.vo.SysDictTypeVO;
+import com.lanjii.biz.admin.system.service.SysDictDataService;
+import com.lanjii.biz.admin.system.service.SysDictTypeService;
+import com.lanjii.common.enums.IsEnabledEnum;
+import com.lanjii.common.exception.BizException;
 import com.lanjii.core.base.BaseServiceImpl;
 import com.lanjii.core.resp.ResultCode;
-import com.lanjii.biz.admin.system.model.entity.SysDictType;
-import com.lanjii.common.exception.BizException;
-import com.lanjii.biz.admin.system.service.SysDictTypeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * 系统字典类型表(SysDictType)表服务实现类
@@ -20,6 +27,8 @@ import org.springframework.stereotype.Service;
 @Service("sysDictTypeService")
 @RequiredArgsConstructor
 public class SysDictTypeServiceImpl extends BaseServiceImpl<SysDictTypeDao, SysDictType> implements SysDictTypeService {
+
+    private final SysDictDataService sysDictDataService;
 
     @Override
     public void updateByIdNew(Long id, SysDictTypeDTO dto) {
@@ -58,6 +67,59 @@ public class SysDictTypeServiceImpl extends BaseServiceImpl<SysDictTypeDao, SysD
         if (baseMapper.exists(queryWrapper)) {
             throw BizException.validationError(ResultCode.CONFLICT, "字典类型编码已存在");
         }
+    }
+
+    @Override
+    public void removeByIdNew(Long id) {
+        SysDictType dictType = getById(id);
+
+        LambdaQueryWrapper<SysDictData> dataQueryWrapper = new LambdaQueryWrapper<>();
+        dataQueryWrapper.eq(SysDictData::getDictType, dictType.getTypeCode());
+        sysDictDataService.remove(dataQueryWrapper);
+        sysDictDataService.clearCache();
+        removeById(id);
+    }
+
+    @Override
+    public List<SysDictDataVO> getEnabledDataByType(String typeCode) {
+
+        LambdaQueryWrapper<SysDictType> typeQueryWrapper = new LambdaQueryWrapper<>();
+        typeQueryWrapper.eq(SysDictType::getTypeCode, typeCode);
+        SysDictType dictType = getOne(typeQueryWrapper);
+
+        if (dictType == null) {
+            throw BizException.validationError(ResultCode.NOT_FOUND, "字典类型不存在");
+        }
+
+
+        List<SysDictData> dataList = sysDictDataService.getEnabledDictDataByType(typeCode);
+        return dataList.stream().map(SysDictData.INSTANCE::toVo).toList();
+    }
+
+    @Override
+    public List<SysDictDataVO> getAllEnabledData() {
+
+        LambdaQueryWrapper<SysDictType> typeQueryWrapper = new LambdaQueryWrapper<>();
+        typeQueryWrapper.eq(SysDictType::getIsEnabled, IsEnabledEnum.ENABLED.getCode());
+        typeQueryWrapper.select(SysDictType::getTypeCode);
+        List<SysDictType> enabledTypes = list(typeQueryWrapper);
+
+
+        if (enabledTypes.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        List<String> enabledTypeCodes = enabledTypes.stream()
+                .map(SysDictType::getTypeCode)
+                .toList();
+
+        LambdaQueryWrapper<SysDictData> dataQueryWrapper = new LambdaQueryWrapper<>();
+        dataQueryWrapper.in(SysDictData::getDictType, enabledTypeCodes);
+        dataQueryWrapper.eq(SysDictData::getIsEnabled, IsEnabledEnum.ENABLED.getCode());
+        dataQueryWrapper.orderByAsc(SysDictData::getDictType, SysDictData::getSortOrder);
+        List<SysDictData> dataList = sysDictDataService.list(dataQueryWrapper);
+
+        return dataList.stream().map(SysDictData.INSTANCE::toVo).toList();
     }
 }
 

@@ -55,8 +55,22 @@ public class SysDictDataDTO {
     private String remark;
 
     /**
+     * 标签类型
+     */
+    private String tagType;
+
+    /**
+     * 标签颜色
+     */
+    private String tagColor;
+
+    /**
+     * 标签主题
+     */
+    private String tagEffect;
+
+    /**
      * 创建人
      */
     private String createBy;
-
 }

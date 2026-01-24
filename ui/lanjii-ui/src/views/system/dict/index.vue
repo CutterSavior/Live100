@@ -8,9 +8,7 @@
         :query-params="{}"
     >
       <template #isEnabled="{ row }">
-        <el-tag :type="row.isEnabled === 1 ? 'success' : 'danger'">
-          {{ row.isEnabledLabel }}
-        </el-tag>
+        <DictTag dict-type="IS_ENABLED" :value="row.isEnabled" />
       </template>
       <template #typeCode="{ row }">
         <el-button type="primary" link @click="handleViewDictData(row)">{{ row.typeCode }}</el-button>
@@ -73,17 +71,8 @@ const fetchDictTypes = async (params: any) => {
 }
 
 const searchItems: SearchItem[] = [
-  {
-    field: 'typeCode',
-    label: '类型编码',
-    type: 'input',
-    placeholder: '请输入类型编码'
-  }, {
-    field: 'typeName',
-    label: '类型名称',
-    type: 'input',
-    placeholder: '请输入类型名称'
-  }
+  {field: 'typeCode', label: '类型编码', type: 'input', placeholder: '请输入类型编码'},
+  {field: 'typeName', label: '类型名称', type: 'input', placeholder: '请输入类型名称'}
 ]
 
 function openModal(type: ModalType, row: any = null) {

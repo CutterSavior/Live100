@@ -22,25 +22,20 @@ public class SysOperLogVO {
      */
     private String title;
 
-    /**
+/**
      * 业务类型（0-新增，1-修改，2-删除）
      */
     private Integer businessType;
-
-    /**
-     * 业务类型标签
-     */
-    private String businessTypeLabel;
 
     /**
      * 方法名称
      */
     private String method;
 
-    /**
-     * 请求方式
+/**
+     * 请求方式（1-GET，2-POST，3-PUT，4-DELETE）
      */
-    private String requestMethod;
+    private Integer requestMethod;
 
     /**
      * 操作人员
@@ -68,15 +63,10 @@ public class SysOperLogVO {
      */
     private String jsonResult;
 
-    /**
+/**
      * 操作状态（0-失败，1-成功）
      */
     private Integer status;
-
-    /**
-     * 操作状态标签
-     */
-    private String statusLabel;
 
     /**
      * 错误消息

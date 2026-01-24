@@ -4,7 +4,6 @@ import com.lanjii.biz.admin.system.model.entity.SysDept;
 import com.lanjii.biz.admin.system.model.entity.SysUser;
 import com.lanjii.biz.admin.system.service.SysConfigService;
 import com.lanjii.biz.admin.system.service.SysDeptService;
-import com.lanjii.biz.admin.system.service.SysDictDataService;
 import com.lanjii.biz.admin.system.service.SysUserService;
 import com.lanjii.common.util.SpringUtils;
 import org.apache.commons.collections4.CollectionUtils;
@@ -31,14 +30,6 @@ public interface BaseEntityMapper<E, V, D> {
     }
 
     E toEntity(D dto);
-
-    @Named("dictValueToLabel")
-    default String dictValueToLabel(Integer dictValue, String dictType) {
-        if (dictValue == null || dictType == null) {
-            return null;
-        }
-        return SpringUtils.getBean(SysDictDataService.class).getLabel(dictType, dictValue);
-    }
 
     @Named("getConfig")
     default String getConfig(String configKey) {

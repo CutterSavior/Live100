@@ -2,20 +2,20 @@ package com.lanjii.biz.admin.system.controller;
 
 
 import com.github.pagehelper.PageHelper;
-import com.lanjii.common.enums.BusinessTypeEnum;
-import com.lanjii.core.annotation.Log;
-import com.lanjii.core.base.PageParam;
-import com.lanjii.core.base.support.PageData;
-import com.lanjii.core.resp.R;
 import com.lanjii.biz.admin.system.model.dto.SysDictDataDTO;
 import com.lanjii.biz.admin.system.model.dto.SysDictTypeDTO;
 import com.lanjii.biz.admin.system.model.entity.SysDictData;
 import com.lanjii.biz.admin.system.model.entity.SysDictType;
-import com.lanjii.biz.admin.system.service.SysDictDataService;
-import com.lanjii.biz.admin.system.service.SysDictTypeService;
-import com.lanjii.common.util.PageDataUtils;
 import com.lanjii.biz.admin.system.model.vo.SysDictDataVO;
 import com.lanjii.biz.admin.system.model.vo.SysDictTypeVO;
+import com.lanjii.biz.admin.system.service.SysDictDataService;
+import com.lanjii.biz.admin.system.service.SysDictTypeService;
+import com.lanjii.common.enums.BusinessTypeEnum;
+import com.lanjii.common.util.PageDataUtils;
+import com.lanjii.core.annotation.Log;
+import com.lanjii.core.base.PageParam;
+import com.lanjii.core.base.support.PageData;
+import com.lanjii.core.resp.R;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -111,8 +111,29 @@ public class SysDictTypeController {
     @PreAuthorize("hasAuthority('sys:dict-type:delete')")
     @DeleteMapping("/{id}")
     public R<Void> delete(@PathVariable Long id) {
-        sysDictTypeService.removeById(id);
+        sysDictTypeService.removeByIdNew(id);
         return R.success();
+    }
+
+    /**
+     * 获取启用的字典数据
+     *
+     * @param typeCode 字典类型编码
+     * @return 启用的字典数据列表
+     */
+    @GetMapping("/{typeCode}/enabled-data")
+    public R<List<SysDictDataVO>> getEnabledDataByType(@PathVariable String typeCode) {
+        return R.success(sysDictTypeService.getEnabledDataByType(typeCode));
+    }
+
+    /**
+     * 获取所有启用的字典数据
+     *
+     * @return 字典数据列表
+     */
+    @GetMapping("/enabled-data")
+    public R<List<SysDictDataVO>> getAllEnabledData() {
+        return R.success(sysDictTypeService.getAllEnabledData());
     }
 
 }

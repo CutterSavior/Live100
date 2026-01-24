@@ -37,11 +37,11 @@ public class SysOperLogDTO {
     @QueryCondition(type = QueryType.LIKE)
     private String method;
 
-    /**
-     * 请求方式
+/**
+     * 请求方式（1-GET，2-POST，3-PUT，4-DELETE）
      */
     @QueryCondition
-    private String requestMethod;
+    private Integer requestMethod;
 
     /**
      * 操作人员

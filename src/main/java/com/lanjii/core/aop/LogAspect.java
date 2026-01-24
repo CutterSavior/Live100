@@ -123,7 +123,7 @@ public class LogAspect {
         operLogDTO.setTitle(logAnnotation.title());
         operLogDTO.setBusinessType(logAnnotation.businessType().getCode());
         operLogDTO.setMethod(joinPoint.getSignature().getName());
-        operLogDTO.setRequestMethod(request.getMethod());
+        operLogDTO.setRequestMethod(mapRequestMethodToCode(request.getMethod()));
         operLogDTO.setOperUrl(request.getRequestURI());
         operLogDTO.setOperTime(LocalDateTime.now());
         operLogDTO.setCostTime(costTime);
@@ -231,6 +231,28 @@ public class LogAspect {
                 .findFirst()
                 .map(method -> method.getAnnotation(LoginLog.class))
                 .orElse(null);
+    }
+
+    /**
+     * 将HTTP方法名映射为数值编码
+     * 1-GET，2-POST，3-PUT，4-DELETE
+     */
+    private Integer mapRequestMethodToCode(String method) {
+        if (method == null) {
+            return null;
+        }
+        switch (method) {
+            case "GET":
+                return 1;
+            case "POST":
+                return 2;
+            case "PUT":
+                return 3;
+            case "DELETE":
+                return 4;
+            default:
+                return null;
+        }
     }
 
     /**
