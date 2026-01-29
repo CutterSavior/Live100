@@ -38,7 +38,12 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 
 // 注册自定义全局组件
 import DictTag from '@/components/DictTag'
+import DictSelect from '@/components/DictSelect'
+import DictRadioGroup from '@/components/DictRadioGroup'
+
 app.component('DictTag', DictTag)
+app.component('DictSelect', DictSelect)
+app.component('DictRadioGroup', DictRadioGroup)
 
 // 注册所有自定义指令
 setupDirectives(app)

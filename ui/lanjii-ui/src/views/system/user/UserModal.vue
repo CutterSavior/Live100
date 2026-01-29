@@ -45,9 +45,8 @@
         <el-input v-model="form.phone" :disabled="type === 'view'" placeholder="请输入手机号"/>
       </el-form-item>
       <el-form-item label="是否启用" prop="isEnabled">
-        <el-radio-group v-model="form.isEnabled" :disabled="type === 'view' || (type === 'edit' && form.id === 1)">
-          <el-radio v-for="item in isEnabledOptions" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
-        </el-radio-group>
+        <DictRadioGroup v-model="form.isEnabled" dict-type="IS_ENABLED"
+                        :disabled="type === 'view' || (type === 'edit' && form.id === 1)"/>
       </el-form-item>
       <el-form-item v-if="type !== 'view'">
         <el-button type="primary" :loading="submitLoading" :disabled="submitLoading" @click="handleSubmit">确 定
@@ -63,7 +62,6 @@
 
 <script setup lang="ts">
 import {computed, onMounted, ref} from 'vue';
-import {isEnabledOptions} from '@/constants';
 import * as userApi from '@/api/modules/sys/userApi';
 import {getModalTitle} from '@/types/modal';
 import type {ResponseData} from '@/api/http.ts';

@@ -5,7 +5,7 @@
                 :search-items="searchItems"
                 :fetch-data="fetchRoles">
       <template #isEnabled="{ row }">
-        <DictTag dict-type="IS_ENABLED" :value="row.isEnabled" />
+        <DictTag dict-type="IS_ENABLED" :value="row.isEnabled"/>
       </template>
       <template #toolbar>
         <el-button v-permission="'sys:role:save'" type="primary" :icon="Plus" @click="openModal('add')">新增</el-button>
@@ -58,11 +58,10 @@ import {ref} from 'vue'
 import {ElMessage, ElMessageBox} from 'element-plus'
 import AsyncTable from '@/components/AsyncTable/AsyncTable.vue'
 import * as roleApi from '@/api/modules/sys/roleApi'
-import {Delete, Edit, Plus, View, Key} from '@element-plus/icons-vue'
+import {Delete, Edit, Key, Plus, View} from '@element-plus/icons-vue'
 import type {SearchItem} from '@/types/search.ts'
 import type {TableColumn} from '@/types/table';
 import type {ModalType} from '@/types/modal';
-import {isEnabledOptions} from '@/constants'
 import RoleModal from './RoleModal.vue'
 import PermissionAssignModal from './PermissionAssignModal.vue'
 import type {ResponseData} from '@/api/http.ts'

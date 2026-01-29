@@ -22,17 +22,15 @@
         <el-input-number v-model="form.sortOrder" :disabled="type === 'view'" :min="0" placeholder="请输入排序"/>
       </el-form-item>
       <el-form-item label="是否启用" prop="isEnabled">
-        <el-radio-group v-model="form.isEnabled" :disabled="type === 'view'">
-          <el-radio v-for="item in isEnabledOptions" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
-        </el-radio-group>
+        <DictRadioGroup v-model="form.isEnabled" dict-type="IS_ENABLED" :disabled="type === 'view'" />
       </el-form-item>
       <el-form-item label="标签类型" prop="tagType">
         <el-select v-model="form.tagType" :disabled="type === 'view'" placeholder="请选择标签类型" clearable>
+          <el-option label="默认" value="primary"/>
           <el-option label="成功" value="success"/>
           <el-option label="信息" value="info"/>
           <el-option label="警告" value="warning"/>
           <el-option label="危险" value="danger"/>
-          <el-option label="默认" value="primary"/>
         </el-select>
       </el-form-item>
       <el-form-item label="标签主题" prop="tagEffect">
@@ -68,7 +66,6 @@
 <script setup lang="ts">
 import {computed, onMounted, ref} from 'vue';
 import * as dictApi from '@/api/modules/sys/dictApi.ts';
-import {isEnabledOptions} from "@/constants";
 import {getModalTitle} from "@/types/modal.ts";
 import type {ResponseData} from "@/api/http.ts";
 import type {SysDictData} from "@/types/sys/sysDictData.ts";

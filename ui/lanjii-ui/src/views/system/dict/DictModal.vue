@@ -16,9 +16,7 @@
         <el-input v-model="form.typeCode" :disabled="type === 'view' || type === 'edit'" placeholder="请输入类型编码"/>
       </el-form-item>
       <el-form-item label="是否启用" prop="isEnabled">
-        <el-radio-group v-model="form.isEnabled" :disabled="type === 'view'">
-          <el-radio v-for="item in isEnabledOptions" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
-        </el-radio-group>
+        <DictRadioGroup v-model="form.isEnabled" dict-type="IS_ENABLED" :disabled="type === 'view'" />
       </el-form-item>
       <el-form-item label="备注" prop="remark">
         <el-input v-model="form.remark" :disabled="type === 'view'" type="textarea" placeholder="请输入备注"/>
@@ -38,7 +36,6 @@
 import {computed, onMounted, ref} from 'vue';
 import type {SysDictType} from "@/types/sys/sysDictType";
 import * as dictApi from '@/api/modules/sys/dictApi';
-import {isEnabledOptions} from "@/constants";
 import type {ResponseData} from '@/api/http.ts';
 import {getModalTitle} from '@/types/modal';
 

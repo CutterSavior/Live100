@@ -16,9 +16,7 @@
         <el-input v-model="form.code" :disabled="type === 'view'" placeholder="请输入角色编码"/>
       </el-form-item>
       <el-form-item label="是否启用" prop="isEnabled">
-        <el-radio-group v-model="form.isEnabled" :disabled="type === 'view'">
-          <el-radio v-for="item in isEnabledOptions" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
-        </el-radio-group>
+        <DictRadioGroup v-model="form.isEnabled" dict-type="IS_ENABLED" :disabled="type === 'view'"/>
       </el-form-item>
       <el-form-item label="备注" prop="remark">
         <el-input v-model="form.remark" :disabled="type === 'view'" type="textarea" placeholder="请输入备注"/>
@@ -36,7 +34,6 @@
 
 <script setup lang="ts">
 import {computed, onMounted, ref} from 'vue';
-import {isEnabledOptions} from '@/constants';
 import * as roleApi from '@/api/modules/sys/roleApi';
 import {getModalTitle} from '@/types/modal';
 import type {ResponseData} from '@/api/http.ts';

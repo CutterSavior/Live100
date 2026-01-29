@@ -28,21 +28,13 @@
         <el-input v-model="form.name" :disabled="type === 'view'" placeholder="请输入菜单名称"/>
       </el-form-item>
       <el-form-item label="菜单类型" prop="type">
-        <el-radio-group v-model="form.type" :disabled="type === 'view'">
-          <el-radio v-for="item in menuTypeOptions" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
-        </el-radio-group>
+        <DictRadioGroup v-model="form.type" dict-type="MENU_TYPE" :disabled="type === 'view'"/>
       </el-form-item>
       <el-form-item v-if="form.type === 2" label="是否外链" prop="isExt">
-        <el-radio-group v-model="form.isExt" :disabled="type === 'view'">
-          <el-radio :label="0">否</el-radio>
-          <el-radio :label="1">是</el-radio>
-        </el-radio-group>
+        <DictRadioGroup v-model="form.isExt" dict-type="YES_OR_NO" :disabled="type === 'view'"/>
       </el-form-item>
       <el-form-item v-if="form.type === 2 && form.isExt === 1" label="打开方式" prop="openMode">
-        <el-radio-group v-model="form.openMode" :disabled="type === 'view'">
-          <el-radio :label="0">内嵌</el-radio>
-          <el-radio :label="1">新窗口</el-radio>
-        </el-radio-group>
+        <DictRadioGroup v-model="form.openMode" dict-type="OPEN_MODE" :disabled="type === 'view'"/>
       </el-form-item>
       <el-form-item label="图标" v-if="form.type !== 3" prop="icon">
         <IconSelector v-model="form.icon" :disabled="type === 'view'"/>
@@ -103,15 +95,10 @@
                          style="width: 100%"/>
       </el-form-item>
       <el-form-item label="状态" prop="isEnabled">
-        <el-radio-group v-model="form.isEnabled" :disabled="type === 'view'">
-          <el-radio v-for="item in isEnabledOptions" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
-        </el-radio-group>
+        <DictRadioGroup v-model="form.isEnabled" dict-type="IS_ENABLED" :disabled="type === 'view'"/>
       </el-form-item>
-      <el-form-item label="可见" prop="isVisible">
-        <el-radio-group v-model="form.isVisible" :disabled="type === 'view'">
-          <el-radio :label="1">显示</el-radio>
-          <el-radio :label="0">隐藏</el-radio>
-        </el-radio-group>
+      <el-form-item label="是否可见" prop="isVisible">
+        <DictRadioGroup v-model="form.isEnabled" dict-type="IS_VISIBLE" :disabled="type === 'view'"/>
       </el-form-item>
       <el-form-item v-if="form.type === 2" prop="isKeepAlive">
         <template #label>
@@ -127,10 +114,7 @@
             </el-tooltip>
           </span>
         </template>
-        <el-radio-group v-model="form.isKeepAlive" :disabled="type === 'view'">
-          <el-radio :label="1">是</el-radio>
-          <el-radio :label="0">否</el-radio>
-        </el-radio-group>
+        <DictRadioGroup v-model="form.isKeepAlive" dict-type="YES_OR_NO" :disabled="type === 'view'"/>
       </el-form-item>
       <el-form-item label="备注" prop="remark">
         <el-input v-model="form.remark" :disabled="type === 'view'" type="textarea" placeholder="请输入备注"/>
@@ -148,7 +132,6 @@
 
 <script setup lang="ts">
 import {computed, onMounted, ref} from 'vue';
-import {menuTypeOptions, isEnabledOptions} from '@/constants';
 import * as menuApi from '@/api/modules/sys/menuApi';
 import {getModalTitle} from '@/types/modal';
 import type {ResponseData} from '@/api/http.ts';
