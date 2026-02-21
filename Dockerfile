@@ -11,8 +11,12 @@ COPY . .
 RUN apt-get update && apt-get install -y maven && \
     mvn clean package -DskipTests -pl lanjii-application -am
 
+# Copy entrypoint script
+COPY entrypoint.sh /app/
+RUN chmod +x /app/entrypoint.sh
+
 # Expose port
 EXPOSE 8080
 
-# Run the application
-CMD ["java", "-jar", "lanjii-application/target/lanjii-application-3.0.0.jar"]
+# Run the application using entrypoint script
+ENTRYPOINT ["/app/entrypoint.sh"]
