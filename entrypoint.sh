@@ -10,9 +10,41 @@ DB_PASSWORD=${DB_PASSWORD:-postgres}
 OPENAI_API_KEY=${OPENAI_API_KEY:-sk-demo}
 OPENAI_BASE_URL=${OPENAI_BASE_URL:-https://api.openai.com/v1}
 
-# Fix DATABASE_URL if it doesn't have jdbc: prefix
-if [ -n "$DATABASE_URL" ] && ! echo "$DATABASE_URL" | grep -q "^jdbc:"; then
-  DATABASE_URL="jdbc:$DATABASE_URL"
+# Convert DATABASE_URL from Render format (postgresql://user:pass@host:port/db)
+# to JDBC format (jdbc:postgresql://host:port/db)
+if [ -n "$DATABASE_URL" ]; then
+  # Check if it's in the Render format (postgresql://...)
+  if echo "$DATABASE_URL" | grep -q "^postgresql://"; then
+    # Extract components from postgresql://user:pass@host:port/db format
+    # Remove the postgresql:// prefix
+    db_url_without_scheme=$(echo "$DATABASE_URL" | sed 's|^postgresql://||')
+    
+    # Extract database name (everything after the last /)
+    db_name=$(echo "$db_url_without_scheme" | sed 's|^.*\/||')
+    
+    # Extract user:pass@host:port (everything before the last /)
+    db_host_part=$(echo "$db_url_without_scheme" | sed 's|\/[^/]*$||')
+    
+    # Extract host:port (everything after @)
+    db_host_port=$(echo "$db_host_part" | sed 's|^.*@||')
+    
+    # Extract user:pass (everything before @)
+    db_user_pass=$(echo "$db_host_part" | sed 's|@.*$||')
+    
+    # Extract username (everything before :)
+    extracted_user=$(echo "$db_user_pass" | cut -d: -f1)
+    
+    # Extract password (everything after :)
+    extracted_pass=$(echo "$db_user_pass" | cut -d: -f2-)
+    
+    # Construct proper JDBC URL
+    DATABASE_URL="jdbc:postgresql://${db_host_port}/${db_name}"
+    DB_USERNAME=$extracted_user
+    DB_PASSWORD=$extracted_pass
+  elif ! echo "$DATABASE_URL" | grep -q "^jdbc:"; then
+    # If no scheme, add jdbc: prefix
+    DATABASE_URL="jdbc:$DATABASE_URL"
+  fi
 fi
 
 # Build array of Java options
@@ -42,6 +74,7 @@ if [ -n "$DATABASE_URL" ]; then
   db_preview=$(echo "$DATABASE_URL" | cut -c1-60)
   echo "  DATABASE_URL=${db_preview}..."
 fi
+echo "  DB_USERNAME=$DB_USERNAME"
 echo "  OPENAI_BASE_URL=$OPENAI_BASE_URL"
 echo ""
 
