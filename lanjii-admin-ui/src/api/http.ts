@@ -36,12 +36,18 @@ service.interceptors.request.use(
         if (token) {
             config.headers = config.headers || {}
             config.headers['Authorization'] = `Bearer ${token}`
+            console.log('【HTTP】请求设置Token:', {
+                url: config.url,
+                tokenPrefix: `${token.substring(0, 20)}...`
+            })
+        } else {
+            console.log('【HTTP】请求无Token:', config.url)
         }
 
         return config
     },
     (error) => {
-        console.error('请求错误:', error)
+        console.error('【HTTP】❌ 请求拦截错误:', error)
         return Promise.reject(error)
     }
 )
@@ -57,9 +63,18 @@ service.interceptors.response.use(
         // 普通JSON响应处理
         const res = response.data as ResponseData
 
+        console.log('【HTTP】响应:', {
+            url: response.config.url,
+            code: res.code,
+            msg: res.msg,
+            dataType: typeof res.data,
+            dataLength: Array.isArray(res.data) ? res.data.length : 'N/A'
+        })
+
         if (res.code !== 200) {
             // 401状态码特殊处理
             if (res.code === 401) {
+                console.error('【HTTP】❌ Token已过期或无效')
                 if (!isShowingTokenExpiredMessage) {
                     isShowingTokenExpiredMessage = true
                     ElMessage.error('登录已失效，请重新登录')
@@ -71,6 +86,10 @@ service.interceptors.response.use(
                 }
                 
                 const userStore = useUserStore()
+                console.log('【HTTP】清除用户数据', {
+                    hasToken: !!userStore.token,
+                    hasUserInfo: !!userStore.userInfo
+                })
                 userStore.clearUserData()
                 router.replace('/admin/login')
                 return Promise.reject(new Error('登录已失效'))
@@ -78,14 +97,20 @@ service.interceptors.response.use(
 
             // 其他错误码正常处理
             const errorMessage = res.msg || '请求失败'
+            console.error('【HTTP】❌ 请求失败:', {
+                url: response.config.url,
+                code: res.code,
+                msg: errorMessage
+            })
             ElMessage.error(errorMessage)
             return Promise.reject(new Error(errorMessage))
         } else {
+            console.log('【HTTP】✅ 请求成功:', response.config.url)
             return response
         }
     },
     (error) => {
-        console.error('响应错误:', error)
+        console.error('【HTTP】❌ 响应拦截错误:', error)
 
         let errorMessage = '网络异常，请检查您的网络连接'
 
@@ -99,6 +124,12 @@ service.interceptors.response.use(
             } else {
                 errorMessage = `请求失败，状态码：${error.response.status}`
             }
+            console.error('【HTTP】响应错误详情:', {
+                url: error.config?.url,
+                status: error.response.status,
+                msg: errorMessage,
+                data: error.response.data
+            })
         }
 
         ElMessage.error(errorMessage)

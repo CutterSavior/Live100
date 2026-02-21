@@ -1,6 +1,7 @@
 ﻿// router/index.ts
 import {createRouter, createWebHistory, type RouteRecordRaw} from 'vue-router'
 import {useUserStore} from '@/stores/user.store'
+import {ElMessage} from 'element-plus'
 // @ts-ignore
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
@@ -151,36 +152,48 @@ export const addDynamicRoutes = (): boolean => {
     }
 
     const userStore = useUserStore()
-    if (import.meta.env.DEV) console.log('开始添加动态路由，菜单数据:', userStore.menus);
-
+    
+    // 详细的日志输出
+    console.log('【路由添加】开始添加动态路由')
+    console.log('【路由添加】Token:', userStore.token ? `${userStore.token.substring(0, 20)}...` : '无')
+    console.log('【路由添加】用户信息:', userStore.userInfo?.username || '无')
+    console.log('【路由添加】菜单数据:', userStore.menus)
+    console.log('【路由添加】菜单数量:', userStore.menus?.length || 0)
+    
     if (!userStore.menus || userStore.menus.length === 0) {
-        console.warn('菜单数据为空，无法添加动态路由')
+        console.error('【路由添加】❌ 菜单数据为空，无法添加动态路由')
+        console.error('【路由添加】用户Store状态:', {
+            hasToken: !!userStore.token,
+            hasUserInfo: !!userStore.userInfo,
+            menusLength: userStore.menus?.length || 0,
+            isLoggedIn: userStore.isLoggedIn
+        })
         return false
     }
 
     try {
         const dynamicRoutes = menuToRoutes(userStore.menus)
-        if (import.meta.env.DEV) console.log('转换后的动态路由:', dynamicRoutes)
-
+        console.log('【路由添加】转换后的动态路由数量:', dynamicRoutes.length)
+        console.log('【路由添加】转换后的动态路由:', dynamicRoutes)
+        
+        if (dynamicRoutes.length === 0) {
+            console.warn('【路由添加】⚠️ 菜单数据不为空，但转换后没有有效的路由')
+            console.warn('【路由添加】菜单结构:', JSON.stringify(userStore.menus, null, 2))
+        }
+        
         // 将动态路由添加到已存在的 admin 父路由下，避免重复注册父级
         dynamicRoutes.forEach((route) => {
             router.addRoute('admin', route)
+            console.log('【路由添加】添加路由:', route.name, route.path)
         })
 
         isDynamicRoutesAdded = true
-        if (import.meta.env.DEV) console.log('动态路由添加完成，新增子路由数:', dynamicRoutes.length)
+        console.log('【路由添加】✅ 动态路由添加完成，新增子路由数:', dynamicRoutes.length)
         return true
 
     } catch (error) {
-        console.error('添加动态路由失败:', error)
-        return false
-    }
-}
-
-// 重置动态路由
-export const resetDynamicRoutes = () => {
-    // 获取当前所有路由
-    const currentRoutes = router.getRoutes()
+        console.error('【路由添加】❌ 添加动态路由失败:', error)
+        console.error('【路由添加】错误堆栈:', error instanceof Error ? error.stack : '无')
 
     const keepRouteNames = new Set<string>()
 
@@ -237,13 +250,29 @@ router.beforeEach(async (to, from, next) => {
 
     // 需要认证的页面检查登录状态
     if (!userStore.token || !userStore.isLoggedIn) {
+        console.log('【路由守卫】用户未登录，跳转到登录页')
         next({name: 'adminLogin'})
         return
     }
 
     // 已登录用户，检查动态路由是否已添加
     if (!isDynamicRoutesAdded) {
-        console.log('检测到动态路由未添加，开始添加...')
+        console.log('【路由守卫】检测到动态路由未添加，开始添加...')
+        
+        // 如果菜单为空，需要调用菜单API重新获取
+        if (!userStore.menus || userStore.menus.length === 0) {
+            console.warn('【路由守卫】⚠️ 菜单数据为空，尝试从服务器重新获取...')
+            try {
+                // 动态导入菜单API
+                const { getUserMenus } = await import('@/api/modules/sys/menuApi')
+                const response = await getUserMenus()
+                console.log('【路由守卫】从服务器获取菜单成功:', response.data)
+                userStore.setMenus(response.data || [])
+            } catch (error) {
+                console.error('【路由守卫】❌ 从服务器获取菜单失败:', error)
+            }
+        }
+        
         const routesAdded = addDynamicRoutes()
 
         if (routesAdded) {
@@ -255,7 +284,11 @@ router.beforeEach(async (to, from, next) => {
             }
             return
         } else {
-            console.error('动态路由添加失败，跳转到登录页')
+            console.error('【路由守卫】❌ 动态路由添加最终失败')
+            console.error('【路由守卫】最终菜单状态:', userStore.menus)
+            
+            // 仅在明确失败后才清除用户数据
+            ElMessage.error('加载菜单失败，请重新登录')
             userStore.clearUserData()
             next({name: 'adminLogin'})
             return
@@ -264,6 +297,7 @@ router.beforeEach(async (to, from, next) => {
 
     next()
 })
+
 
 router.afterEach(() => {
     NProgress.done()

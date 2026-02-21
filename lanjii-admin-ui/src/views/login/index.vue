@@ -164,14 +164,30 @@ const handleLogin = async () => {
           ...loginForm.value
         })
 
+        console.log('【登录】登录响应数据:', response.data)
+
         const {token, sysUser, menusTree, permissions, displayUuid} = response.data
+
+        // 验证必要的数据
+        if (!token) {
+          throw new Error('登录失败: 未获取到Token')
+        }
+
+        console.log('【登录】✅ 登录成功')
+        console.log('【登录】菜单数据:', menusTree)
+        console.log('【登录】菜单数量:', menusTree?.length || 0)
+        console.log('【登录】权限数据:', permissions)
+        console.log('【登录】用户信息:', sysUser)
 
         // 将数据存储到userStore中
         userStore.setToken(token)
         userStore.setUserInfo(sysUser)
-        userStore.setMenus(menusTree)
-        userStore.setPermissions(permissions)
+        userStore.setMenus(menusTree || [])
+        userStore.setPermissions(permissions || [])
         userStore.setDisplayUuid(displayUuid)
+
+        console.log('【登录】用户数据已保存到Store')
+        console.log('【登录】Store中的菜单:', userStore.menus)
 
         await dictStore.loadAllDicts()
 
@@ -182,6 +198,11 @@ const handleLogin = async () => {
         await nextTick()
         await router.replace('/admin/index')
       } catch (error: any) {
+        console.error('【登录】❌ 登录失败:', error)
+        console.error('【登录】错误信息:', error.message)
+        if (error.response?.data?.msg) {
+          console.error('【登录】服务器错误:', error.response.data.msg)
+        }
         refreshCaptcha()
         loginForm.value.captchaCode = ''
       } finally {
