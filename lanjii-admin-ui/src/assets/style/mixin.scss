@@ -1,0 +1,59 @@
+// flex布局
+@mixin flex($direction:row, $x:center, $y:center) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $x;
+  align-items: $y;
+}
+
+// 美化滚动条
+@mixin scrollbar {
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.15);
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.25);
+    }
+  }
+  ::-webkit-scrollbar-track {
+    border-radius: 3px;
+    background: transparent;
+    margin: 2px 0;
+  }
+  ::-webkit-scrollbar-button {
+    display: none;
+  }
+
+  // 暗黑模式滚动条
+  html.dark {
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.35);
+      }
+    }
+  }
+}
+
+// 文本单行超出省略号
+@mixin no-wrap {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+// 文本多行超出省略号
+@mixin no-wrap-multi($count: 3) {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $count;
+  overflow: hidden;
+}

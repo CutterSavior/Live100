@@ -1,0 +1,47 @@
+.search-card {
+  padding: var(--lj-spacing-xl) var(--lj-spacing-xl) 0 var(--lj-spacing-xl);
+  margin-bottom: var(--lj-spacing-lg);
+  border-bottom: 1px solid var(--el-border-color-lighter);
+  padding-bottom: var(--lj-spacing-xs);
+}
+
+// 搜索/重置按钮区域
+.action-buttons {
+  :deep(.el-button--primary) {
+    font-weight: 500;
+  }
+}
+
+// 展开/收起按钮
+.expand-btn {
+  display: inline-flex;
+  align-items: center;
+  margin-left: var(--lj-spacing-sm);
+  color: var(--el-color-primary) !important;
+  font-size: var(--lj-font-size-sm);
+
+  span {
+    margin-right: 4px;
+  }
+
+  .el-icon {
+    font-size: 14px;
+    transition: transform 0.25s ease;
+  }
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+// 表单 label 样式
+:deep(.el-form-item__label) {
+  color: var(--lj-text-secondary);
+  font-size: var(--lj-font-size-sm);
+}
+
+:deep(.el-form-item__content) {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap !important;
+}

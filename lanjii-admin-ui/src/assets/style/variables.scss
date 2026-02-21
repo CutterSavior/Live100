@@ -1,0 +1,77 @@
+:root {
+  --el-menu-active-bg-color: var(--el-color-primary-light-9);
+  --el-menu-active-lf-color: var(--el-color-primary);
+  --el-header-bg-color: var(--el-bg-color);
+  --el-main-bg-color: var(--el-fill-color-light);
+  --el-aside-border-color: var(--el-border-color);
+  --el-menu-bg-color: var(--el-bg-color);
+  --el-table-th-color: #222;
+  --el-table-th-bg-color: #f8f9fa;
+
+  // 字体大小层级
+  --lj-font-size-xs: 12px;
+  --lj-font-size-sm: 13px;
+  --lj-font-size-base: 14px;
+  --lj-font-size-lg: 16px;
+  --lj-font-size-xl: 18px;
+  --lj-font-size-2xl: 20px;
+  --lj-font-size-3xl: 24px;
+
+  // 间距层级
+  --lj-spacing-xs: 4px;
+  --lj-spacing-sm: 8px;
+  --lj-spacing-md: 12px;
+  --lj-spacing-lg: 16px;
+  --lj-spacing-xl: 20px;
+  --lj-spacing-2xl: 24px;
+  --lj-spacing-3xl: 32px;
+
+  // 圆角层级
+  --lj-radius-sm: 4px;
+  --lj-radius-base: 6px;
+  --lj-radius-lg: 8px;
+  --lj-radius-xl: 12px;
+
+  // 文本层级颜色
+  --lj-text-primary: #1e293b;
+  --lj-text-regular: #333;
+  --lj-text-secondary: #64748b;
+  --lj-text-placeholder: #94a3b8;
+  --lj-text-disabled: #909399;
+
+  // 登录页
+  --lj-login-bg: #f5f7fa;
+  --lj-login-section-bg: #ffffff;
+  --lj-login-input-color: #222;
+  --lj-login-border: #dcdfe6;
+  --lj-login-captcha-bg: #f5f7fa;
+
+  // 首页横幅
+  --lj-banner-bg-start: #f8fafc;
+  --lj-banner-bg-end: #e2e8f0;
+  --lj-banner-border: #e2e8f0;
+}
+
+html.dark {
+  --el-table-th-color: #ffffff;
+  --el-table-th-bg-color: #2d2d2d;
+
+  // 文本层级颜色
+  --lj-text-primary: #e5e7eb;
+  --lj-text-regular: #d1d5db;
+  --lj-text-secondary: #9ca3af;
+  --lj-text-placeholder: #6b7280;
+  --lj-text-disabled: #6b7280;
+
+  // 登录页
+  --lj-login-bg: #141414;
+  --lj-login-section-bg: #1d1d1d;
+  --lj-login-input-color: #e5e7eb;
+  --lj-login-border: #4c4d4f;
+  --lj-login-captcha-bg: #2d2d2d;
+
+  // 首页横幅
+  --lj-banner-bg-start: #1d1d1d;
+  --lj-banner-bg-end: #262626;
+  --lj-banner-border: #3a3a3a;
+}

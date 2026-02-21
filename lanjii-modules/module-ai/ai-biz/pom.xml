@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.lanjii</groupId>
+        <artifactId>module-ai</artifactId>
+        <version>${revision}</version>
+    </parent>
+
+    <artifactId>ai-biz</artifactId>
+    <description>AI模块 - 业务实现</description>
+
+    <dependencies>
+        <!-- API 模块 -->
+        <dependency>
+            <groupId>com.lanjii</groupId>
+            <artifactId>ai-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.lanjii</groupId>
+            <artifactId>system-api</artifactId>
+        </dependency>
+
+        <!-- Framework 模块 -->
+        <dependency>
+            <groupId>com.lanjii</groupId>
+            <artifactId>framework-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.lanjii</groupId>
+            <artifactId>framework-mp</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.lanjii</groupId>
+            <artifactId>framework-ai</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.lanjii</groupId>
+            <artifactId>framework-web</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+    </build>
+
+</project>
