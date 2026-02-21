@@ -10,6 +10,11 @@ DB_PASSWORD=${DB_PASSWORD:-postgres}
 OPENAI_API_KEY=${OPENAI_API_KEY:-sk-demo}
 OPENAI_BASE_URL=${OPENAI_BASE_URL:-https://api.openai.com/v1}
 
+# Fix DATABASE_URL if it doesn't have jdbc: prefix
+if [ -n "$DATABASE_URL" ] && ! echo "$DATABASE_URL" | grep -q "^jdbc:"; then
+  DATABASE_URL="jdbc:$DATABASE_URL"
+fi
+
 # Build array of Java options
 set --
 
@@ -34,7 +39,7 @@ echo "Starting application with:"
 echo "  PORT=$PORT"
 echo "  SPRING_PROFILES_ACTIVE=$SPRING_PROFILES_ACTIVE"
 if [ -n "$DATABASE_URL" ]; then
-  db_preview=$(echo "$DATABASE_URL" | cut -c1-50)
+  db_preview=$(echo "$DATABASE_URL" | cut -c1-60)
   echo "  DATABASE_URL=${db_preview}..."
 fi
 echo "  OPENAI_BASE_URL=$OPENAI_BASE_URL"
