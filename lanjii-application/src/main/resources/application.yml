@@ -138,3 +138,5 @@ lanjii:
     access-prefix: /upload/
 
 
+server:
+  port: ${PORT:8080}
