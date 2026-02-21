@@ -4,8 +4,14 @@ FROM eclipse-temurin:17-jdk
 # Set working directory
 WORKDIR /app
 
-# Copy pom.xml and download dependencies (for better caching)
+# Copy parent pom.xml
+COPY ../pom.xml ./pom-parent.xml
+
+# Copy pom.xml and adjust relativePath
 COPY pom.xml .
+RUN sed -i 's|<parent>|<parent>\n        <relativePath>pom-parent.xml</relativePath>|g' pom.xml
+
+# Install Maven and download dependencies
 RUN apt-get update && apt-get install -y maven && mvn dependency:go-offline -B
 
 # Copy source code
