@@ -78,6 +78,33 @@ lanjii
 │   └── src/main/resources       # 配置文件
 │
 └── docs                         # 项目文档
+
+## 部署指南
+
+### 前端部署到 Vercel
+
+1. 访问 [Vercel](https://vercel.com) 并登录。
+2. 点击 "New Project"，选择 "Import Git Repository"，连接到你的 GitHub 账户。
+3. 选择仓库 `CutterSavior/Live100`，分支 `main`。
+4. 配置项目：
+   - **Root Directory**: `lanjii-admin-ui`
+   - **Build Command**: `npm run build`
+   - **Output Directory**: `dist`
+5. 点击 "Deploy"。Vercel 将自动构建并部署前端。
+
+### 后端部署到 Render
+
+1. 访问 [Render](https://render.com) 并登录。
+2. 点击 "New" > "Web Service"。
+3. 选择 "Connect" GitHub 仓库，授权并选择 `CutterSavior/Live100`，分支 `main`。
+4. 配置服务：
+   - **Root Directory**: `lanjii-application`
+   - **Build Command**: `mvn clean package -DskipTests`
+   - **Start Command**: `java -jar target/lanjii-application-3.0.0.jar`
+   - **Environment**: 选择 Java 版本（如 17 或 21），添加必要的环境变量（如数据库连接字符串）。
+5. 点击 "Create Web Service"。Render 将构建并启动后端。
+
+**注意**：确保分支为 `main`，且代码已推送。
     ├── sql/                     # 数据库脚本
     └── screenshots/             # 系统截图
 ```
