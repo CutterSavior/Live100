@@ -74,11 +74,30 @@ public final class IpUtils {
             log.error("IP定位工具未正确初始化。");
             return new String[]{"", "", "", "", ""};
         }
+        
+        // 处理 IPv6 和 localhost
+        if (ip == null || ip.isEmpty()) {
+            return new String[]{"", "", "", "", ""};
+        }
+        
+        // 检查是否是 IPv6 地址（包含冒号）
+        if (ip.contains(":")) {
+            // IPv6 或 localhost (::1)
+            log.debug("检测到 IPv6 地址或 localhost: {}, 返回默认值", ip);
+            return new String[]{"本地", "", "本地", "本地", ""};
+        }
+        
+        // 检查是否是特殊的本地地址
+        if ("127.0.0.1".equals(ip) || "localhost".equals(ip)) {
+            return new String[]{"本地", "", "本地", "本地", ""};
+        }
+        
         try {
             String region = searcher.search(ip);
             return region.split("\\|");
         } catch (Exception e) {
-            log.error("IP解析失败: ip={}", ip, e);
+            log.debug("IP解析失败: ip={}, 原因: {}", ip, e.getMessage());
+            // 解析失败时返回空值，而不是抛出异常
             return new String[]{"", "", "", "", ""};
         }
     }
