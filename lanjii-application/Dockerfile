@@ -5,7 +5,7 @@ FROM eclipse-temurin:17-jdk
 WORKDIR /app
 
 # Copy parent pom.xml
-COPY ../pom.xml ./pom-parent.xml
+COPY pom-parent.xml ./pom-parent.xml
 
 # Copy pom.xml and adjust relativePath
 COPY pom.xml .
