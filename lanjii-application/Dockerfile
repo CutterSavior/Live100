@@ -9,7 +9,7 @@ COPY ../pom.xml ./pom-parent.xml
 
 # Copy pom.xml and adjust relativePath
 COPY pom.xml .
-RUN sed -i 's|<parent>|<parent>\n        <relativePath>pom-parent.xml</relativePath>|g' pom.xml
+RUN sed -i '/<artifactId>lanjii<\/artifactId>/a \        <relativePath>pom-parent.xml</relativePath>' pom.xml
 
 # Install Maven and download dependencies
 RUN apt-get update && apt-get install -y maven && mvn dependency:go-offline -B
