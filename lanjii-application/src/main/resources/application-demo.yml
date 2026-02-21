@@ -10,6 +10,7 @@ spring:
         options:
           model: { your_embedding_model }
   datasource:
-    url: jdbc:mysql://your_demo_host:3306/lanjii_v3?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    url: jdbc:postgresql://your_demo_host:5432/lanjii_v3?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
     username: {your_db_username}
     password: {your_db_password}
+    driver-class-name: org.postgresql.Driver
