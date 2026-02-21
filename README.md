@@ -98,15 +98,14 @@ lanjii
 2. 创建 PostgreSQL 数据库：点击 "New" > "Postgres"，配置数据库（例如，Database: `lanjii_v3`）。
 3. 创建 Web Service：点击 "New" > "Web Service"，连接 GitHub 仓库，选择分支 `main`。
 4. 配置服务：
+   - **Preset**: 选择 **Docker**（使用提供的 Dockerfile）。
    - **Root Directory**: `lanjii-application`
-   - **Build Command**: `mvn clean package -DskipTests`
-   - **Start Command**: `java -jar target/lanjii-application-3.0.0.jar`
-   - **Environment**: 选择 Java 17，添加环境变量：
+   - **环境变量**: 添加数据库和 API Key 等：
      - `SPRING_PROFILES_ACTIVE=demo`
      - `DB_URL`（从 Postgres 数据库获取连接字符串）
      - `DB_USERNAME` 和 `DB_PASSWORD`
      - `OPENAI_API_KEY` 等
-5. 点击 "Create Web Service"。Render 将构建并启动后端。
+5. 点击 "Create Web Service"。Render 将使用 Dockerfile 构建和运行应用。
 
 **注意**：确保分支为 `main`，且代码已推送。
     ├── sql/                     # 数据库脚本
