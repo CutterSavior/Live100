@@ -95,13 +95,17 @@ lanjii
 ### 后端部署到 Render
 
 1. 访问 [Render](https://render.com) 并登录。
-2. 点击 "New" > "Web Service"。
-3. 选择 "Connect" GitHub 仓库，授权并选择 `CutterSavior/Live100`，分支 `main`。
+2. 创建 PostgreSQL 数据库：点击 "New" > "Postgres"，配置数据库（例如，Database: `lanjii_v3`）。
+3. 创建 Web Service：点击 "New" > "Web Service"，连接 GitHub 仓库，选择分支 `main`。
 4. 配置服务：
    - **Root Directory**: `lanjii-application`
    - **Build Command**: `mvn clean package -DskipTests`
    - **Start Command**: `java -jar target/lanjii-application-3.0.0.jar`
-   - **Environment**: 选择 Java 版本（如 17 或 21），添加必要的环境变量（如数据库连接字符串）。
+   - **Environment**: 选择 Java 17，添加环境变量：
+     - `SPRING_PROFILES_ACTIVE=demo`
+     - `DB_URL`（从 Postgres 数据库获取连接字符串）
+     - `DB_USERNAME` 和 `DB_PASSWORD`
+     - `OPENAI_API_KEY` 等
 5. 点击 "Create Web Service"。Render 将构建并启动后端。
 
 **注意**：确保分支为 `main`，且代码已推送。
