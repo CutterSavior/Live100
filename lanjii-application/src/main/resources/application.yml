@@ -1,9 +1,12 @@
 spring:
   profiles:
-    active: demo
+    active: ${SPRING_PROFILES_ACTIVE:demo}
 
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${DATABASE_URL:${DB_URL:jdbc:postgresql://localhost:5432/lanjii_v3}}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
     type: com.alibaba.druid.pool.DruidDataSource
 
     # Druid 连接池配置
