@@ -35,33 +35,19 @@ spring:
       pool-prepared-statements: true
       max-pool-prepared-statement-per-connection-size: 20
 
-      # 配置监控统计拦截的filters
-      filters: stat,wall,slf4j
+      # 配置监控统计拦截的filters (禁用wall防火墙以支持PostgreSQL)
+      filters: stat,slf4j
 
       # 通过connectProperties属性来打开mergeSql功能
       connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
 
       # 配置监控服务器
       stat-view-servlet:
-        enabled: true
-        url-pattern: /druid/*
-        # 登录监控页面的账号密码
-        login-username: admin
-        login-password: admin
-        reset-enable: false
+        enabled: false
 
       # 配置Web监控过滤器
       web-stat-filter:
-        enabled: true
-        url-pattern: /*
-        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
-
-      # 配置防火墙
-      wall:
-        enabled: true
-        config:
-          drop-table-allow: false
-          delete-where-none-check: true
+        enabled: false
 
 mybatis-plus:
   configuration:
