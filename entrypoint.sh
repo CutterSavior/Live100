@@ -27,7 +27,11 @@ JAVA_OPTS="$JAVA_OPTS -Dspring.ai.openai.base-url=$OPENAI_BASE_URL"
 echo "Starting application with environment:"
 echo "  PORT: $PORT"
 echo "  SPRING_PROFILES_ACTIVE: $SPRING_PROFILES_ACTIVE"
-echo "  DATABASE_URL: ${DATABASE_URL:0:50}..."
+if [ -n "$DATABASE_URL" ]; then
+  echo "  DATABASE_URL: ${DATABASE_URL}" | cut -c1-60
+else
+  echo "  DATABASE_URL: (not set)"
+fi
 echo "  OPENAI_BASE_URL: $OPENAI_BASE_URL"
 
 # Run Java application
