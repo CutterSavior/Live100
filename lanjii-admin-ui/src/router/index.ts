@@ -227,6 +227,33 @@ export const addDynamicRoutes = (): boolean => {
     return false
 }
 
+export function resetDynamicRoutes(): void {
+    const currentRoutes = router.getRoutes()
+    const keepRouteNames = new Set<string>()
+
+    constantRoutes.forEach(route => {
+        if (route.name) {
+            keepRouteNames.add(route.name as string)
+        }
+        if (route.children) {
+            route.children.forEach(child => {
+                if (child.name) {
+                    keepRouteNames.add(child.name as string)
+                }
+            })
+        }
+    })
+
+    currentRoutes.forEach(route => {
+        if (route.name && !keepRouteNames.has(route.name as string)) {
+            router.removeRoute(route.name)
+        }
+    })
+
+    isDynamicRoutesAdded = false
+    isPageRefreshing = true
+}
+
 // 全局前置守卫
 router.beforeEach(async (to, from, next) => {
     NProgress.start()
