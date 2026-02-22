@@ -111,6 +111,8 @@ lanjii:
       - "/druid/**"
       - "/static/**"
       - "/health"
+      - "/healthz"
+      - "/status"
       - "/ws/**"
       - "/upload/**"
 
