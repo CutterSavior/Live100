@@ -20,8 +20,13 @@ export interface ResponseData<T = any> {
 }
 
 // 创建axios实例
+const baseURL =
+    import.meta.env.DEV
+        ? '/api'
+        : (import.meta.env.VITE_AXIOS_BASE_URL || 'https://live100.onrender.com')
+
 const service: AxiosInstance = axios.create({
-    baseURL: import.meta.env.DEV ? '/api' : import.meta.env.VITE_AXIOS_BASE_URL,
+    baseURL,
     timeout: 15000,
     headers: {
         'Content-Type': 'application/json;charset=utf-8'
