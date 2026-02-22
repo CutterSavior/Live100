@@ -1,4 +1,4 @@
-﻿// router/index.ts
+// router/index.ts
 import {createRouter, createWebHistory, type RouteRecordRaw} from 'vue-router'
 import {useUserStore} from '@/stores/user.store'
 import {ElMessage} from 'element-plus'
@@ -51,7 +51,7 @@ const baseAdminRoute: RouteRecordRaw = {
                 icon: 'Bell'
             }
         }, {
-            path: '/:pathMatch(.*)*',
+            path: ':pathMatch(.*)*',
             name: 'NotFound',
             component: () => import('@/views/error/404.vue'),
             meta: {
@@ -237,6 +237,13 @@ router.beforeEach(async (to, from, next) => {
         isPageRefreshing = false
     }
 
+    const originalPath =
+        to.name === 'NotFound'
+            ? (Array.isArray(to.params.pathMatch)
+                ? '/' + (to.params.pathMatch as string[]).join('/')
+                : '/' + String(to.params.pathMatch ?? ''))
+            : null
+
     // 不需要认证的页面直接放行
     if (!to.meta.requiresAuth) {
         // 如果已登录但访问登录页，跳转到首页
@@ -277,7 +284,15 @@ router.beforeEach(async (to, from, next) => {
 
         if (routesAdded) {
             // 路由添加成功，重定向到目标页面
-            if (to.path === '/' || to.path === '/admin/login') {
+            if (originalPath) {
+                const resolved = router.resolve(originalPath)
+                if (resolved.name && resolved.name !== 'NotFound') {
+                    next({...resolved, replace: true})
+                    return
+                }
+                next('/admin/index')
+                return
+            } else if (to.path === '/' || to.path === '/admin/login') {
                 next('/admin/index')
             } else {
                 next({...to, replace: true})
@@ -293,6 +308,16 @@ router.beforeEach(async (to, from, next) => {
             next({name: 'adminLogin'})
             return
         }
+    }
+
+    if (to.name === 'NotFound' && originalPath) {
+        const resolved = router.resolve(originalPath)
+        if (resolved.name && resolved.name !== 'NotFound') {
+            next({...resolved, replace: true})
+            return
+        }
+        next('/admin/index')
+        return
     }
 
     next()

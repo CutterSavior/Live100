@@ -4,6 +4,7 @@ import com.lanjii.common.response.R;
 import com.lanjii.common.response.ResultCode;
 import com.lanjii.common.util.JacksonUtils;
 import com.lanjii.framework.security.filter.JwtAuthenticationFilter;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -58,13 +59,13 @@ public class SecurityConfig {
                 .exceptionHandling(handling -> handling
                         .authenticationEntryPoint((req, res, ex) -> {
                             if (ex instanceof InsufficientAuthenticationException) {
-                                writeJson(res, ResultCode.UNAUTHORIZED, null);
+                                writeJson(req, res, ResultCode.UNAUTHORIZED, null);
                             } else {
-                                writeJson(res, ResultCode.INTERNAL_SERVER_ERROR, ex.getMessage());
+                                writeJson(req, res, ResultCode.INTERNAL_SERVER_ERROR, ex.getMessage());
                             }
                         })
                         .accessDeniedHandler((req, res, ex) -> {
-                            writeJson(res, ResultCode.FORBIDDEN, null);
+                            writeJson(req, res, ResultCode.FORBIDDEN, null);
                         })
                 )
 
@@ -84,7 +85,7 @@ public class SecurityConfig {
                         .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
                         // 允许前端域名嵌入（通过代理访问时是同源，直接访问后端时允许前端域名）
                         .contentSecurityPolicy(csp -> csp
-                                .policyDirectives("frame-ancestors 'self' http://127.0.0.1:1001 http://localhost:1001")
+                                .policyDirectives("frame-ancestors 'self' http://127.0.0.1:1001 http://localhost:1001 https://live100.vercel.app")
                         )
                 )
 
@@ -103,7 +104,11 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOriginPatterns(List.of("*"));
+        configuration.setAllowedOriginPatterns(List.of(
+                "http://127.0.0.1:1001",
+                "http://localhost:1001",
+                "https://live100.vercel.app"
+        ));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true); // 允许凭证
@@ -116,8 +121,14 @@ public class SecurityConfig {
     /**
      * 写入 JSON 响应
      */
-    private void writeJson(HttpServletResponse response, ResultCode resultCode, String errMsg) throws IOException {
-        response.setHeader("Access-Control-Allow-Origin", "*");
+    private void writeJson(HttpServletRequest request, HttpServletResponse response, ResultCode resultCode, String errMsg) throws IOException {
+        String origin = request.getHeader("Origin");
+        if (origin != null && !origin.isBlank()) {
+            response.setHeader("Access-Control-Allow-Origin", origin);
+            response.setHeader("Access-Control-Allow-Credentials", "true");
+        } else {
+            response.setHeader("Access-Control-Allow-Origin", "*");
+        }
         response.setHeader("Cache-Control", "no-cache");
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");

@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "lanjii-admin-ui/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "lanjii-admin-ui/dist"
+      }
+    }
+  ],
+  "rewrites": [
+    { "source": "/admin/(.*)", "destination": "/index.html" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ],
+  "env": {
+    "VITE_AXIOS_BASE_URL": "https://live100.onrender.com"
+  }
+}

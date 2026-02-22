@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 /**
  * 全局异常处理
@@ -44,7 +45,19 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public R<Void> handleException(Exception ex) {
         log.error(ex.getMessage(), ex);
-        return R.fail(ResultCode.INTERNAL_SERVER_ERROR);
+        String msg = ex.getMessage();
+        if (msg == null || msg.isBlank()) {
+            msg = ResultCode.INTERNAL_SERVER_ERROR.getMsg();
+        }
+        return R.fail(ResultCode.INTERNAL_SERVER_ERROR.getCode(), msg);
+    }
+
+    /**
+     * 处理静态资源未找到异常，返回404
+     */
+    @ExceptionHandler(NoResourceFoundException.class)
+    public R<Void> handleNoResourceFound(NoResourceFoundException ex) {
+        return R.fail(ResultCode.NOT_FOUND);
     }
 
 
