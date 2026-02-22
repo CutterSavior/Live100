@@ -48,8 +48,6 @@ spring:
       # 配置Web监控过滤器
       web-stat-filter:
         enabled: false
-
-spring:
   flyway:
     enabled: true
     locations: classpath:db/migration
