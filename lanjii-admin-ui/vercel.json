@@ -1,0 +1,9 @@
+{
+  "rewrites": [
+    { "source": "/admin/(.*)", "destination": "/index.html" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ],
+  "env": {
+    "VITE_AXIOS_BASE_URL": "https://live100.onrender.com"
+  }
+}
