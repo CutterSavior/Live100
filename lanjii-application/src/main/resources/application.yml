@@ -1,64 +1,97 @@
 spring:
   profiles:
-    active: ${SPRING_PROFILES_ACTIVE:prod}
+    active: ${SPRING_PROFILES_ACTIVE:demo}
 
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/lanjii_v3}
-    username: ${SPRING_DATASOURCE_USERNAME:postgres}
-    password: ${SPRING_DATASOURCE_PASSWORD:postgres}
+    url: ${DATABASE_URL:${DB_URL:jdbc:postgresql://localhost:5432/lanjii_v3}}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
     type: com.alibaba.druid.pool.DruidDataSource
 
+    # Druid 连接池配置
     druid:
+      # 初始化大小、最小、最大
       initial-size: 5
       min-idle: 5
       max-active: 20
+
+      # 获取连接等待超时时间
       max-wait: 60000
+
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
       time-between-eviction-runs-millis: 60000
+
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
       min-evictable-idle-time-millis: 300000
+
+      # 测试连接是否有效的SQL
       validation-query: SELECT 1
       test-while-idle: true
-      test-on-borrow: true
+      test-on-borrow: false
       test-on-return: false
+      keep-alive: true
+      validation-query-timeout: 3
+
+      # 打开PSCache，并且指定每个连接上PSCache的大小
       pool-prepared-statements: true
       max-pool-prepared-statement-per-connection-size: 20
+
+      # 配置监控统计拦截的filters (禁用wall防火墙以支持PostgreSQL)
       filters: stat,slf4j
+
+      # 通过connectProperties属性来打开mergeSql功能
       connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+
+      # 配置监控服务器
       stat-view-servlet:
         enabled: false
+
+      # 配置Web监控过滤器
       web-stat-filter:
         enabled: false
-
   flyway:
     enabled: true
     locations: classpath:db/migration
     baseline-on-migrate: true
 
-server:
-  port: ${PORT:8080}
-
 mybatis-plus:
   configuration:
+    # 日志实现
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    # 下划线转驼峰
     map-underscore-to-camel-case: true
+    # 本地缓存作用域 (SESSION/STATEMENT)
+  #    local-cache-scope: statement
   global-config:
     db-config:
+      # 主键类型 AUTO(0), NONE(1), INPUT(2), ASSIGN_ID(3), ASSIGN_UUID(4)
       id-type: auto
+      # 逻辑删除字段名
       logic-delete-field: deleted
+      # 逻辑删除值
       logic-not-delete-value: 0
       logic-delete-value: 1
+  # mapper.xml文件位置
   mapper-locations: classpath*:com/lanjii/**/dao/*.xml
+  # 实体扫描包
   type-aliases-package: com.lanjii.**.entity
 
 lanjii:
+  # 缓存配置
   cache:
     type: LOCAL
     cache-null-values: true
     default-ttl: 1h
     default-max-size: 1000
 
+  # 多租户配置
   tenant:
+    # 是否启用多租户
     enabled: true
+    # 租户字段名
     column: tenant_id
+    # 忽略租户过滤的表（全局表）
     ignore-tables:
       - sys_tenant
       - sys_tenant_package
@@ -69,10 +102,13 @@ lanjii:
       - sys_notice
       - sys_notice_read_record
 
+  # 安全配置
   security:
+    # JWT 配置
     jwt:
-      secret: ${JWT_SECRET:replace_this_in_production}
-      expiration: 86400000
+      secret: "d3b9e7f2a5c8e1b6d4f0a9c3e7b2d5f8e1c4a9d2b6e0f3c7a1d8e5b9f2c4a7d0" # 64字符=256位
+      expiration: 86400000 # 24小时
+    # 白名单接口路径
     whitelist:
       - "/"
       - "/chat/**"
@@ -86,10 +122,18 @@ lanjii:
       - "/ws/**"
       - "/upload/**"
 
+  # AI 向量配置
   ai:
     vector:
       rebuild-on-startup: false
 
+  # 文件配置
   file:
-    upload-path: ${UPLOAD_PATH:/opt/app/lanjii/upload/}
+    # 必须以斜杠结尾
+    upload-path: /opt/app/lanjii/upload/
+    # 访问的前缀
     access-prefix: /upload/
+
+
+server:
+  port: ${PORT:8080}
