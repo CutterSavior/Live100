@@ -195,6 +195,7 @@ export const addDynamicRoutes = (): boolean => {
         console.error('【路由添加】❌ 添加动态路由失败:', error)
         console.error('【路由添加】错误堆栈:', error instanceof Error ? error.stack : '无')
 
+        const currentRoutes = router.getRoutes()
     const keepRouteNames = new Set<string>()
 
     constantRoutes.forEach(route => {
@@ -221,6 +222,9 @@ export const addDynamicRoutes = (): boolean => {
     isDynamicRoutesAdded = false
     isPageRefreshing = true
     console.log('动态路由已重置')
+    }
+
+    return false
 }
 
 // 全局前置守卫
